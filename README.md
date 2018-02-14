@@ -13,7 +13,7 @@ and then open the index.html in the browser.
 ## Mandatory TODO`s
 
 - create/select/update(each node) polyline
-- zoom/move canvas
+- zoom/move canvas (transform matrice)
 - add data persistance
 
 - root reducer should has no logic
