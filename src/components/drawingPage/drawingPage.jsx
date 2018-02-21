@@ -1,5 +1,7 @@
 import React from 'react';
 
+import HeaderMenu from './HeaderMenu/index.jsx';
+
 export default class DrawingPage extends React.Component{
     constructor(props){
         super(props);
@@ -7,8 +9,9 @@ export default class DrawingPage extends React.Component{
     }
 
     render () {
-        return (
-            <h1>E-pigma</h1>
-            )
+        return ([
+                <h1>E-pigma</h1>,
+                <HeaderMenu/>
+            ])
     }
 }
