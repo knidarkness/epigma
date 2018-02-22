@@ -12,10 +12,10 @@
         - Basic operations menu
         - Project settings
         - Export menu
-    - Sidebar
+    - DrawingPageLayersSidebar
         - Layers
         - Components
-    - Sidebar
+    - DrawingPageSettingsSidebar
         - Page design settings
     - Drawing area
         - CANVAS :)
