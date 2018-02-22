@@ -2,18 +2,21 @@
 
 ## Component breakdown
 
+- Common
+    - Master menu
+    - Sidebar
+
 - Drawing page
     - Header menu
         - Master menu
         - Basic operations menu
         - Project settings
         - Export menu
-    - Objects sidebar
+    - Sidebar
         - Layers
         - Components
-    - Inspector sidebar
+    - Sidebar
         - Page design settings
-        - Presentation mode settings
     - Drawing area
         - CANVAS :)
 
@@ -25,9 +28,10 @@
         - Drafts
         - Deleted projects
     - Projects previews
-        - Project preview
+        - Project card
             - Project preview menu
             - Project preview
+
 - Login page
     - Login form
     
@@ -36,4 +40,18 @@
 
 - Restore password
     - Restore pass
+    
+## Launching 
 
+To run this project run following commands in the root directory of the project:
+
+```
+npm install
+npm start
+```
+and then open the index.html in the browser.
+
+
+## License
+
+All code is distributed under the MIT License.
