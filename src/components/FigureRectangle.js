@@ -1,9 +1,5 @@
 import React from 'react';
 
-export default class FigureRectangle extends React.Component{
-    render () {
-        return (
+export default () => (
             <p>Figure created with Epigma</p>
         )
-    }
-}
