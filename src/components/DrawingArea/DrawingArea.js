@@ -10,8 +10,9 @@ export default class DrawingCanvas extends React.Component {
         return this.props.store.getState().drawables.map(figure => {
             return (
                 <div key={figure.id} onClick={() => {
-                    store.dispatch(removeDrawable(figure.id));
-                    console.log(store.getState().drawables);
+                    if (confirm(`Are you sure you want to remove the ${figure.shapeType}?`)) {
+                        store.dispatch(removeDrawable(figure.id));
+                    }
                 }}>
                     {figure.shapeType}
                 </div>
