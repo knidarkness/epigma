@@ -1,7 +1,7 @@
 import React from 'react';
 
 import './ToolbarMenu.scss';
-import createDrawable from "../../helpers/createDrawable";
+import createDrawable from "../../action/createDrawable";
 
 
 export default (props) => (

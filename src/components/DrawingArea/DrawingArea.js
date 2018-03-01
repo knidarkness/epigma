@@ -1,7 +1,7 @@
 import React from 'react';
 
 import './DrawingArea.scss';
-import removeDrawable from "../../helpers/removeDrawable";
+import removeDrawable from "../../action/removeDrawable";
 
 export default class DrawingCanvas extends React.Component {
     renderFigures() {
