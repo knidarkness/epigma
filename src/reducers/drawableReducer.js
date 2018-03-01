@@ -1,8 +1,14 @@
-export default (state=[], action) => {
-  switch (action.type){
-      case 'CREATE':
-          return [...state, action.drawableComponent];
-      case 'DELETE':
-          return [...state.slice(0, action.index), ...state.slice(action.index + 1, state.length)]
-  }
+export default (state = [], action) => {
+    switch (action.type) {
+        case 'ADD_DRAWABLE':
+            return {
+                id: action.id,
+                shapeType: action.shapeType,
+            };
+        case 'REMOVE_DRAWABLE':
+            if (state.id !== action.id) {
+                return state;
+            }
+            return null;
+    }
 };

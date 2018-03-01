@@ -6,15 +6,12 @@ import ToolbarMenu from './ToolbarMenu/ToolbarMenu';
 import './drawingPage.scss';
 
 export default class DrawingPage extends React.Component{
-    constructor(props){
-        super(props);
-    }
-
     render () {
+        const {store} = this.props;
         return (
             <div>
-                <ToolbarMenu/>
-                <DrawingArea/>
+                <ToolbarMenu store={store}/>
+                <DrawingArea store={store}/>
             </div>
         )
     }
