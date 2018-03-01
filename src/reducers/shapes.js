@@ -3,7 +3,7 @@ export default (state = [], action) => {
         case 'ADD_DRAWABLE':
             return {
                 id: action.id,
-                shapeType: action.shapeType,
+                path: action.path
             };
         case 'REMOVE_DRAWABLE':
             if (state.id !== action.id) {

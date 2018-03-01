@@ -1,6 +1,6 @@
-export default (drawableId) => {
+export default (shapeId) => {
     return {
-        type: 'REMOVE_DRAWABLE',
-        id: drawableId
+        type: 'REMOVE_SHAPE',
+        id: shapeId
     }
 }

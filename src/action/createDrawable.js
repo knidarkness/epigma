@@ -1,9 +1,9 @@
-let nextDrawableId = 0;
+let nextShapeId = 0;
 
-export default (shapeType) => {
+export default (path) => {
     return {
-        type: 'ADD_DRAWABLE',
-        id: nextDrawableId++,
-        shapeType:shapeType
+        type: 'ADD_SHAPE',
+        id: nextShapeId++,
+        path:path
     }
 }

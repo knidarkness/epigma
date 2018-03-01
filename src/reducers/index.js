@@ -1,14 +1,14 @@
 import {createStore, combineReducers} from 'redux';
-import drawableReducer from './drawableReducer';
+import drawableReducer from './shapes';
 
-const drawables = (state = [], action) => {
+const shapes = (state = [], action) => {
     switch (action.type) {
-        case 'ADD_DRAWABLE':
+        case 'ADD_SHAPE':
             return [
                 ...state,
                 drawableReducer(undefined, action)
             ];
-        case 'REMOVE_DRAWABLE':
+        case 'REMOVE_SHAPE':
             return state
                 .map(t => drawableReducer(t, action))
                 .filter(el => el !== null);
@@ -19,7 +19,7 @@ const drawables = (state = [], action) => {
 
 
 const eventApp = combineReducers({
-    drawables
+    shapes
 });
 
 export const store = createStore(eventApp);
