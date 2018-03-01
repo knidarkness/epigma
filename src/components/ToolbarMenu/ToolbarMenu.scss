@@ -1,0 +1,17 @@
+.toolbar-menu{
+  height: 50px;
+  background: rgba(0,0,0,0.34);
+
+  &__tool{
+    margin: 10px;
+    height: 30px;
+    width: 30px;
+    border-radius: 7px;
+
+    outline: none;
+
+    &:hover, &:active, &:focus, &:visited{
+      outline: none;
+    }
+  }
+}

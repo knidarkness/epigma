@@ -1,7 +1,9 @@
 import React from 'react';
 
-import DrawingArea from './DrawingArea';
-import ToolbarMenu from './ToolbarMenu';
+import DrawingArea from './DrawingArea/DrawingArea';
+import ToolbarMenu from './ToolbarMenu/ToolbarMenu';
+
+import './drawingPage.scss';
 
 export default class DrawingPage extends React.Component{
     constructor(props){
