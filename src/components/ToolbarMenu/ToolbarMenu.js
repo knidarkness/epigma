@@ -4,19 +4,13 @@ import './ToolbarMenu.scss';
 import createDrawable from "../../helpers/createDrawable";
 
 
-export default class HeaderMenu extends React.Component{
-    render () {
-        const {store} = this.props;
-
-        return (
+export default (props) => (
             <div className="toolbar-menu">
                 <button className="toolbar-menu__tool" onClick={() => {
-                    store.dispatch(createDrawable('line'));
+                    props.store.dispatch(createDrawable('line'));
                 }}>L</button>
                 <button className="toolbar-menu__tool" onClick={() => {
-                    store.dispatch(createDrawable('rectangle'));
+                    props.store.dispatch(createDrawable('rectangle'));
                 }}>R</button>
             </div>
         )
-    }
-}

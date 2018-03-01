@@ -1,7 +1,7 @@
 import {createStore, combineReducers} from 'redux';
 import drawableReducer from './drawableReducer';
 
-export const drawables = (state = [], action) => {
+const drawables = (state = [], action) => {
     switch (action.type) {
         case 'ADD_DRAWABLE':
             return [
