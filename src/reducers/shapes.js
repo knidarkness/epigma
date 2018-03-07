@@ -1,11 +1,12 @@
 export default (state = [], action) => {
     switch (action.type) {
-        case 'ADD_DRAWABLE':
+        case 'ADD_SHAPE':
             return {
                 id: action.id,
-                path: action.path
+                path: action.path,
+                background: action.background
             };
-        case 'REMOVE_DRAWABLE':
+        case 'REMOVE_SHAPE':
             if (state.id !== action.id) {
                 return state;
             }
