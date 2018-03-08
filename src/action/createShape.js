@@ -45,7 +45,7 @@ export default (shapeType) => {
             return undefined;
     }
     return {
-        type: 'ADD_SHAPE',
+        type: 'CREATE_SHAPE',
         id: nextShapeId++,
         path:path,
         background: "#"+((1<<24)*Math.random()|0).toString(16)

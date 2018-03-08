@@ -19,14 +19,14 @@ const shapes = (state = [], action) => {
 
 const mode = (state = [], action) => {
   switch (action.type){
-      case 'TOGGLE_D_LINE':
-          if (state.appState === 'D_LINE'){
-              return {appState: 'OVERVIEW'}
+      case 'TOGGLE_DRAW_LINE':
+          if (state === 'DRAW_LINE'){
+              return 'OVERVIEW'
           } else {
-              return {appState: 'D_LINE'}
+              return 'DRAW_LINE'
           }
-      case 'TOGGLE_D_RECT':
-          return {appState: 'D_RECT'};
+      case 'TOGGLE_DRAW_RECT':
+          return 'DRAW_RECT';
       default:
           return state;
   }
