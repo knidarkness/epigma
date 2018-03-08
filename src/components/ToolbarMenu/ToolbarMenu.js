@@ -1,7 +1,7 @@
 import React from 'react';
 
 import './ToolbarMenu.scss';
-import createDrawable from "../../action/createDrawable";
+import createDrawable from "../../action/createShape";
 import appMode from "../../action/appMode";
 
 

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import './DrawingArea.scss';
-import removeDrawable from "../../action/removeDrawable";
+import removeDrawable from "../../action/removeShape";
 
 export default class DrawingCanvas extends React.Component {
     alertCoord () {
