@@ -1,20 +1,18 @@
 import React from 'react';
 
 import './ToolbarMenu.scss';
-import createDrawable from "../../action/createShape";
-import appMode from "../../action/appMode";
+import createShape from "../../actions/createShape";
+import changeMode from "../../actions/changeMode";
 
 
-export default (props) => (
+const ToolbarMenu = (props) => (
     <div className="toolbar-menu">
         <button className="toolbar-menu__tool" onClick={() => {
-            props.store.dispatch(appMode('TOGGLE_D_LINE'));
-            console.log(props.store.getState().mode);
-        }}>L
-        </button>
-        <button className="toolbar-menu__tool" onClick={() => {
-            props.store.dispatch(createDrawable('RECTANGLE'));
+            props.store.dispatch(createShape());
         }}>R
         </button>
     </div>
-)
+);
+
+
+export default ToolbarMenu;

@@ -5,10 +5,10 @@ import ToolbarMenu from './ToolbarMenu/ToolbarMenu';
 
 import './drawingPage.scss';
 
-export default (props) => (
+const drawingPage = (props) => (
     <div>
         <ToolbarMenu store={props.store}/>
         <DrawingArea store={props.store}/>
     </div>
 )
-
+export default drawingPage;

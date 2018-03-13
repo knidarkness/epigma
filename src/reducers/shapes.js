@@ -1,15 +1,16 @@
-export default (state = [], action) => {
+import shape from './shape';
+const shapes = (state = [], action) => {
     switch (action.type) {
-        case 'ADD_SHAPE':
-            return {
-                id: action.id,
-                path: action.path,
-                background: action.background
-            };
-        case 'REMOVE_SHAPE':
-            if (state.id !== action.id) {
-                return state;
-            }
-            return null;
+        case 'SHAPE_CREATE':
+            return [
+                ...state,
+                shape(undefined, action)
+            ];
+        case 'SHAPE_REMOVE':
+            return state.filter(el => el.id !== action.id);
+        default:
+            return state;
     }
 };
+
+export default shapes;
