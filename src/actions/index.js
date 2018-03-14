@@ -17,9 +17,9 @@ export const updatePath = (id, path) => ({
     path
 });
 
-export const changeZoom = (deltaZ) => ({
+export const changeZoom = (deltaZoom) => ({
     type: 'CHANGE_ZOOM',
-    deltaZ
+    deltaZoom
 });
 
 export const shiftCanvas = (shiftX, shiftY) => ({
