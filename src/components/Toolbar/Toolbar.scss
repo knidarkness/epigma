@@ -1,24 +1,41 @@
-.toolbar{
-  height: 50px;
-  background: #e9f4f4;
-  position: relative;
-
-  &__group{
-    width: 120px;
-    position: absolute;
-    left: 0;
-    right: 0;
-    margin: auto;
-  }
+.toolbar {
+  position: fixed;
+  right: 0;
+  height: 100%;
+  width: 20vw;
+  background-color: white;
+  border-left: 1px solid #e5e5e5;
+  box-shadow: 1px 1px 15px 1px #e5e5e5;
+  z-index: 100;
 }
 
-.zoom-control{
-  display: flex;
+.zoom {
   align-items: center;
+  display: flex;
+  margin-top: 20%;
+  text-align: center;
+  font-size:3vh;
+  justify-content: center;
+}
 
-  height: 40px;
-
-  &__control{
-    margin: 5px;
+.zoom__button{
+  height: 6vh;
+  width: 6vh;
+  font-size:3vh;
+  border-radius: 50%;
+  border: 1px solid #e5e5e5;
+  background-color: white;
+  box-shadow: 1px 1px 3px 1px #e5e5e5;
+  margin: 1vh;
+  &:focus{
+    outline: none;
+  }
+  &:active{
+    outline: none;
+    background-color: #bbbbbb;
+    box-shadow: none;
+  }
+  &:hover{
+    background-color: #f6f6f6;
   }
 }

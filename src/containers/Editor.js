@@ -4,11 +4,13 @@ import { createPath } from '../actions';
 
 import RenderCanvas from './RenderCanvas';
 import Toolbar from './Toolbar';
+import Stats from "./Stats";
 
 let Editor = ({dispatch}) => {
     return (
       <div>
           <Toolbar/>
+          <Stats/>
           <RenderCanvas/>
       </div>
     );

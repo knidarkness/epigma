@@ -1,0 +1,22 @@
+.stats{
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: left;
+  position: fixed;
+  left: 30px;
+  bottom: 30px;
+  width: 10vw;
+  height: 20vh;
+  line-height: 0;
+  background-color: white;
+  opacity: 0.7;
+  border: solid 1px  #e5e5e5;
+  font-size: 2vh;
+}
+
+.stats__nodes,.stats__lines{
+  display: inline-block;
+}
