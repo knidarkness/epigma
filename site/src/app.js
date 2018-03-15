@@ -16,7 +16,7 @@ import './app.scss';
 
 const store = createStore(
     reducer,
-    applyMiddleware(thunk, logger),
+    applyMiddleware(thunk),
 );
 ReactDOM.render(
     <Provider store={store}>

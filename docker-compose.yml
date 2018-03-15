@@ -1,0 +1,43 @@
+version: "3.4"
+
+services:
+  site:
+    build:
+      context: ./site
+      dockerfile: Dockerfile
+    networks:
+      epigma_local:
+    depends_on:
+      - api
+    ports:
+      - 80:80
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    environment:
+      - db_uri=mongodb://epigma.mongo.docker/storage_epigma
+      - PORT=3000
+    networks:
+      epigma_local:
+        aliases:
+          - epigma.api.docker
+    depends_on:
+      - mongo
+    ports:
+      - 3000:3000
+  mongo:
+    image: mongo
+    volumes:
+      - mongo_data:/var/lib/mongo
+    networks:
+      epigma_local:
+        aliases:
+          - epigma.mongo.docker
+
+
+networks:
+  epigma_local:
+
+volumes:
+  mongo_data:

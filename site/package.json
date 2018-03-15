@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack --watch --progress",
+    "build": "webpack",
     "start": "npm run dev | serve",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

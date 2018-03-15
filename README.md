@@ -14,6 +14,12 @@ npm start
 ```
 and then open the index.html in the browser.
 
+### Using docker-compose
+
+Another way to launch this project is to run it with docker-compose. To do that you need to have a Docker and 
+docker-compose installed in your system. Then you can simply run ```docker-compose up``` from the root directory
+of the repository and navigate to http://localhost to explore the Epigma editor.
+
 ## TO-DO
 
 - multiple docs
@@ -21,8 +27,8 @@ and then open the index.html in the browser.
 - undo/redo
 - UX key binding (canvas manipulation by mouse)
 - Edit/navigation mode
-- CRUD for illustrations/objects
-- add Docker for BE
+- CRUD for illustrations/<s>objects</s>
+- <s>add Docker for the project build</s>
 
 ## License
 
