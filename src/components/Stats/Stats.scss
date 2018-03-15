@@ -15,8 +15,8 @@
   opacity: 0.7;
   border: solid 1px  #e5e5e5;
   font-size: 2vh;
-}
 
-.stats__nodes,.stats__lines{
-  display: inline-block;
+  &__nodes, &__lines{
+    display: inline-block;
+  }
 }

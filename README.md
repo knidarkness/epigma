@@ -14,6 +14,16 @@ npm start
 ```
 and then open the index.html in the browser.
 
+## TO-DO
+
+- multiple docs
+- transform matrix
+- undo/redo
+- UX key binding (canvas manipulation by mouse)
+- Edit/navigation mode
+- CRUD for illustrations/objects
+- add Docker for BE
+
 ## License
 
 All code is distributed under the MIT License.
