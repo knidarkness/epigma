@@ -1,12 +1,10 @@
-import undoable, { includeAction } from 'redux-undo';
-
-
 const path = (state, action) => {
     switch (action.type){
         case 'CREATE_PATH':
             return {
                 id: action.id,
-                path: action.path
+                path: action.path,
+                color: action.color
             };
         case 'DELETE_PATH':
             if (state.id !== action.id) return state;
@@ -29,7 +27,7 @@ const paths = (state = [], action) => {
             ];
         case 'DELETE_PATH':
             return state
-                .filter(p => path(p, action) !== null);
+                .filter((p, id) => id !== action.id);
         case 'UPDATE_PATH':
             return state
                 .map(p => path(p, action));

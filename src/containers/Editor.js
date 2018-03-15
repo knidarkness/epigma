@@ -3,14 +3,12 @@ import { connect } from 'react-redux';
 import { createPath } from '../actions';
 
 import RenderCanvas from './RenderCanvas';
+import Toolbar from './Toolbar';
 
 let Editor = ({dispatch}) => {
     return (
       <div>
-          <input type="button" onClick={(e) => {
-              e.preventDefault();
-              dispatch(createPath('bla bla bla'));
-          }}/>
+          <Toolbar/>
           <RenderCanvas/>
       </div>
     );

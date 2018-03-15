@@ -17,7 +17,6 @@ const canvasMode = (state = defaultState, action) => {
                 zoom: state.zoom
             };
         case 'CHANGE_ZOOM':
-            console.log(state);
             return {
                 canvasShift: {
                     x: state.canvasShift.x,

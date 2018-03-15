@@ -1,9 +1,10 @@
 import * as uuid4 from 'uuid/v4'
 
-export const createPath = (path) => ({
+export const createPath = (path, color = 'black') => ({
     type: 'CREATE_PATH',
     id: uuid4(),
-    path
+    path,
+    color
 });
 
 export const deletePath = (pathId) => ({
@@ -17,6 +18,12 @@ export const updatePath = (id, path) => ({
     path
 });
 
+export const setEditedPath = (path, color = '#000000') => ({
+   type: 'SET_EDITED_PATH',
+   path: path,
+   color: color
+});
+
 export const changeZoom = (deltaZoom) => ({
     type: 'CHANGE_ZOOM',
     deltaZoom
@@ -26,4 +33,16 @@ export const shiftCanvas = (shiftX, shiftY) => ({
     type: 'SHIFT_CANVAS',
     shiftX,
     shiftY
+});
+
+export const editOn = () => ({
+    type: 'EDIT_ON'
+});
+
+export const editOff = () => ({
+    type: 'EDIT_OFF'
+});
+
+export const editToggle = () => ({
+    type: 'TOGGLE_EDIT'
 });
