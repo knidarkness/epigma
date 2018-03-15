@@ -1,6 +1,7 @@
 import React from 'react';
 import * as most from 'most'
 import v4 from 'uuid/v4';
+import {API_URI} from "../../const";
 
 import './Canvas.scss';
 
@@ -56,7 +57,7 @@ class Canvas extends React.Component {
     }
 
     fetchData() {
-        fetch('http://localhost:3000/api/path')
+        fetch(API_URI)
             .then(function(response) {
                 return response.json();
             })
@@ -70,7 +71,7 @@ class Canvas extends React.Component {
     }
 
     pushPathsToBackend () {
-        const request = new Request('http://localhost:3000/api/path', {
+        const request = new Request(API_URI, {
             method: 'PUT',
             mode: 'cors',
             redirect: 'follow',
