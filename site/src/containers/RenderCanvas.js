@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import Canvas from '../components/Canvas/Canvas';
 
-import {createPath, deletePath, updatePath, setEditedPath, changeZoom, shiftCanvas, editOff, editToggle, editOn} from "../actions";
+import {createPath, deletePath, updatePath, setEditedPath, changeZoom, shiftCanvas, moveTo, editOff, editToggle, editOn} from "../actions";
 
 const mapStateToProps = (state) => ({
     paths: state.paths,
@@ -19,6 +19,7 @@ const mapDispatchToProps = ({
     setEditedPath,
     changeZoom,
     shiftCanvas,
+    moveTo,
     editToggle,
     editOn,
     editOff

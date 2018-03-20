@@ -8,6 +8,14 @@ const defaultState = {
 
 const canvasMode = (state = defaultState, action) => {
     switch (action.type){
+        case 'MOVE_TO':
+            return {
+                canvasShift: {
+                    x: action.shiftX,
+                    y: action.shiftY
+                },
+                zoom: state.zoom
+            };
         case 'SHIFT_CANVAS':
             return {
                 canvasShift: {

@@ -2,63 +2,87 @@ import React from 'react';
 import * as most from 'most'
 import v4 from 'uuid/v4';
 import {API_URI} from "../../const";
+import mathjs from 'mathjs';
 
 import './Canvas.scss';
+import {shiftCanvas} from "../../actions";
 
 class Canvas extends React.Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
+        this.state = {
+            renderPaths: [
+                {
+                    id: 1,
+                    color: 'black',
+                    path: [
+                        [500, 500, 1],
+                        [10, 100, 1],
+                        [100, 10, 1]
+                    ]
+                }
+            ],
+            viewportCenter: [
+                450,
+                300
+            ]
+        };
     }
 
-    getOffsetedPoint (point) {
+    getOffsetedPoint(point) {
         const x = (point[0] + this.props.canvasMode.canvasShift.x) * this.props.canvasMode.zoom;
         const y = (point[1] + this.props.canvasMode.canvasShift.y) * this.props.canvasMode.zoom;
         return [x, y];
     }
 
-    getNormalizedPoint (point) {
+    getNormalizedPoint(point) {
         const x = (point[0] / this.props.canvasMode.zoom) - this.props.canvasMode.canvasShift.x;
         const y = (point[1] / this.props.canvasMode.zoom) - this.props.canvasMode.canvasShift.y;
         return [x, y];
     }
 
-    renderPath(path, i=0, offset=true) {
+    renderPath(path, i = 0) {
         if (path.path.length === 0) return;
-        let pathLine = '';
-        for (let i in path.path){
-            if (offset) {
-                const offsetedPoint = this.getOffsetedPoint(path.path[i]);
-                pathLine += `${offsetedPoint[0]},${offsetedPoint[1]} `;
-            } else {
-                pathLine += `${path.path[i][0]},${path.path[i][1]} `;
-            }
-        }
-        return (<polyline data-path-index={i} className="shape" key={i} points={pathLine} style={{fill: 'none', stroke:path.color, strokeWidth:'3'}}/>);
+        const scaleTransformMatrix = mathjs.diag([this.props.canvasMode.zoom, this.props.canvasMode.zoom, 1]);
+        const translateTransformMatrix = mathjs.matrix([[1, 0, this.props.canvasMode.canvasShift.x],
+            [0, 1, this.props.canvasMode.canvasShift.y],
+            [0, 0, 1]]);
+        const pathLine = path.path
+            .map(point => mathjs.multiply(scaleTransformMatrix, point))
+            .map(point => mathjs.multiply(translateTransformMatrix, point)._data)
+            /*.map(p => {
+                console.log(p);
+                return p;
+            })*/
+            .reduce((prev, current) => prev + `${current[0]},${current[1]} `, '');
+        return (<polyline data-path-index={i} className="shape" key={i} points={pathLine}
+                          style={{fill: 'none', stroke: path.color, strokeWidth: '3'}}/>);
     }
 
     renderAllSaved() {
-        return this.props.paths.map((path, id) => this.renderPath(path, id));
+        return this.state.renderPaths.map((path, id) => this.renderPath(path, id));
     }
 
     renderPathNodes(path) {
         return path.map((point, i) => {
-            return <circle data-node-index={i} cx={point[0]} cy={point[1]} r="5" key={v4()} stroke="black" strokeWidth="3" fill="red"/>
+            return <circle data-node-index={i} cx={point[0]} cy={point[1]} r="5" key={v4()} stroke="black"
+                           strokeWidth="3" fill="red"/>
         })
     }
 
-    addPathNode (x, y) {
+    addPathNode(x, y) {
         const newEditPath = [...this.props.editedPath.path, [x, y]];
         this.props.setEditedPath(newEditPath);
     }
 
-    setTempNode  (x, y) {
+    setTempNode(x, y) {
         const newEditPath = this.props.editedPath.path.slice(0, -1);
         this.props.setEditedPath([...newEditPath, [x, y]]);
     }
 
     fetchData() {
         fetch(API_URI)
-            .then(function(response) {
+            .then(function (response) {
                 return response.json();
             })
             .then((data) => {
@@ -70,7 +94,7 @@ class Canvas extends React.Component {
             });
     }
 
-    pushPathsToBackend () {
+    pushPathsToBackend() {
         const request = new Request(API_URI, {
             method: 'PUT',
             mode: 'cors',
@@ -88,6 +112,7 @@ class Canvas extends React.Component {
 
     componentDidMount() {
         this.fetchData();
+        console.log(this.state.viewportCenter);
 
         const canvas = document.querySelector('#canvas');
         const click = most.fromEvent("click", canvas);
@@ -106,17 +131,22 @@ class Canvas extends React.Component {
         const wheel = most.fromEvent('wheel', document);
 
         wheel
-            .map(e => e.deltaY)
             .observe(e => {
-                this.props.changeZoom((e > 0) ? 0.01 : -0.01);
+                const mouseOffset = [
+                    e.x - this.state.viewportCenter[0],
+                    e.y - this.state.viewportCenter[1]
+                ];
+                this.props.shiftCanvas(...mouseOffset);
+                this.props.changeZoom((e.deltaY > 0) ? 0.01 : -0.01);
+                this.props.shiftCanvas(-mouseOffset[0], -mouseOffset[1]);
             });
 
         keydownEnter
             .observe(() => {
-                if (this.props.editedPath.path.length > 0){
+                if (this.props.editedPath.path.length > 0) {
                     let newPath;
 
-                    if (this.props.edit){
+                    if (this.props.edit) {
                         newPath = this.props.editedPath.path.map(point => {
                             return this.getNormalizedPoint(point);
                         });
@@ -141,7 +171,9 @@ class Canvas extends React.Component {
             });
 
         doubleclick // animate drawing
-            .filter(e => {return !(e.target.dataset && 'pathIndex' in e.target.dataset)})
+            .filter(e => {
+                return !(e.target.dataset && 'pathIndex' in e.target.dataset)
+            })
             .chain(p => {
                 return mousemove
                     .until(keydownEnter)
@@ -200,7 +232,7 @@ class Canvas extends React.Component {
                     e === 'ArrowDown';
             })
             .observe((e) => {
-                switch (e){
+                switch (e) {
                     case 'ArrowLeft':
                         this.props.shiftCanvas(10, 0);
                         break;
@@ -219,10 +251,10 @@ class Canvas extends React.Component {
             });
     }
 
-    render () {
+    render() {
         return (
             <svg id="canvas" className="canvas" width="100%" height="100%">
-                {this.renderPath(this.props.editedPath, 0, false)}
+                {this.renderPath(this.props.editedPath, 0)}
                 {this.renderPathNodes(this.props.editedPath.path)}
                 {this.renderAllSaved()}
             </svg>

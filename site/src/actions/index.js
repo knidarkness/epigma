@@ -35,6 +35,29 @@ export const shiftCanvas = (shiftX, shiftY) => ({
     shiftY
 });
 
+export const moveTo = (shiftX, shiftY) => ({
+    type: 'MOVE_TO',
+    shiftX,
+    shiftY
+});
+
+export const createDocument = (id, name) => ({
+    type: 'CREATE_DOCUMENT',
+    id,
+    name
+});
+
+export const deleteDocument = (id) => ({
+    type: 'DELETE_DOCUMENT',
+    id
+});
+
+export const renameDocument = (id, name) => ({
+    type: 'RENAME_DOCUMENT',
+    id,
+    name
+});
+
 export const editOn = () => ({
     type: 'EDIT_ON'
 });
