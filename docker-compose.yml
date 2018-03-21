@@ -10,7 +10,8 @@ services:
     depends_on:
       - api
     ports:
-      - 80:80
+      - 80:5000
+
   api:
     build:
       context: ./api
@@ -26,6 +27,7 @@ services:
       - mongo
     ports:
       - 3000:3000
+
   mongo:
     image: mongo
     volumes:
