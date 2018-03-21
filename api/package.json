@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node ./src/bin/www",
+    "dev": "nodemon ./src/bin/www",
     "start": "npm run dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
