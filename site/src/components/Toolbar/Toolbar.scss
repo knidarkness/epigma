@@ -3,7 +3,7 @@
   right: 0;
   height: 100%;
   width: 20vw;
-  background-color: white;
+  background-color: #212528;
   border-left: 1px solid #e5e5e5;
   box-shadow: 1px 1px 15px 1px #e5e5e5;
   z-index: 100;
@@ -21,21 +21,24 @@
 .zoom__button{
   height: 6vh;
   width: 6vh;
-  font-size:3vh;
+
   border-radius: 50%;
-  border: 1px solid #e5e5e5;
-  background-color: white;
-  box-shadow: 1px 1px 3px 1px #e5e5e5;
+  background-color: #212528;
+  box-shadow: 3px 3px 10px 1px #141618;
+  color: white;
+  border: none;
+  font-size: 17px;
+  font-weight: 900;
+
   margin: 1vh;
   &:focus{
     outline: none;
   }
   &:active{
     outline: none;
-    background-color: #bbbbbb;
     box-shadow: none;
   }
   &:hover{
-    background-color: #f6f6f6;
+    background-color: #bbbbbb;
   }
 }

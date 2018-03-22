@@ -41,10 +41,11 @@ export const moveTo = (shiftX, shiftY) => ({
     shiftY
 });
 
-export const createDocument = (id, name) => ({
+export const createDocument = (id, name, editedAt) => ({
     type: 'CREATE_DOCUMENT',
     id,
-    name
+    name,
+    editedAt
 });
 
 export const deleteDocument = (id) => ({
