@@ -22,6 +22,8 @@ of the repository and navigate to http://localhost to explore the Epigma editor.
 
 ## TO-DO
 
+Do it.
+
 - multiple docs
 - transform matrix
 - undo/redo
