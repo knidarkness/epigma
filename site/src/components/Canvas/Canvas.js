@@ -1,7 +1,7 @@
 import React from 'react';
 import * as most from 'most'
 import v4 from 'uuid/v4';
-import {API_URI} from "../../const";
+import {DOCUMENT_LIST_URI} from "../../const";
 import mathjs from 'mathjs';
 
 import './Canvas.scss';
@@ -11,17 +11,16 @@ class Canvas extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            renderPaths: [
+            /*renderPaths: [
                 {
-                    id: 1,
-                    color: 'black',
-                    path: [
-                        [500, 500, 1],
-                        [10, 100, 1],
-                        [100, 10, 1]
-                    ]
+                 id: 1,
+                 path: [
+                     [500, 500],
+                     [10, 100],
+                     [100, 10]
+                 ]
                 }
-            ],
+            ],*/
             viewportCenter: [
                 450,
                 300
@@ -41,26 +40,25 @@ class Canvas extends React.Component {
         return [x, y];
     }
 
-    renderPath(path, i = 0) {
+    renderPath(path, i = 0, doOffset = true) {
         if (path.path.length === 0) return;
+        const pathForRender = path.path.map(point => [...point, 1]);
+        console.log(pathForRender);
         const scaleTransformMatrix = mathjs.diag([this.props.canvasMode.zoom, this.props.canvasMode.zoom, 1]);
         const translateTransformMatrix = mathjs.matrix([[1, 0, this.props.canvasMode.canvasShift.x],
             [0, 1, this.props.canvasMode.canvasShift.y],
             [0, 0, 1]]);
-        const pathLine = path.path
-            .map(point => mathjs.multiply(scaleTransformMatrix, point))
-            .map(point => mathjs.multiply(translateTransformMatrix, point)._data)
-            /*.map(p => {
-                console.log(p);
-                return p;
-            })*/
+        const pathLine = pathForRender
+            .map(point => doOffset ? mathjs.multiply(scaleTransformMatrix, point) : point)
+            .map(point => doOffset ? mathjs.multiply(translateTransformMatrix, point)._data : point)
             .reduce((prev, current) => prev + `${current[0]},${current[1]} `, '');
         return (<polyline data-path-index={i} className="shape" key={i} points={pathLine}
                           style={{fill: 'none', stroke: path.color, strokeWidth: '3'}}/>);
     }
 
     renderAllSaved() {
-        return this.state.renderPaths.map((path, id) => this.renderPath(path, id));
+        console.log(this.props.paths);
+        return this.props.paths.map((path, id) => this.renderPath(path, id));
     }
 
     renderPathNodes(path) {
@@ -81,7 +79,7 @@ class Canvas extends React.Component {
     }
 
     fetchData() {
-        fetch(API_URI)
+        fetch(DOCUMENT_LIST_URI + '/' + this.props.documentId + '/paths/')
             .then(function (response) {
                 return response.json();
             })
@@ -95,7 +93,7 @@ class Canvas extends React.Component {
     }
 
     pushPathsToBackend() {
-        const request = new Request(API_URI, {
+        const request = new Request(DOCUMENT_LIST_URI + '/' + this.props.documentId + '/paths/', {
             method: 'PUT',
             mode: 'cors',
             redirect: 'follow',
@@ -112,8 +110,6 @@ class Canvas extends React.Component {
 
     componentDidMount() {
         this.fetchData();
-        console.log(this.state.viewportCenter);
-
         const canvas = document.querySelector('#canvas');
         const click = most.fromEvent("click", canvas);
         const mousemove = most.fromEvent("mousemove", document);
@@ -254,7 +250,7 @@ class Canvas extends React.Component {
     render() {
         return (
             <svg id="canvas" className="canvas" width="100%" height="100%">
-                {this.renderPath(this.props.editedPath, 0)}
+                {this.renderPath(this.props.editedPath, 0, false)}
                 {this.renderPathNodes(this.props.editedPath.path)}
                 {this.renderAllSaved()}
             </svg>

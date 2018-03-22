@@ -4,7 +4,7 @@ const illustration = (state, action) => {
             return {
                 id: action.id,
                 name: action.name,
-                editedAt: Date.now()
+                editedAt: action.editedAt
             };
         case 'DELETE_DOCUMENT':
             return null;
@@ -12,7 +12,7 @@ const illustration = (state, action) => {
             return {
                 id: state.id,
                 name: action.name,
-                editedAt: Date.now()
+                editedAt: action.editedAt
             };
     }
 };

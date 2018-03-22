@@ -2,7 +2,7 @@ import React from 'react';
 
 import Header from './../Header/Header';
 import './Dashboard.scss'
-import {API_URI, DOCUMENT_LIST_URI} from "../../const";
+import {DOCUMENT_LIST_URI} from "../../const";
 import documents from "../../reducers/documents";
 
 class Dashboard extends React.Component {
@@ -18,7 +18,8 @@ class Dashboard extends React.Component {
             .then((data) => {
                 data.documents
                     .forEach(doc => {
-                        this.props.createDocument(doc.id, doc.name);
+                        console.log(doc);
+                        this.props.createDocument(doc.id, doc.name, doc.editedAt);
                     });
             })
             .catch(err => {
@@ -28,6 +29,7 @@ class Dashboard extends React.Component {
 
     async createDocument(){
         const docName = prompt('Enter document name');
+        if (!docName || docName.length === 0) return;
         const request = new Request(DOCUMENT_LIST_URI, {
             method: 'POST',
             mode: 'cors',
@@ -43,94 +45,49 @@ class Dashboard extends React.Component {
         const r = await fetch(request);
         r.json()
             .then((doc) => {
-                this.props.createDocument(doc.data._id, doc.data.name);
+                this.props.createDocument(doc.data._id, doc.data.name, doc.data.editedAt);
             });
     }
 
-    deleteDocument(){
+    async deleteDocument(documentId){
+        const request = new Request(DOCUMENT_LIST_URI + '/' + documentId, {
+            method: 'DELETE',
+            mode: 'cors',
+            redirect: 'follow',
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        });
 
+        fetch(request)
+            .then(() => {
+                this.props.deleteDocument(documentId);
+            });
     }
 
     async componentDidMount() {
         await this.fetchData();
     }
 
+
+
+    timeConverter(UNIX_timestamp){
+        var a = new Date(UNIX_timestamp * 1000);
+        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        var year = a.getFullYear();
+        var month = months[a.getMonth()];
+        var date = a.getDate();
+        var hour = a.getHours();
+        var min = a.getMinutes();
+        var sec = a.getSeconds();
+        var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+        return time;
+    }
+
+
+
     render() {
-        const itemList = [
-            {
-                id: 1,
-                name: 'blalbaf',
-                editedAt: 'Jan 01, 2018'
-            },
-            {
-                id: 2,
-                name: 'My illustration',
-                editedAt: 'Jan 12, 2018'
-            },
-            {
-                id: 3,
-                name: 'Artwork to prove "M*khailo Huilo"',
-                editedAt: 'Jan 23, 2018'
-            },
-            {
-                id: 4,
-                name: 'Some ideas not to cry about IoT',
-                editedAt: 'Feb 02, 2018'
-            },
-            {
-                id: 5,
-                name: 'How I came to "galera"',
-                editedAt: 'Feb 15, 2018'
-            },
-            {
-                id: 6,
-                name: 'Shiny new start-up...',
-                editedAt: 'Mar 16, 2018'
-            },{
-                id: 3,
-                name: 'Artwork to prove "M*khailo Huilo"',
-                editedAt: 'Jan 23, 2018'
-            },
-            {
-                id: 4,
-                name: 'Some ideas not to cry about IoT',
-                editedAt: 'Feb 02, 2018'
-            },
-            {
-                id: 5,
-                name: 'How I came to "galera"',
-                editedAt: 'Feb 15, 2018'
-            },
-            {
-                id: 6,
-                name: 'Shiny new start-up...',
-                editedAt: 'Mar 16, 2018'
-            },{
-                id: 3,
-                name: 'Artwork to prove "M*khailo Huilo"',
-                editedAt: 'Jan 23, 2018'
-            },
-            {
-                id: 4,
-                name: 'Some ideas not to cry about IoT',
-                editedAt: 'Feb 02, 2018'
-            },
-            {
-                id: 5,
-                name: 'How I came to "galera"',
-                editedAt: 'Feb 15, 2018'
-            },
-            {
-                id: 6,
-                name: 'Shiny new start-up...',
-                editedAt: 'Mar 16, 2018'
-            },
-            {
-                id: 7,
-                name: 'Became digital testaments app...',
-                editedAt: 'Mar 18, 2018'
-            }
-        ].reverse(); // instead of this.props.documents
+        console.log(this.props.documents);
         return (
             <div>
                 <Header/>
@@ -147,12 +104,16 @@ class Dashboard extends React.Component {
                     </div>
                     <ul className="document-list">
                         {
-                            itemList.map(d => (
+                            this.props.documents.map(d => (
                                 <li key={d.id} className="document-list__item">
                                     <a href={`/edit?&id=${d.id}`}>
-                                        <span>{d.name} - {d.id}</span>
-                                        <span>{d.editedAt}</span>
-                                        <button onClick={() => {alert('removing')}}></button>
+                                        <span>{d.name}</span>
+                                        <span>{this.timeConverter(Number(d.editedAt)/1000)}</span>
+                                        <button onClick={(e) => {
+                                            e.stopPropagation();
+                                            e.preventDefault();
+                                            this.deleteDocument(d.id);
+                                        }}></button>
                                     </a>
                                 </li>
                             ))

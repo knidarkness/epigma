@@ -15,7 +15,6 @@ router.put('/', async (req, res) => {
     illustrations[0].save((err, upd) => {
         res.status(200).send();
     });
-//    res.status(200).send();
 });
 
 module.exports = router;

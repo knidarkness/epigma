@@ -6,16 +6,13 @@ import Toolbar from './../../containers/Toolbar';
 import Stats from "./../../containers/Stats";
 
 class DrawPage extends React.Component{
-    componentDidMount(){
-        alert(qstring.parse(this.props.location.search).id);
-    }
 
     render() {
         return (
             <div>
                 <Toolbar/>
                 <Stats/>
-                <RenderCanvas/>
+                <RenderCanvas documentId={qstring.parse(this.props.location.search).id}/>
             </div>
         )
     }
