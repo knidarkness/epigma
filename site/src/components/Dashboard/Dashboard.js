@@ -1,9 +1,10 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 import Header from './../Header/Header';
 import './Dashboard.scss'
+
 import {DOCUMENT_LIST_URI} from "../../const";
-import documents from "../../reducers/documents";
 
 class Dashboard extends React.Component {
     constructor(props){
@@ -72,19 +73,17 @@ class Dashboard extends React.Component {
 
 
     timeConverter(UNIX_timestamp){
-        var a = new Date(UNIX_timestamp * 1000);
-        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-        var year = a.getFullYear();
-        var month = months[a.getMonth()];
-        var date = a.getDate();
-        var hour = a.getHours();
-        var min = a.getMinutes();
-        var sec = a.getSeconds();
-        var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+        const a = new Date(UNIX_timestamp * 1000);
+        const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        const year = a.getFullYear();
+        const month = months[a.getMonth()];
+        const date = a.getDate();
+        const hour = a.getHours();
+        const min = a.getMinutes();
+        const sec = a.getSeconds();
+        const time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
         return time;
     }
-
-
 
     render() {
         console.log(this.props.documents);
@@ -106,7 +105,7 @@ class Dashboard extends React.Component {
                         {
                             this.props.documents.map(d => (
                                 <li key={d.id} className="document-list__item">
-                                    <a href={`/edit?&id=${d.id}`}>
+                                    <Link to={`/edit?&id=${d.id}`}>
                                         <span>{d.name}</span>
                                         <span>{this.timeConverter(Number(d.editedAt)/1000)}</span>
                                         <button onClick={(e) => {
@@ -114,7 +113,7 @@ class Dashboard extends React.Component {
                                             e.preventDefault();
                                             this.deleteDocument(d.id);
                                         }}></button>
-                                    </a>
+                                    </Link>
                                 </li>
                             ))
                         }

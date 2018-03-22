@@ -11,22 +11,14 @@ class Canvas extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            /*renderPaths: [
-                {
-                 id: 1,
-                 path: [
-                     [500, 500],
-                     [10, 100],
-                     [100, 10]
-                 ]
-                }
-            ],*/
             viewportCenter: [
                 450,
                 300
             ]
         };
     }
+
+
 
     getOffsetedPoint(point) {
         const x = (point[0] + this.props.canvasMode.canvasShift.x) * this.props.canvasMode.zoom;
