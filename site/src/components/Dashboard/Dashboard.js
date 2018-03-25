@@ -30,8 +30,6 @@ class Dashboard extends React.Component {
         this.props.itemsFetchData(DOCUMENT_LIST_URI);
     }
 
-
-
     timeConverter(UNIX_timestamp){
         const a = new Date(UNIX_timestamp * 1000);
         const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -69,12 +67,12 @@ class Dashboard extends React.Component {
                                         <span>{d.name}</span>
                                         <span>{this.timeConverter(Number(d.editedAt)/1000)}</span>
                                         <div>
-                                            <button onClick={(e) => {
+                                            <button className="button button_edit" onClick={(e) => {
                                                 e.stopPropagation();
                                                 e.preventDefault();
                                                 this.editDocument(d.id);
                                             }}></button>
-                                            <button onClick={(e) => {
+                                            <button className="button button_delete" onClick={(e) => {
                                                 e.stopPropagation();
                                                 e.preventDefault();
                                                 this.deleteDocument(d.id);
