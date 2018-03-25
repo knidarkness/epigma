@@ -47,31 +47,14 @@
   padding: 0;
 
   &__item{
-    border: 1px solid #808080;
+    border-top: 1px solid #808080;
     border-bottom: none;
 
     &:last-of-type{
       border-bottom: 1px solid #808080;
     }
 
-    button{
-      background: center url("/assets/img/garbage.svg") no-repeat;
-      background-size: 80%;
-      color: white;
-      text-decoration: none;
-      margin: auto 40px;
-      height: 25px;
-      width: 25px;
-      padding: 2px;
-      border: none;
-
-      &:hover{
-        transition: all 0.15s ease-in-out;
-        border: 1px solid red;
-      }
-    }
-
-    a{
+    a {
       padding: 10px 0;
       display: flex;
       justify-content: space-between;
@@ -97,5 +80,30 @@
       width: 300px;
       margin: auto 40px;
     }
+  }
+}
+
+.button{
+  color: white;
+  text-decoration: none;
+  margin: auto 10px;
+  height: 25px;
+  width: 25px;
+  padding: 2px;
+  border: none;
+
+  &:hover{
+    transition: all 0.15s ease-in-out;
+    border: 1px solid red;
+  }
+
+  &_delete{
+    background: center url("/assets/img/garbage.svg") no-repeat;
+    background-size: 80%;
+  }
+
+  &_edit{
+    background: center url("/assets/img/edit.svg") no-repeat;
+    background-size: 80%;
   }
 }

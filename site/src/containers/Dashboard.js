@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import {createDocument, renameDocument, deleteDocument} from "../actions";
+import {createIllustration, renameDocument, deleteDocument, itemsFetchData} from "../actions";
 import DashboardComponent from './../components/Dashboard/Dashboard';
 
 const mapStateToProps = (state) => ({
@@ -9,9 +9,10 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = ({
-    createDocument,
+    createIllustration,
     renameDocument,
-    deleteDocument
+    deleteDocument,
+    itemsFetchData
 });
 
 const Dashboard = connect(

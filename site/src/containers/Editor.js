@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { createPath } from '../actions';
 
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
