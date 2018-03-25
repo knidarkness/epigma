@@ -11,63 +11,23 @@ class Dashboard extends React.Component {
         super(props);
     }
 
-    fetchData() {
-        fetch(DOCUMENT_LIST_URI)
-            .then(function(response) {
-                return response.json();
-            })
-            .then((data) => {
-                data.documents
-                    .forEach(doc => {
-                        console.log(doc);
-                        this.props.createDocument(doc.id, doc.name, doc.editedAt);
-                    });
-            })
-            .catch(err => {
-                console.log(err);
-            });
-    }
-
     async createDocument(){
         const docName = prompt('Enter document name');
         if (!docName || docName.length === 0) return;
-        const request = new Request(DOCUMENT_LIST_URI, {
-            method: 'POST',
-            mode: 'cors',
-            redirect: 'follow',
-            body: JSON.stringify({
-                name: docName
-            }),
-            headers: new Headers({
-                'Content-Type': 'application/json'
-            })
-        });
-
-        const r = await fetch(request);
-        r.json()
-            .then((doc) => {
-                this.props.createDocument(doc.data._id, doc.data.name, doc.data.editedAt);
-            });
+        this.props.createIllustration(docName);
     }
 
     async deleteDocument(documentId){
-        const request = new Request(DOCUMENT_LIST_URI + '/' + documentId, {
-            method: 'DELETE',
-            mode: 'cors',
-            redirect: 'follow',
-            headers: new Headers({
-                'Content-Type': 'application/json'
-            })
-        });
+        this.props.deleteDocument(documentId);
+    }
 
-        fetch(request)
-            .then(() => {
-                this.props.deleteDocument(documentId);
-            });
+    async editDocument(documentId){
+        const newName = prompt('Enter new document name', 'Current name');
+        this.props.renameDocument(documentId, newName);
     }
 
     async componentDidMount() {
-        await this.fetchData();
+        this.props.itemsFetchData(DOCUMENT_LIST_URI);
     }
 
 
@@ -79,8 +39,8 @@ class Dashboard extends React.Component {
         const month = months[a.getMonth()];
         const date = a.getDate();
         const hour = a.getHours();
-        const min = a.getMinutes();
-        const sec = a.getSeconds();
+        const min = a.getMinutes().toString().length === 2 ? a.getMinutes() : '0' + a.getMinutes();
+        const sec = a.getSeconds().toString().length === 2 ? a.getSeconds() : '0' + a.getSeconds();
         const time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
         return time;
     }
@@ -108,11 +68,18 @@ class Dashboard extends React.Component {
                                     <Link to={`/edit?&id=${d.id}`}>
                                         <span>{d.name}</span>
                                         <span>{this.timeConverter(Number(d.editedAt)/1000)}</span>
-                                        <button onClick={(e) => {
-                                            e.stopPropagation();
-                                            e.preventDefault();
-                                            this.deleteDocument(d.id);
-                                        }}></button>
+                                        <div>
+                                            <button onClick={(e) => {
+                                                e.stopPropagation();
+                                                e.preventDefault();
+                                                this.editDocument(d.id);
+                                            }}></button>
+                                            <button onClick={(e) => {
+                                                e.stopPropagation();
+                                                e.preventDefault();
+                                                this.deleteDocument(d.id);
+                                            }}></button>
+                                        </div>
                                     </Link>
                                 </li>
                             ))

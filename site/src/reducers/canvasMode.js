@@ -1,3 +1,5 @@
+import {MOVE_TO, SHIFT_CANVAS, CHANGE_ZOOM} from "../actions/actionTypes";
+
 const defaultState = {
     canvasShift: {
         x: 0,
@@ -8,7 +10,7 @@ const defaultState = {
 
 const canvasMode = (state = defaultState, action) => {
     switch (action.type){
-        case 'MOVE_TO':
+        case MOVE_TO:
             return {
                 canvasShift: {
                     x: action.shiftX,
@@ -16,7 +18,7 @@ const canvasMode = (state = defaultState, action) => {
                 },
                 zoom: state.zoom
             };
-        case 'SHIFT_CANVAS':
+        case SHIFT_CANVAS:
             return {
                 canvasShift: {
                     x: state.canvasShift.x + action.shiftX,
@@ -24,7 +26,7 @@ const canvasMode = (state = defaultState, action) => {
                 },
                 zoom: state.zoom
             };
-        case 'CHANGE_ZOOM':
+        case CHANGE_ZOOM:
             return {
                 canvasShift: {
                     x: state.canvasShift.x,

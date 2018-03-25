@@ -1,72 +1,159 @@
 import * as uuid4 from 'uuid/v4'
+import * as actionTypes from "./actionTypes";
+import {DOCUMENT_LIST_URI} from "../const";
 
 export const createPath = (path, color = 'black') => ({
-    type: 'CREATE_PATH',
+    type: actionTypes.CREATE_PATH,
     id: uuid4(),
     path,
     color
 });
 
 export const deletePath = (pathId) => ({
-    type: 'DELETE_PATH',
+    type: actionTypes.DELETE_PATH,
     id: pathId
 });
 
 export const updatePath = (id, path) => ({
-    type: 'UPDATE_PATH',
+    type: actionTypes.UPDATE_PATH,
     id,
     path
 });
 
 export const setEditedPath = (path, color = '#000000') => ({
-   type: 'SET_EDITED_PATH',
+   type: actionTypes.SET_EDITED_PATH,
    path: path,
    color: color
 });
 
 export const changeZoom = (deltaZoom) => ({
-    type: 'CHANGE_ZOOM',
+    type: actionTypes.CHANGE_ZOOM,
     deltaZoom
 });
 
 export const shiftCanvas = (shiftX, shiftY) => ({
-    type: 'SHIFT_CANVAS',
+    type: actionTypes.SHIFT_CANVAS,
     shiftX,
     shiftY
 });
 
 export const moveTo = (shiftX, shiftY) => ({
-    type: 'MOVE_TO',
+    type: actionTypes.MOVE_TO,
     shiftX,
     shiftY
 });
 
-export const createDocument = (id, name, editedAt) => ({
-    type: 'CREATE_DOCUMENT',
-    id,
-    name,
-    editedAt
+export const fetchDocuments = () => ({
+    type: actionTypes.FETCH_DOCUMENTS
 });
 
-export const deleteDocument = (id) => ({
-    type: 'DELETE_DOCUMENT',
-    id
-});
+export const itemsFetchDataSuccess = (items) => {
+    return {
+        type: actionTypes.ITEMS_FETCH_DATA_SUCCESS,
+        items: items.documents
+    };
+};
 
-export const renameDocument = (id, name) => ({
-    type: 'RENAME_DOCUMENT',
-    id,
-    name
-});
+export const itemsFetchData = (url) => {
+    return (dispatch) => {
+        fetch(url)
+            .then((response) => {
+                if (!response.ok) {
+                    throw Error(response.statusText);
+                }
+                return response;
+            })
+            .then((response) => response.json())
+            .then((items) => dispatch(itemsFetchDataSuccess(items)))
+            .catch(() => {});
+    };
+};
+
+export const createIllustration = (name) => {
+    return (dispatch) => {
+        const request = new Request(DOCUMENT_LIST_URI, {
+            method: 'POST',
+            mode: 'cors',
+            redirect: 'follow',
+            body: JSON.stringify({
+                name: name
+            }),
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        });
+        fetch(request)
+            .then(r => {
+                r.json()
+                    .then((doc) => {
+                        dispatch({
+                            type: actionTypes.CREATE_DOCUMENT,
+                            id: doc.data._id,
+                            name: doc.data.name,
+                            editedAt: doc.data.editedAt
+                        });
+                    });
+            });
+    };
+};
+
+
+export const deleteDocument = (id) => {
+    return (dispatch) => {
+        const request = new Request(DOCUMENT_LIST_URI + '/' + id, {
+            method: 'DELETE',
+            mode: 'cors',
+            redirect: 'follow',
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        });
+
+        fetch(request)
+            .then(() => {
+                dispatch({
+                    type: actionTypes.DELETE_DOCUMENT,
+                    id
+                })
+            });
+    }
+};
+
+export const renameDocument = (id, name) => {
+    return (dispatch) => {
+        const request = new Request(DOCUMENT_LIST_URI + '/' + id, {
+            method: 'PATCH',
+            mode: 'cors',
+            redirect: 'follow',
+            body: JSON.stringify({
+                name: name
+            }),
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        });
+
+        fetch(request)
+            .then(async (result) => {
+                const document = await result.json();
+                dispatch({
+                    type: actionTypes.RENAME_DOCUMENT,
+                    id,
+                    name,
+                    editedAt: document.editedAt
+                })
+            });
+    }
+};
 
 export const editOn = () => ({
-    type: 'EDIT_ON'
+    type: actionTypes.EDIT_ON
 });
 
 export const editOff = () => ({
-    type: 'EDIT_OFF'
+    type: actionTypes.EDIT_OFF
 });
 
 export const editToggle = () => ({
-    type: 'TOGGLE_EDIT'
+    type: actionTypes.TOGGLE_EDIT
 });

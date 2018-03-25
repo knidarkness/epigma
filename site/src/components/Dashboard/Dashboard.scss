@@ -47,7 +47,7 @@
   padding: 0;
 
   &__item{
-    border: 1px solid #808080;
+    border-top: 1px solid #808080;
     border-bottom: none;
 
     &:last-of-type{
@@ -59,7 +59,7 @@
       background-size: 80%;
       color: white;
       text-decoration: none;
-      margin: auto 40px;
+      margin: auto 10px;
       height: 25px;
       width: 25px;
       padding: 2px;

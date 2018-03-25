@@ -37,6 +37,20 @@ router.post('/', async (req, res) => {
     });
 });
 
+router.patch('/:documentId', async (req, res) => {
+    const illustration = await models.Illustration.findOne({_id: req.params.documentId});
+    illustration.name = req.body.name;
+    illustration.editedAt = Date.now();
+    illustration.save((err) => {
+        if (err){
+            console.log(err);
+            res.status(500).send();
+        } else {
+            res.json(illustration);
+        }
+    })
+});
+
 router.delete('/:documentId/', async (req, res) => {
     await models.Illustration.findByIdAndRemove(req.params.documentId, (err, todo) => {
 
