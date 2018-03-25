@@ -1,11 +1,10 @@
 import React from 'react';
 import * as most from 'most'
 import v4 from 'uuid/v4';
-import {API_URI} from "../../const";
+import {DOCUMENT_LIST_URI} from "../../const";
 import mathjs from 'mathjs';
 
 import './Canvas.scss';
-import {shiftCanvas} from "../../actions";
 
 class Canvas extends React.Component {
     constructor(props) {
@@ -16,15 +15,42 @@ class Canvas extends React.Component {
                     id: 1,
                     color: 'black',
                     path: [
-                        [500, 500, 1],
-                        [10, 100, 1],
-                        [100, 10, 1]
+                        [50, 50, 1],
+                        [200, 50, 1],
+                        [200, 200, 1],
+                        [50, 200, 1],
+                        [50, 50, 1]
+
+                    ]
+                },
+                {
+                    id: 2,
+                    color: 'red',
+                    path: [
+                        [350, 50, 1],
+                        [500, 50, 1],
+                        [500, 200, 1],
+                        [350, 200, 1],
+                        [350, 50, 1]
+
+                    ]
+                },
+                {
+                    id: 3,
+                    color: 'green',
+                    path: [
+                        [200, 250, 1],
+                        [350, 250, 1],
+                        [350, 400, 1],
+                        [200, 400, 1],
+                        [200, 250, 1]
+
                     ]
                 }
             ],
             viewportCenter: [
-                450,
-                300
+                412,
+                260
             ]
         };
     }
@@ -43,24 +69,32 @@ class Canvas extends React.Component {
 
     renderPath(path, i = 0) {
         if (path.path.length === 0) return;
-        const scaleTransformMatrix = mathjs.diag([this.props.canvasMode.zoom, this.props.canvasMode.zoom, 1]);
-        const translateTransformMatrix = mathjs.matrix([[1, 0, this.props.canvasMode.canvasShift.x],
-            [0, 1, this.props.canvasMode.canvasShift.y],
-            [0, 0, 1]]);
+
         const pathLine = path.path
-            .map(point => mathjs.multiply(scaleTransformMatrix, point))
-            .map(point => mathjs.multiply(translateTransformMatrix, point)._data)
-            /*.map(p => {
-                console.log(p);
-                return p;
-            })*/
+            .map(point => mathjs.multiply(this.props.canvasMode.transformMatrix, point)._data)
             .reduce((prev, current) => prev + `${current[0]},${current[1]} `, '');
         return (<polyline data-path-index={i} className="shape" key={i} points={pathLine}
                           style={{fill: 'none', stroke: path.color, strokeWidth: '3'}}/>);
     }
 
+    /*renderPath(path, i = 0, doOffset = true) {
+        if (path.path.length === 0) return;
+        const pathForRender = path.path.map(point => [...point, 1]);
+        const scaleTransformMatrix = mathjs.diag([this.props.canvasMode.zoom, this.props.canvasMode.zoom, 1]);
+        const translateTransformMatrix = mathjs.matrix([[1, 0, this.props.canvasMode.canvasShift.x],
+            [0, 1, this.props.canvasMode.canvasShift.y],
+            [0, 0, 1]]);
+        const pathLine = pathForRender
+            .map(point => doOffset ? mathjs.multiply(scaleTransformMatrix, point) : point)
+            .map(point => doOffset ? mathjs.multiply(translateTransformMatrix, point)._data : point)
+            .reduce((prev, current) => prev + `${current[0]},${current[1]} `, '');
+        return (<polyline data-path-index={i} className="shape" key={i} points={pathLine}
+                          style={{fill: 'none', stroke: path.color, strokeWidth: '3'}}/>);
+    }*/
+
     renderAllSaved() {
         return this.state.renderPaths.map((path, id) => this.renderPath(path, id));
+        //return this.props.paths.map((path, id) => this.renderPath(path, id));
     }
 
     renderPathNodes(path) {
@@ -80,22 +114,9 @@ class Canvas extends React.Component {
         this.props.setEditedPath([...newEditPath, [x, y]]);
     }
 
-    fetchData() {
-        fetch(API_URI)
-            .then(function (response) {
-                return response.json();
-            })
-            .then((data) => {
-                data.paths
-                    .forEach(shape => this.props.createPath(shape));
-            })
-            .catch(err => {
-                console.log(err);
-            });
-    }
 
     pushPathsToBackend() {
-        const request = new Request(API_URI, {
+        const request = new Request(DOCUMENT_LIST_URI + '/' + this.props.documentId + '/paths/', {
             method: 'PUT',
             mode: 'cors',
             redirect: 'follow',
@@ -111,8 +132,7 @@ class Canvas extends React.Component {
     }
 
     componentDidMount() {
-        this.fetchData();
-        console.log(this.state.viewportCenter);
+        this.props.fetchPaths(this.props.documentId);
 
         const canvas = document.querySelector('#canvas');
         const click = most.fromEvent("click", canvas);
@@ -136,9 +156,8 @@ class Canvas extends React.Component {
                     e.x - this.state.viewportCenter[0],
                     e.y - this.state.viewportCenter[1]
                 ];
-                this.props.shiftCanvas(...mouseOffset);
-                this.props.changeZoom((e.deltaY > 0) ? 0.01 : -0.01);
-                this.props.shiftCanvas(-mouseOffset[0], -mouseOffset[1]);
+
+                this.props.changeZoom(((e.deltaY > 0) ? 0.01 : -0.01), e.x, e.y);
             });
 
         keydownEnter
@@ -164,7 +183,6 @@ class Canvas extends React.Component {
 
         keydownDelete
             .observe(e => {
-                console.log('123123123');
                 this.props.setEditedPath([]);
                 this.props.editOff();
                 this.pushPathsToBackend();
@@ -254,7 +272,7 @@ class Canvas extends React.Component {
     render() {
         return (
             <svg id="canvas" className="canvas" width="100%" height="100%">
-                {this.renderPath(this.props.editedPath, 0)}
+                {this.renderPath(this.props.editedPath, 0, false)}
                 {this.renderPathNodes(this.props.editedPath.path)}
                 {this.renderAllSaved()}
             </svg>

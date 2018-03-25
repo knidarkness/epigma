@@ -1,14 +1,30 @@
+import {MOVE_TO, SHIFT_CANVAS, CHANGE_ZOOM} from "../actions/actionTypes";
+
+import mathjs from 'mathjs';
+
 const defaultState = {
-    canvasShift: {
+    left_corner: {
         x: 0,
         y: 0
     },
-    zoom: 1
+    zoom: 1,
+    transformMatrix: mathjs.eye(3),
+    width:0,
+    height:0,
+
 };
+
+const translateMatrix = (x,y) => mathjs.matrix([[1, 0, x],
+    [0, 1, y],
+    [0, 0, 1]]);
+
+const scaleMatrix = (s) => mathjs.matrix([[s, 0, 0],
+    [0, s, 0],
+    [0, 0, 1]]);
 
 const canvasMode = (state = defaultState, action) => {
     switch (action.type){
-        case 'MOVE_TO':
+        case MOVE_TO:
             return {
                 canvasShift: {
                     x: action.shiftX,
@@ -16,21 +32,30 @@ const canvasMode = (state = defaultState, action) => {
                 },
                 zoom: state.zoom
             };
-        case 'SHIFT_CANVAS':
+        case SHIFT_CANVAS:
             return {
-                canvasShift: {
-                    x: state.canvasShift.x + action.shiftX,
-                    y: state.canvasShift.y + action.shiftY
+                left_corner: {
+                    x: state.left_corner.x + action.shiftX,
+                    y: state.left_corner.y + action.shiftY
                 },
-                zoom: state.zoom
+                zoom: state.zoom,
+                transformMatrix: mathjs.multiply(state.transformMatrix,
+                    translateMatrix(action.shiftX, action.shiftY))
             };
         case 'CHANGE_ZOOM':
+            const newZoom = (state.zoom + action.zoom) > 0.5 ? (state.zoom + action.zoom) : 0.5;
+
+            const inv = mathjs.inv(state.transformMatrix);
+            const normalizedCursor = mathjs.multiply(inv, [action.cursorX,action.cursorY, 1])._data;
+
+            const translateToCursor = translateMatrix(normalizedCursor[0], normalizedCursor[1]);
+
+            let transformMatrix = mathjs.multiply(translateToCursor, scaleMatrix(newZoom));
+
+            transformMatrix = mathjs.multiply(transformMatrix, translateMatrix(-normalizedCursor[0], -normalizedCursor[1]));
             return {
-                canvasShift: {
-                    x: state.canvasShift.x,
-                    y: state.canvasShift.y
-                },
-                zoom: state.zoom + action.deltaZoom
+                zoom: newZoom,
+                transformMatrix: transformMatrix
             };
         default:
             return state;

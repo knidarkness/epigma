@@ -22,19 +22,6 @@ const mongodbUri = process.env.db_uri;
 mongoose.connect(mongodbUri)
     .then(async () => {
         console.log('Connected to the database on: ' + mongodbUri);
-        await models.Illustration.find({})
-            .then(data => {
-                if (data.length === 0){
-                    const newPath = new models.Illustration({
-                        paths: [
-                        ]
-                    });
-                    newPath.save();
-                }
-            })
-            .catch(err => {
-                console.log(err);
-            });
     })
     .catch(err => {
         console.log('Error during connecting to: ' + mongodbUri);

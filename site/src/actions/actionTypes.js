@@ -1,0 +1,16 @@
+export const CREATE_PATH = 'CREATE_PATH';
+export const DELETE_PATH = 'DELETE_PATH';
+export const UPDATE_PATH = 'UPDATE_PATH';
+export const SET_EDITED_PATH = 'SET_EDITED_PATH';
+export const CHANGE_ZOOM = 'CHANGE_ZOOM';
+export const SHIFT_CANVAS = 'SHIFT_CANVAS';
+export const MOVE_TO = 'MOVE_TO';
+export const CREATE_DOCUMENT = 'CREATE_DOCUMENT';
+export const DELETE_DOCUMENT = 'DELETE_DOCUMENT';
+export const RENAME_DOCUMENT = 'RENAME_DOCUMENT';
+export const EDIT_ON = 'EDIT_ON';
+export const EDIT_OFF ='EDIT_OFF';
+export const TOGGLE_EDIT = 'TOGGLE_EDIT';
+export const FETCH_DOCUMENTS = 'FETCH_DOCUMENTS';
+export const ITEMS_FETCH_DATA_SUCCESS = 'ITEMS_FETCH_DATA_SUCCESS';
+export const FETCH_PATHS = 'FETCH_PATHS';

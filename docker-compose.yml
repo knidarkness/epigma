@@ -10,7 +10,7 @@ services:
     depends_on:
       - api
     ports:
-      - 80:80
+      - 80:5000
   api:
     build:
       context: ./api
@@ -22,6 +22,8 @@ services:
       epigma_local:
         aliases:
           - epigma.api.docker
+    volumes:
+      - assets_data:/var/epigma/assets
     depends_on:
       - mongo
     ports:
@@ -41,3 +43,4 @@ networks:
 
 volumes:
   mongo_data:
+  assets_data:
