@@ -70,6 +70,7 @@ router.put('/:documentId/paths', async (req, res) => {
     illustrations[0].paths = paths;
     illustrations[0].editedAt = Date.now();
     illustrations[0].save((err, upd) => {
+        console.log('saved 1');
         res.status(200).send();
     });
 });

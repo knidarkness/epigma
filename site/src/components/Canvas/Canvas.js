@@ -35,7 +35,6 @@ class Canvas extends React.Component {
     renderPath(path, i = 0, doOffset = true) {
         if (path.path.length === 0) return;
         const pathForRender = path.path.map(point => [...point, 1]);
-        console.log(pathForRender);
         const scaleTransformMatrix = mathjs.diag([this.props.canvasMode.zoom, this.props.canvasMode.zoom, 1]);
         const translateTransformMatrix = mathjs.matrix([[1, 0, this.props.canvasMode.canvasShift.x],
             [0, 1, this.props.canvasMode.canvasShift.y],
@@ -49,7 +48,6 @@ class Canvas extends React.Component {
     }
 
     renderAllSaved() {
-        console.log(this.props.paths);
         return this.props.paths.map((path, id) => this.renderPath(path, id));
     }
 
@@ -71,17 +69,7 @@ class Canvas extends React.Component {
     }
 
     fetchData() {
-        fetch(DOCUMENT_LIST_URI + '/' + this.props.documentId + '/paths/')
-            .then(function (response) {
-                return response.json();
-            })
-            .then((data) => {
-                data.paths
-                    .forEach(shape => this.props.createPath(shape));
-            })
-            .catch(err => {
-                console.log(err);
-            });
+        this.props.fetchPaths(this.props.documentId);
     }
 
     pushPathsToBackend() {
@@ -96,6 +84,7 @@ class Canvas extends React.Component {
                 'Content-Type': 'application/json'
             })
         });
+        console.log(this.props.documentId);
 
         fetch(request);
     }

@@ -26,18 +26,21 @@ const illustration = (state, action) => {
 const documents = (state=[], action) => {
     switch (action.type){
         case ITEMS_FETCH_DATA_SUCCESS:
-            return [...action.items];
+            return [...action.items]
+                .sort((a, b) => b.editedAt - a.editedAt);
         case CREATE_DOCUMENT:
             return [
                 ...state,
                 illustration(undefined, action)
-            ];
+            ]
+                .sort((a, b) => b.editedAt - a.editedAt);
         case DELETE_DOCUMENT:
             return state
                 .filter((d) => d.id !== action.id);
         case RENAME_DOCUMENT:
             return state
-                .map(p => illustration(p, action));
+                .map(p => illustration(p, action))
+                .sort((a, b) => b.editedAt - a.editedAt);
         default:
             return state;
     }

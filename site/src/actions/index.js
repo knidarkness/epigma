@@ -146,6 +146,25 @@ export const renameDocument = (id, name) => {
     }
 };
 
+export const fetchPaths = (id) => {
+    return (dispatch) => {
+        fetch(DOCUMENT_LIST_URI + '/' + id + '/paths/')
+            .then(function (response) {
+                return response.json();
+            })
+            .then((data) => {
+                console.log(data);
+                dispatch({
+                    type: actionTypes.FETCH_PATHS,
+                    paths: data.paths
+                });
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    };
+};
+
 export const editOn = () => ({
     type: actionTypes.EDIT_ON
 });

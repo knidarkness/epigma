@@ -1,4 +1,5 @@
-import {CREATE_PATH, DELETE_PATH, UPDATE_PATH} from "../actions/actionTypes";
+import {CREATE_PATH, FETCH_PATHS, DELETE_PATH, UPDATE_PATH} from "../actions/actionTypes";
+import * as uuid from 'uuid/v4';
 
 const path = (state, action) => {
     switch (action.type){
@@ -22,6 +23,12 @@ const path = (state, action) => {
 
 const paths = (state = [], action) => {
     switch (action.type){
+        case FETCH_PATHS:
+            return action.paths.map(nodes => ({
+                id: uuid(),
+                path: nodes,
+                color: 'black'
+            }));
         case CREATE_PATH:
             return [
                 ...state,
