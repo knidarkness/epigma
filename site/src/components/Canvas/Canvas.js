@@ -5,20 +5,55 @@ import {DOCUMENT_LIST_URI} from "../../const";
 import mathjs from 'mathjs';
 
 import './Canvas.scss';
-import {shiftCanvas} from "../../actions";
 
 class Canvas extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            renderPaths: [
+                {
+                    id: 1,
+                    color: 'black',
+                    path: [
+                        [50, 50, 1],
+                        [200, 50, 1],
+                        [200, 200, 1],
+                        [50, 200, 1],
+                        [50, 50, 1]
+
+                    ]
+                },
+                {
+                    id: 2,
+                    color: 'red',
+                    path: [
+                        [350, 50, 1],
+                        [500, 50, 1],
+                        [500, 200, 1],
+                        [350, 200, 1],
+                        [350, 50, 1]
+
+                    ]
+                },
+                {
+                    id: 3,
+                    color: 'green',
+                    path: [
+                        [200, 250, 1],
+                        [350, 250, 1],
+                        [350, 400, 1],
+                        [200, 400, 1],
+                        [200, 250, 1]
+
+                    ]
+                }
+            ],
             viewportCenter: [
-                450,
-                300
+                412,
+                260
             ]
         };
     }
-
-
 
     getOffsetedPoint(point) {
         const x = (point[0] + this.props.canvasMode.canvasShift.x) * this.props.canvasMode.zoom;
@@ -32,7 +67,17 @@ class Canvas extends React.Component {
         return [x, y];
     }
 
-    renderPath(path, i = 0, doOffset = true) {
+    renderPath(path, i = 0) {
+        if (path.path.length === 0) return;
+
+        const pathLine = path.path
+            .map(point => mathjs.multiply(this.props.canvasMode.transformMatrix, point)._data)
+            .reduce((prev, current) => prev + `${current[0]},${current[1]} `, '');
+        return (<polyline data-path-index={i} className="shape" key={i} points={pathLine}
+                          style={{fill: 'none', stroke: path.color, strokeWidth: '3'}}/>);
+    }
+
+    /*renderPath(path, i = 0, doOffset = true) {
         if (path.path.length === 0) return;
         const pathForRender = path.path.map(point => [...point, 1]);
         const scaleTransformMatrix = mathjs.diag([this.props.canvasMode.zoom, this.props.canvasMode.zoom, 1]);
@@ -45,10 +90,11 @@ class Canvas extends React.Component {
             .reduce((prev, current) => prev + `${current[0]},${current[1]} `, '');
         return (<polyline data-path-index={i} className="shape" key={i} points={pathLine}
                           style={{fill: 'none', stroke: path.color, strokeWidth: '3'}}/>);
-    }
+    }*/
 
     renderAllSaved() {
-        return this.props.paths.map((path, id) => this.renderPath(path, id));
+        return this.state.renderPaths.map((path, id) => this.renderPath(path, id));
+        //return this.props.paths.map((path, id) => this.renderPath(path, id));
     }
 
     renderPathNodes(path) {
@@ -68,9 +114,6 @@ class Canvas extends React.Component {
         this.props.setEditedPath([...newEditPath, [x, y]]);
     }
 
-    fetchData() {
-        this.props.fetchPaths(this.props.documentId);
-    }
 
     pushPathsToBackend() {
         const request = new Request(DOCUMENT_LIST_URI + '/' + this.props.documentId + '/paths/', {
@@ -84,13 +127,13 @@ class Canvas extends React.Component {
                 'Content-Type': 'application/json'
             })
         });
-        console.log(this.props.documentId);
 
         fetch(request);
     }
 
     componentDidMount() {
-        this.fetchData();
+        this.props.fetchPaths(this.props.documentId);
+
         const canvas = document.querySelector('#canvas');
         const click = most.fromEvent("click", canvas);
         const mousemove = most.fromEvent("mousemove", document);
@@ -113,9 +156,8 @@ class Canvas extends React.Component {
                     e.x - this.state.viewportCenter[0],
                     e.y - this.state.viewportCenter[1]
                 ];
-                this.props.shiftCanvas(...mouseOffset);
-                this.props.changeZoom((e.deltaY > 0) ? 0.01 : -0.01);
-                this.props.shiftCanvas(-mouseOffset[0], -mouseOffset[1]);
+
+                this.props.changeZoom(((e.deltaY > 0) ? 0.01 : -0.01), e.x, e.y);
             });
 
         keydownEnter
@@ -141,7 +183,6 @@ class Canvas extends React.Component {
 
         keydownDelete
             .observe(e => {
-                console.log('123123123');
                 this.props.setEditedPath([]);
                 this.props.editOff();
                 this.pushPathsToBackend();
