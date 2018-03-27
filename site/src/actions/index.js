@@ -40,12 +40,6 @@ export const shiftCanvas = (shiftX, shiftY) => ({
     shiftY
 });
 
-export const moveTo = (shiftX, shiftY) => ({
-    type: actionTypes.MOVE_TO,
-    shiftX,
-    shiftY
-});
-
 export const fetchDocuments = () => ({
     type: actionTypes.FETCH_DOCUMENTS
 });
