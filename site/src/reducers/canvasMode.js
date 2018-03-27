@@ -43,16 +43,14 @@ const canvasMode = (state = defaultState, action) => {
                     translateMatrix(action.shiftX, action.shiftY))
             };
         case 'CHANGE_ZOOM':
-            const newZoom = (state.zoom + action.zoom) > 0.5 ? (state.zoom + action.zoom) : 0.5;
-
+            const newZoom = Math.max(state.zoom + action.zoom, 0.5);
+    
             const inv = mathjs.inv(state.transformMatrix);
             const normalizedCursor = mathjs.multiply(inv, [action.cursorX,action.cursorY, 1])._data;
 
-            const translateToCursor = translateMatrix(normalizedCursor[0], normalizedCursor[1]);
-
-            let transformMatrix = mathjs.multiply(translateToCursor, scaleMatrix(newZoom));
-
-            transformMatrix = mathjs.multiply(transformMatrix, translateMatrix(-normalizedCursor[0], -normalizedCursor[1]));
+            let transformMatrix = translateMatrix(action.cursorX,action.cursorY);
+                transformMatrix = mathjs.multiply(transformMatrix, scaleMatrix(newZoom));
+                transformMatrix = mathjs.multiply(transformMatrix, translateMatrix(-normalizedCursor[0], -normalizedCursor[1]));
             return {
                 zoom: newZoom,
                 transformMatrix: transformMatrix
