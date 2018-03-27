@@ -18,7 +18,10 @@ class Dashboard extends React.Component {
     }
 
     async deleteDocument(documentId){
-        this.props.deleteDocument(documentId);
+        const confirmed = confirm('Are you sure, you want to delete this document?');
+        if (confirmed){
+            this.props.deleteDocument(documentId);
+        }
     }
 
     async editDocument(documentId){
