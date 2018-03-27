@@ -34,12 +34,9 @@ describe('Paths reducer tests', function() {
         //not working properly yet
         assert.deepEqual(actual, expected);
     });
-   // it('Update the path in the state', function () {
-       /* const actual = pathReducers([{id: 1, color: 'black', path: [
-            [50, 50, 1],
-            [200, 50, 1]]
-        }]);
-       // const expected = ;
-    })*/
+    it('Update the existing path', function () {
+    const actual = [];
+    const expected = [];
+    });
 
 });
