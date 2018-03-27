@@ -76,22 +76,7 @@ class Canvas extends React.Component {
         return (<polyline data-path-index={i} className="shape" key={i} points={pathLine}
                           style={{fill: 'none', stroke: path.color, strokeWidth: '3'}}/>);
     }
-
-    /*renderPath(path, i = 0, doOffset = true) {
-        if (path.path.length === 0) return;
-        const pathForRender = path.path.map(point => [...point, 1]);
-        const scaleTransformMatrix = mathjs.diag([this.props.canvasMode.zoom, this.props.canvasMode.zoom, 1]);
-        const translateTransformMatrix = mathjs.matrix([[1, 0, this.props.canvasMode.canvasShift.x],
-            [0, 1, this.props.canvasMode.canvasShift.y],
-            [0, 0, 1]]);
-        const pathLine = pathForRender
-            .map(point => doOffset ? mathjs.multiply(scaleTransformMatrix, point) : point)
-            .map(point => doOffset ? mathjs.multiply(translateTransformMatrix, point)._data : point)
-            .reduce((prev, current) => prev + `${current[0]},${current[1]} `, '');
-        return (<polyline data-path-index={i} className="shape" key={i} points={pathLine}
-                          style={{fill: 'none', stroke: path.color, strokeWidth: '3'}}/>);
-    }*/
-
+    
     renderAllSaved() {
         return this.state.renderPaths.map((path, id) => this.renderPath(path, id));
         //return this.props.paths.map((path, id) => this.renderPath(path, id));
