@@ -47,10 +47,6 @@ class Canvas extends React.Component {
 
                     ]
                 }
-            ],
-            viewportCenter: [
-                412,
-                260
             ]
         };
     }
@@ -66,6 +62,7 @@ class Canvas extends React.Component {
 
     renderPath(path, i = 0) {
         if (path.path.length === 0) return;
+        // console.log(path)
         const pathLine = path.path
             .map(point => this.getOffsetedPoint(point))
             .reduce((prev, current) => prev + `${current[0]},${current[1]} `, '');
@@ -74,8 +71,8 @@ class Canvas extends React.Component {
     }
 
     renderAllSaved() {
-        return this.state.renderPaths.map((path, id) => this.renderPath(path, id));
-        //return this.props.paths.map((path, id) => this.renderPath(path, id));
+        // return this.state.renderPaths.map((path, id) => this.renderPath(path, id));
+        return this.props.paths.map((path, id) => this.renderPath(path, id));
     }
 
     renderPathNodes(path) {
@@ -178,7 +175,8 @@ class Canvas extends React.Component {
             })
             .chain(p => {
                 this.props.editOff();
-                this.addPathNode(p.x, p.y);
+                p = this.getNormalizedPoint([p.x, p.y])
+                this.addPathNode(p[0],p[1]);
                 return click
                     .until(keydownEnter)
             })
@@ -194,7 +192,7 @@ class Canvas extends React.Component {
                 this.props.editOn();
 
                 const editPath = this.props.paths[Number(e.target.dataset.pathIndex)];
-                this.props.setEditedPath(editPath);
+                this.props.setEditedPath(editPath.path);
 
                 this.props.deletePath(Number(e.target.dataset.pathIndex));
             });
@@ -216,9 +214,9 @@ class Canvas extends React.Component {
             .map(e => e.code)
             .filter(e => {
                 return e === 'ArrowLeft' ||
-                       e === 'ArrowRight' ||
-                       e === 'ArrowUp' ||
-                       e === 'ArrowDown';
+                    e === 'ArrowRight' ||
+                    e === 'ArrowUp' ||
+                    e === 'ArrowDown';
             })
             .observe((e) => {
                 switch (e) {
