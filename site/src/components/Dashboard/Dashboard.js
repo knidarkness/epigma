@@ -23,7 +23,9 @@ class Dashboard extends React.Component {
 
     async editDocument(documentId){
         const newName = prompt('Enter new document name', 'Current name');
-        this.props.renameDocument(documentId, newName);
+        if (newName && newName.length > 0){
+            this.props.renameDocument(documentId, newName);
+        }
     }
 
     async componentDidMount() {
