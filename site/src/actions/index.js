@@ -150,7 +150,6 @@ export const fetchPaths = (id) => {
                 return response.json();
             })
             .then((data) => {
-                console.log(data);
                 dispatch({
                     type: actionTypes.FETCH_PATHS,
                     paths: data.paths
