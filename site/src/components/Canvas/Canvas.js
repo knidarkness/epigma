@@ -9,46 +9,6 @@ import './Canvas.scss';
 class Canvas extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            renderPaths: [
-                {
-                    id: 1,
-                    color: 'black',
-                    path: [
-                        [50, 50, 1],
-                        [200, 50, 1],
-                        [200, 200, 1],
-                        [50, 200, 1],
-                        [50, 50, 1]
-
-                    ]
-                },
-                {
-                    id: 2,
-                    color: 'red',
-                    path: [
-                        [350, 50, 1],
-                        [500, 50, 1],
-                        [500, 200, 1],
-                        [350, 200, 1],
-                        [350, 50, 1]
-
-                    ]
-                },
-                {
-                    id: 3,
-                    color: 'green',
-                    path: [
-                        [200, 250, 1],
-                        [350, 250, 1],
-                        [350, 400, 1],
-                        [200, 400, 1],
-                        [200, 250, 1]
-
-                    ]
-                }
-            ]
-        };
     }
 
     getOffsetedPoint(point) {
@@ -71,7 +31,6 @@ class Canvas extends React.Component {
     }
 
     renderAllSaved() {
-        // return this.state.renderPaths.map((path, id) => this.renderPath(path, id));
         return this.props.paths.map((path, id) => this.renderPath(path, id));
     }
 
@@ -197,16 +156,18 @@ class Canvas extends React.Component {
                 this.props.deletePath(Number(e.target.dataset.pathIndex));
             });
 
+        let editNode = -1;
         mousedown // edit node of the line
             .filter(e => e.target.dataset && 'nodeIndex' in e.target.dataset)
             .chain(md => {
+                editNode = Number(md.target.dataset.nodeIndex);
                 return mousemove
                     .until(mouseup);
             })
-            .filter(e => e.target.dataset && 'nodeIndex' in e.target.dataset)
+            //.filter(e => e.target.dataset && 'nodeIndex' in e.target.dataset)
             .observe(e => {
                 const newEditPath = this.props.editedPath.path;
-                newEditPath[Number(e.target.dataset.nodeIndex)] = this.getNormalizedPoint([e.x, e.y]);
+                newEditPath[editNode] = this.getNormalizedPoint([e.x, e.y]);
                 this.props.setEditedPath(newEditPath);
             });
 
@@ -238,13 +199,19 @@ class Canvas extends React.Component {
             });
     }
 
+    undo(){
+        this.props.undo();
+    }
+
     render() {
         return (
-            <svg id="canvas" className="canvas" width="100%" height="100%">
-                {this.renderPath(this.props.editedPath, 0, false)}
-                {this.renderPathNodes(this.props.editedPath.path)}
-                {this.renderAllSaved()}
-            </svg>
+            <div>
+                <svg id="canvas" className="canvas" width="100%" height="100%">
+                    {this.renderPath(this.props.editedPath, 0, false)}
+                    {this.renderPathNodes(this.props.editedPath.path)}
+                    {this.renderAllSaved()}
+                </svg>
+            </div>
         )
     }
 }
