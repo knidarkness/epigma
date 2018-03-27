@@ -171,6 +171,16 @@ class Canvas extends React.Component {
                 this.props.setEditedPath(newEditPath);
             });
 
+        mousedown
+            .filter(e => !e.target.dataset || !('nodeIndex' in e.target.dataset))
+            .chain(md => {
+                return mousemove
+                    .until(mouseup);
+            })
+            .observe(e => {
+               this.props.shiftCanvas(e.movementX, e.movementY);
+            });
+
         keydown // scroll canvas
             .map(e => e.code)
             .filter(e => {
