@@ -5,8 +5,9 @@ import {changeZoom} from "../actions";
 import Stats from '../components/Stats/Stats';
 
 const mapStateToProps = (state) => ({
-    paths: state.paths.length,
-    nodes:  state.paths.reduce((acc, element) => acc + element.path.length, 0)
+    paths: state.paths.present.length,
+    canvasMode: state.canvasMode,
+    nodes:  state.paths.present.reduce((acc, element) => acc + element.path.length, 0)
 });
 
 const StatsData = connect(

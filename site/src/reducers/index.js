@@ -4,13 +4,15 @@ import canvasMode from './canvasMode';
 import edit from './edit';
 import editedPath from './editedPath';
 import documents from './documents';
+import editorMode from './editorMode';
 
 const epigmaReducers = combineReducers({
     paths,
     canvasMode,
     edit,
     editedPath,
-    documents
+    documents,
+    editorMode
 });
 
 export default epigmaReducers;

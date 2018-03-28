@@ -1,12 +1,102 @@
 .toolbar {
   position: fixed;
-  right: 0;
+  left: 0;
   height: 100%;
-  width: 20vw;
+  width: 60px;
   background-color: #212528;
-  border-left: 1px solid #e5e5e5;
+  border-right: 1px solid #e5e5e5;
   box-shadow: 1px 1px 15px 1px #e5e5e5;
   z-index: 100;
+
+  &__title{
+    font-size: 32px;
+    margin: 10px auto;
+    text-decoration: none;
+    font-weight: 400;
+    display: block;
+    font-family: "Helvetica Neue", serif;
+    text-align: center;
+    color: #ff2d5e;
+  };
+
+  &__button{
+    margin: 10px;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: transparent;
+    position: relative;
+    border-radius: 6px;
+
+    &:hover{
+      cursor: pointer;
+      background-color: rgba(1, 1, 1, 0.3) !important;
+    }
+
+    &_active{
+      background-color: rgba(1, 1, 1, 0.3) !important;
+
+      &::after{
+        position: absolute;
+        bottom: -4px;
+        margin: auto;
+        left: 0;
+        right: 0;
+        display: block;
+        content: '';
+        width: 8px;
+        height: 8px;
+        background: #ff2d5e;
+        border-radius: 50%;
+        box-shadow: 0 0 20px #ff4c7a;
+      }
+    }
+
+    &_zoom-in{
+      background: url("/assets/zoom-in.svg") no-repeat center;
+      background-size: 65%;
+      stroke-width: 2px;
+    }
+
+    &_zoom-out{
+      background: url("/assets/zoom-out.svg") no-repeat center;
+      background-size: 65%;
+      stroke-width: 2px;
+    }
+
+    &_undo{
+      background: url("/assets/undo.svg") no-repeat center;
+      background-size: 65%;
+      stroke-width: 2px;
+    }
+
+    &_redo{
+      background: url("/assets/undo.svg") no-repeat center;
+      background-size: 65%;
+      -moz-transform: scaleX(-1);
+      -o-transform: scaleX(-1);
+      -webkit-transform: scaleX(-1);
+      transform: scaleX(-1);
+      stroke-width: 2px;
+    }
+
+    &_view{
+      background: url("/assets/hold.svg") no-repeat center;
+      background-size: 65%;
+      stroke-width: 2px;
+    }
+
+    &_edit{
+      background: url("/assets/pencil.svg") no-repeat center;
+      background-size: 65%;
+      stroke-width: 2px;
+    }
+
+    &_delete{
+      background: url("/assets/erase-text.svg") no-repeat center;
+      background-size: 65%;
+    }
+  }
 }
 
 .zoom {

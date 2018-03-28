@@ -1,7 +1,7 @@
 import React from 'react';
 import * as most from 'most'
 import v4 from 'uuid/v4';
-import {DOCUMENT_LIST_URI} from "../../const";
+import {DOCUMENT_LIST_URI, VIEW_MODE, DRAW_MODE, DELETE_MODE} from "../../const";
 import mathjs from 'mathjs';
 
 import './Canvas.scss';
@@ -116,7 +116,16 @@ class Canvas extends React.Component {
                 this.pushPathsToBackend();
             });
 
-        doubleclick // animate drawing
+        click // enter edit mode
+            .filter(e => this.props.editorMode === DELETE_MODE)
+            .filter(e => e.target.dataset && 'pathIndex' in e.target.dataset)
+            .observe(e => {
+                this.props.deletePath(e.target.dataset.pathIndex);
+                this.pushPathsToBackend();
+            });
+
+        click // animate drawing
+            .filter(e => this.props.editorMode === DRAW_MODE)
             .filter(e => {
                 return !(e.target.dataset && 'pathIndex' in e.target.dataset)
             })
@@ -127,13 +136,14 @@ class Canvas extends React.Component {
             .map(e => this.getNormalizedPoint([e.x, e.y]))
             .observe(e => this.setTempNode(e[0], e[1]));
 
-        doubleclick // draw line
+        click // draw line
+            .filter(e => this.props.editorMode === DRAW_MODE)
             .filter(e => {
                 return !(e.target.dataset && 'pathIndex' in e.target.dataset)
             })
             .chain(p => {
                 this.props.editOff();
-                p = this.getNormalizedPoint([p.x, p.y])
+                p = this.getNormalizedPoint([p.x, p.y]);
                 this.addPathNode(p[0],p[1]);
                 return click
                     .until(keydownEnter)
@@ -142,13 +152,11 @@ class Canvas extends React.Component {
             .observe(e => this.addPathNode(e[0], e[1]));
 
 
-        doubleclick // enter edit mode
-            .filter(e => {
-                return e.target.dataset && 'pathIndex' in e.target.dataset;
-            })
+        click // enter edit mode
+            .filter(e => this.props.editorMode === DRAW_MODE)
+            .filter(e => e.target.dataset && 'pathIndex' in e.target.dataset)
             .observe(e => {
                 this.props.editOn();
-
                 const editPath = this.props.paths.filter(path => path.id === e.target.dataset.pathIndex)[0];
                 this.props.setEditedPath(editPath.path);
 
@@ -157,13 +165,13 @@ class Canvas extends React.Component {
 
         let editNode = -1;
         mousedown // edit node of the line
+            .filter(e => this.props.editorMode === DRAW_MODE)
             .filter(e => e.target.dataset && 'nodeIndex' in e.target.dataset)
             .chain(md => {
                 editNode = Number(md.target.dataset.nodeIndex);
                 return mousemove
                     .until(mouseup);
             })
-            //.filter(e => e.target.dataset && 'nodeIndex' in e.target.dataset)
             .observe(e => {
                 const newEditPath = this.props.editedPath.path;
                 newEditPath[editNode] = this.getNormalizedPoint([e.x, e.y]);
@@ -171,40 +179,13 @@ class Canvas extends React.Component {
             });
 
         mousedown
-            .filter(e => !e.target.dataset || !('nodeIndex' in e.target.dataset))
+            .filter(e => this.props.editorMode === VIEW_MODE)
             .chain(md => {
                 return mousemove
                     .until(mouseup);
             })
             .observe(e => {
                this.props.shiftCanvas(e.movementX, e.movementY);
-            });
-
-        keydown // scroll canvas
-            .map(e => e.code)
-            .filter(e => {
-                return e === 'ArrowLeft' ||
-                    e === 'ArrowRight' ||
-                    e === 'ArrowUp' ||
-                    e === 'ArrowDown';
-            })
-            .observe((e) => {
-                switch (e) {
-                    case 'ArrowLeft':
-                        this.props.shiftCanvas(10, 0);
-                        break;
-                    case 'ArrowRight':
-                        this.props.shiftCanvas(-10, 0);
-                        break;
-                    case 'ArrowUp':
-                        this.props.shiftCanvas(0, 10);
-                        break;
-                    case 'ArrowDown':
-                        this.props.shiftCanvas(0, -10);
-                        break;
-                    default:
-                        break;
-                }
             });
     }
 
@@ -213,9 +194,23 @@ class Canvas extends React.Component {
     }
 
     render() {
+        let activeCursor ;
+        switch (this.props.editorMode){
+            case (DRAW_MODE):
+                activeCursor = 'crosshair';
+                break;
+            case (VIEW_MODE):
+                activeCursor = 'grab';
+                break;
+            case (DELETE_MODE):
+                activeCursor = 'crosshair';
+                break;
+            default:
+                activeCursor = 'auto';
+        }
         return (
             <div>
-                <svg id="canvas" className="canvas" width="100%" height="100%">
+                <svg id="canvas" className="canvas" width="100%" height="100%" style={{cursor: activeCursor}}>
                     {this.renderPath(this.props.editedPath, 0, false)}
                     {this.renderPathNodes(this.props.editedPath.path)}
                     {this.renderAllSaved()}

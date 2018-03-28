@@ -153,7 +153,7 @@ export const fetchPaths = (id) => {
                 dispatch({
                     type: actionTypes.FETCH_PATHS,
                     paths: data.paths.map(path => ({
-                        id: 1,
+                        id: uuid4(),
                         path: path,
                         color: 'black'
                     }))
@@ -164,6 +164,18 @@ export const fetchPaths = (id) => {
             });
     };
 };
+
+export const enableDrawMode = () => ({
+    type: actionTypes.ENABLE_DRAW_MODE
+});
+
+export const enableViewMode = () => ({
+    type: actionTypes.ENABLE_VIEW_MODE
+});
+
+export const enableDeleteMode = () => ({
+    type: actionTypes.ENABLE_DELETE_MODE
+});
 
 export const editOn = () => ({
     type: actionTypes.EDIT_ON
