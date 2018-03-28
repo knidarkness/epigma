@@ -28,6 +28,12 @@
     position: relative;
     border-radius: 6px;
 
+    outline: none;
+
+    &:hover, &:active, &:focus, &:visited{
+      outline: none;
+    }
+
     &:hover{
       cursor: pointer;
       background-color: rgba(1, 1, 1, 0.3) !important;
