@@ -18,12 +18,17 @@ class Dashboard extends React.Component {
     }
 
     async deleteDocument(documentId){
-        this.props.deleteDocument(documentId);
+        const confirmed = confirm('Are you sure, you want to delete this document?');
+        if (confirmed){
+            this.props.deleteDocument(documentId);
+        }
     }
 
     async editDocument(documentId){
         const newName = prompt('Enter new document name', 'Current name');
-        this.props.renameDocument(documentId, newName);
+        if (newName && newName.length > 0){
+            this.props.renameDocument(documentId, newName);
+        }
     }
 
     async componentDidMount() {
@@ -44,7 +49,6 @@ class Dashboard extends React.Component {
     }
 
     render() {
-        console.log(this.props.documents);
         return (
             <div>
                 <Header/>

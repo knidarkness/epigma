@@ -13,7 +13,6 @@ router.put('/', async (req, res) => {
     const illustrations = await models.Illustration.find({});
     illustrations[0].paths = paths;
     illustrations[0].save((err, upd) => {
-        console.log('saved 222');
         res.status(200).send();
     });
 });
