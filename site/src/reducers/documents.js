@@ -1,8 +1,5 @@
 const actionTypes = require('../actions/actionTypes');
 
-//import {CREATE_DOCUMENT, DELETE_DOCUMENT, RENAME_DOCUMENT, ITEMS_FETCH_DATA_SUCCESS} from "../actions/actionTypes";
-
-
 const illustration = (state, action) => {
     switch (action.type) {
         case actionTypes.CREATE_DOCUMENT:

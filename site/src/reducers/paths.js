@@ -19,6 +19,7 @@ function path(state, action) {
             if (state.id !== action.id) return state;
             return {
                 id: state.id,
+                color: state.color,
                 path: action.path
             }
     }
@@ -26,11 +27,11 @@ function path(state, action) {
 
 const paths = (state = [], action) => {
     switch (action.type){
-        case  actionTypes.FETCH_PATHS:
-            return action.paths.map(nodes => ({
-                id: uuid(),
-                path: nodes,
-                color: 'black'
+        case actionTypes.FETCH_PATHS:
+            return action.paths.map(shape => ({
+                id: shape.id,
+                path: shape.path,
+                color: shape.color
             }));
         case  actionTypes.CREATE_PATH:
             return [
@@ -39,7 +40,9 @@ const paths = (state = [], action) => {
             ];
         case  actionTypes.DELETE_PATH:
             return state
-                .filter((p, id) => id !== action.id);
+                .filter((p, id) => {
+                    return p.id !== action.id
+                });
         case  actionTypes.UPDATE_PATH:
             return state
                 .map(p => path(p, action));
@@ -50,5 +53,4 @@ const paths = (state = [], action) => {
 
 //const undoablePaths = undoable(paths, {filter: includeAction(['CREATE_PATH', 'DELETE_PATH', 'UPDATE_PATH'])});
 
-module.exports = path;
 module.exports = paths;

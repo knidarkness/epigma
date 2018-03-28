@@ -1,6 +1,5 @@
-import {MOVE_TO, SHIFT_CANVAS, CHANGE_ZOOM} from "../actions/actionTypes";
-
-import mathjs from 'mathjs';
+const actionTypes = require('./../actions/actionTypes');
+const mathjs = require('mathjs');
 
 const defaultState = {
     zoom: 1,
@@ -17,13 +16,13 @@ const scaleMatrix = (sx, sy) => mathjs.matrix([[sx, 0, 0],
 
 const canvasMode = (state = defaultState, action) => {
     switch (action.type){
-        case SHIFT_CANVAS:
+        case actionTypes.SHIFT_CANVAS:
             return {
                 zoom: state.zoom,
                 transformMatrix: mathjs.multiply(state.transformMatrix,
                     translateMatrix(action.shiftX, action.shiftY))
             };
-        case CHANGE_ZOOM:
+        case actionTypes.CHANGE_ZOOM:
             const newZoom = Math.max(state.zoom + action.zoom, 0.5);
     
             const inv = mathjs.inv(state.transformMatrix);
@@ -41,4 +40,4 @@ const canvasMode = (state = defaultState, action) => {
     }
 };
 
-export default canvasMode;
+module.exports = canvasMode;
