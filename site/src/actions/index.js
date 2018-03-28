@@ -152,7 +152,11 @@ export const fetchPaths = (id) => {
             .then((data) => {
                 dispatch({
                     type: actionTypes.FETCH_PATHS,
-                    paths: data.paths
+                    paths: data.paths.map(path => ({
+                        id: 1,
+                        path: path,
+                        color: 'black'
+                    }))
                 });
             })
             .catch(err => {

@@ -8,15 +8,12 @@
     "build": "webpack",
     "prod": "npm run build && echo 'done'",
     "start": "npm run dev | serve --single",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha ./test/*"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-react": "^6.24.1",
     "css-loader": "^0.28.10",
     "helmet": "^3.12.0",
     "mathjs": "^4.0.1",
@@ -35,5 +32,13 @@
     "style-loader": "^0.20.2",
     "uuid": "^3.2.1",
     "webpack": "^3.11.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0-beta.42",
+    "@babel/preset-env": "^7.0.0-beta.42",
+    "@babel/preset-stage-3": "^7.0.0-beta.42",
+    "@babel/register": "^7.0.0-beta.42",
+    "mocha": "^5.0.5",
+    "qunit": "^2.5.1"
   }
 }

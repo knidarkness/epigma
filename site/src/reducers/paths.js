@@ -1,43 +1,49 @@
-import {CREATE_PATH, FETCH_PATHS, DELETE_PATH, UPDATE_PATH} from "../actions/actionTypes";
-import * as uuid from 'uuid/v4';
+//import {CREATE_PATH, FETCH_PATHS, DELETE_PATH, UPDATE_PATH} from "../actions/actionTypes";
+//import * as uuid from 'uuid/v4';
+const actionTypes = require('../actions/actionTypes');
+const uuid = require('uuid/v4');
 
-const path = (state, action) => {
+
+function path(state, action) {
     switch (action.type){
-        case CREATE_PATH:
+        case actionTypes.CREATE_PATH:
             return {
                 id: action.id,
                 path: action.path,
                 color: action.color
             };
-        case DELETE_PATH:
+        case actionTypes.DELETE_PATH:
             if (state.id !== action.id) return state;
             else return null;
-        case UPDATE_PATH:
+        case  actionTypes.UPDATE_PATH:
             if (state.id !== action.id) return state;
             return {
                 id: state.id,
+                color: state.color,
                 path: action.path
             }
     }
-};
+}
 
 const paths = (state = [], action) => {
     switch (action.type){
-        case FETCH_PATHS:
-            return action.paths.map(nodes => ({
-                id: uuid(),
-                path: nodes,
-                color: 'black'
+        case actionTypes.FETCH_PATHS:
+            return action.paths.map(shape => ({
+                id: shape.id,
+                path: shape.path,
+                color: shape.color
             }));
-        case CREATE_PATH:
+        case  actionTypes.CREATE_PATH:
             return [
                 ...state,
                 path(undefined, action)
             ];
-        case DELETE_PATH:
+        case  actionTypes.DELETE_PATH:
             return state
-                .filter((p, id) => id !== action.id);
-        case UPDATE_PATH:
+                .filter((p, id) => {
+                    return p.id !== action.id
+                });
+        case  actionTypes.UPDATE_PATH:
             return state
                 .map(p => path(p, action));
         default:
@@ -47,4 +53,4 @@ const paths = (state = [], action) => {
 
 //const undoablePaths = undoable(paths, {filter: includeAction(['CREATE_PATH', 'DELETE_PATH', 'UPDATE_PATH'])});
 
-export default paths;
+module.exports = paths;

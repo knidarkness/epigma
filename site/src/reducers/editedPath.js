@@ -1,4 +1,4 @@
-import {SET_EDITED_PATH} from "../actions/actionTypes";
+const actionTypes = require('./../actions/actionTypes');
 
 const defaultEditedPath = {
     path: [],
@@ -7,7 +7,7 @@ const defaultEditedPath = {
 
 const editedPath = (state = defaultEditedPath, action) => {
     switch (action.type){
-        case SET_EDITED_PATH:
+        case actionTypes.SET_EDITED_PATH:
             return {
                 path: action.path,
                 color: action.color
@@ -17,4 +17,4 @@ const editedPath = (state = defaultEditedPath, action) => {
     }
 };
 
-export default editedPath;
+module.exports = editedPath;

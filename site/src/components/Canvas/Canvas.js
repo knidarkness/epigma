@@ -22,11 +22,10 @@ class Canvas extends React.Component {
 
     renderPath(path, i = 0) {
         if (path.path.length === 0) return;
-        // console.log(path)
         const pathLine = path.path
             .map(point => this.getOffsetedPoint(point))
             .reduce((prev, current) => prev + `${current[0]},${current[1]} `, '');
-        return (<polyline data-path-index={i} className="shape" key={i} points={pathLine}
+        return (<polyline data-path-index={path.id} className="shape" key={i} points={pathLine}
                           style={{fill: 'none', stroke: path.color, strokeWidth: '3'}}/>);
     }
 
@@ -150,10 +149,10 @@ class Canvas extends React.Component {
             .observe(e => {
                 this.props.editOn();
 
-                const editPath = this.props.paths[Number(e.target.dataset.pathIndex)];
+                const editPath = this.props.paths.filter(path => path.id === e.target.dataset.pathIndex)[0];
                 this.props.setEditedPath(editPath.path);
 
-                this.props.deletePath(Number(e.target.dataset.pathIndex));
+                this.props.deletePath(e.target.dataset.pathIndex);
             });
 
         let editNode = -1;
