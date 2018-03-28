@@ -27,12 +27,18 @@ export const setEditedPath = (path, color = '#000000') => ({
 });
 
 
-export const changeZoom = (zoom, cursorX, cursorY) => ({
+export const changeZoom = (zoom) => ({
+    type: actionTypes.CHANGE_ZOOM,
+    zoom
+});
+
+export const zoomTo = (zoom, cursorX, cursorY) => ({
     type: actionTypes.CHANGE_ZOOM,
     zoom,
     cursorX,
     cursorY
 });
+
 
 export const shiftCanvas = (shiftX, shiftY) => ({
     type: actionTypes.SHIFT_CANVAS,

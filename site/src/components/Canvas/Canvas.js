@@ -12,12 +12,11 @@ class Canvas extends React.Component {
     }
 
     getOffsetedPoint(point) {
-        return mathjs.multiply(this.props.canvasMode.transformMatrix, [point[0],point[1], 1])._data.slice(0,2);
+        return mathjs.multiply(this.props.canvasMode.viewMatrix, [point[0],point[1], 1])._data.slice(0,2);
     }
 
     getNormalizedPoint(point) {
-        return mathjs.multiply(mathjs.inv(this.props.canvasMode.transformMatrix), [point[0],point[1], 1])._data.slice(0,2);
-
+        return mathjs.multiply(mathjs.inv(this.props.canvasMode.viewMatrix), [point[0], point[1], 1])._data.slice(0,2);
     }
 
     renderPath(path, i = 0) {
@@ -89,7 +88,7 @@ class Canvas extends React.Component {
         const wheel = most.fromEvent('wheel', document);
 
         wheel.observe(e => {
-            this.props.changeZoom(((e.deltaY > 0) ? 0.01 : -0.01), e.x, e.y);
+            this.props.zoomTo(((e.deltaY > 0) ? 0.01 : -0.01), e.x, e.y);
         });
 
         keydownEnter
@@ -187,10 +186,6 @@ class Canvas extends React.Component {
             .observe(e => {
                this.props.shiftCanvas(e.movementX, e.movementY);
             });
-    }
-
-    undo(){
-        this.props.undo();
     }
 
     render() {

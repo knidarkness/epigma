@@ -3,7 +3,7 @@ const mathjs = require('mathjs');
 
 const defaultState = {
     zoom: 1,
-    transformMatrix: mathjs.eye(3)
+    viewMatrix: mathjs.eye(3)
 };
 
 const translateMatrix = (x,y) => mathjs.matrix([[1, 0, x],
@@ -14,26 +14,38 @@ const scaleMatrix = (sx, sy) => mathjs.matrix([[sx, 0, 0],
                                                [0, sy, 0],
                                                [0, 0, 1]]);
 
+const scaleToPointMatrix = (s, x, y, curViewMatrix) => {
+    const normalizedPoint = mathjs.multiply(mathjs.inv(curViewMatrix), [x, y, 1])._data;
+
+    let viewMatrix = translateMatrix(x, y);
+        viewMatrix = mathjs.multiply(viewMatrix, scaleMatrix(s, s));
+        viewMatrix = mathjs.multiply(viewMatrix, translateMatrix(-normalizedPoint[0], -normalizedPoint[1]));
+    return viewMatrix
+}
+
 const canvasMode = (state = defaultState, action) => {
+    let newZoom;
     switch (action.type){
         case actionTypes.SHIFT_CANVAS:
             return {
                 zoom: state.zoom,
-                transformMatrix: mathjs.multiply(state.transformMatrix,
+                viewMatrix: mathjs.multiply(state.viewMatrix,
                     translateMatrix(action.shiftX, action.shiftY))
             };
-        case actionTypes.CHANGE_ZOOM:
-            const newZoom = Math.max(state.zoom + action.zoom, 0.5);
-    
-            const inv = mathjs.inv(state.transformMatrix);
-            const normalizedCursor = mathjs.multiply(inv, [action.cursorX,action.cursorY, 1])._data;
-
-            let transformMatrix = translateMatrix(action.cursorX,action.cursorY);
-                transformMatrix = mathjs.multiply(transformMatrix, scaleMatrix(newZoom, newZoom));
-                transformMatrix = mathjs.multiply(transformMatrix, translateMatrix(-normalizedCursor[0], -normalizedCursor[1]));
+        case actionTypes.ZOOM_TO:
+            newZoom = Math.max(state.zoom + action.zoom, 0.5);
             return {
                 zoom: newZoom,
-                transformMatrix: transformMatrix
+                viewMatrix: scaleToPointMatrix(newZoom, action.cursorX, action.cursorY, state.viewMatrix)
+            };
+
+        case actionTypes.CHANGE_ZOOM:
+            newZoom = Math.max(state.zoom + action.zoom, 0.5);
+            const centerX = document.getElementById('canvas').getBoundingClientRect().width / 2; 
+            const centerY = document.getElementById('canvas').getBoundingClientRect().height / 2;
+            return {
+                zoom: newZoom,
+                viewMatrix: scaleToPointMatrix(newZoom, centerX, centerY, state.viewMatrix)
             };
         default:
             return state;

@@ -67,7 +67,7 @@ class Dashboard extends React.Component {
                         {
                             this.props.documents.map(d => (
                                 <li key={d.id} className="document-list__item">
-                                    <Link to={`/edit?&id=${d.id}`}>
+                                    <Link to={`/edit?id=${d.id}`}>
                                         <span>{d.name}</span>
                                         <span>{this.timeConverter(Number(d.editedAt)/1000)}</span>
                                         <div>
