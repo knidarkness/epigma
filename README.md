@@ -22,8 +22,9 @@ of the repository and navigate to http://localhost to explore the Epigma editor.
 
 ## TODO
 
-- dev-dep & dep
 - fix undoables -- undo/redo states of each doc seprtly
+
+- dev-dep & dep
 - add moment.js for date/time formatting
 - redux dev-tools
 - refactor reducer decomposition

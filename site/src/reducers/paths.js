@@ -25,7 +25,7 @@ function path(state, action) {
     }
 }
 
-const paths = (state = [], action) => {
+export const paths = (state = [], action) => {
     switch (action.type){
         case actionTypes.FETCH_PATHS:
             return action.paths.map(shape => ({

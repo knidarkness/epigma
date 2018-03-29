@@ -1,6 +1,6 @@
-const assert = require('assert');
-const pathReducers = require('./../../src/reducers/paths');
-const actionTypes = require('./../../src/actions/actionTypes');
+import assert from 'assert';
+import {paths} from "../../src/reducers/paths";
+import * as actionTypes from './../../src/actions/actionTypes';
 
 
 describe('Paths reducer tests', function() {
@@ -9,7 +9,7 @@ describe('Paths reducer tests', function() {
             [50, 50, 1],
             [200, 50, 1]]
         };
-        const actual = pathReducers([], action);
+        const actual = paths([], action);
         const expected = [{id: 1, color: 'black', path:
             [[50, 50, 1],
                 [200, 50, 1]]
@@ -27,7 +27,7 @@ describe('Paths reducer tests', function() {
                     [200, 50, 1]]
             }
         ];
-        const actual = pathReducers(state, action);
+        const actual = paths(state, action);
         const expected = [];
         assert.deepEqual(actual, expected);
     });
@@ -49,7 +49,7 @@ describe('Paths reducer tests', function() {
                 ]
             }
         ];
-        const actual = pathReducers(state, action);
+        const actual = paths(state, action);
         const expected = [
             {
                 id: 1,
@@ -94,7 +94,7 @@ describe('Paths reducer tests', function() {
             type: actionTypes.FETCH_PATHS,
             paths: fetchedPaths
         };
-        const actual = pathReducers(state, action);
+        const actual = paths(state, action);
         const expected = fetchedPaths;
         assert.deepEqual(actual, expected);
     });
@@ -113,7 +113,7 @@ describe('Paths reducer tests', function() {
                 [200, 200, 1]
                 ]
         };
-        const actual = pathReducers(state, action);
+        const actual = paths(state, action);
         const expected = [
             {
                 id: 1,
