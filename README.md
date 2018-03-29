@@ -20,6 +20,20 @@ Another way to launch this project is to run it with docker-compose. To do that 
 docker-compose installed in your system. Then you can simply run ```docker-compose up``` from the root directory
 of the repository and navigate to http://localhost to explore the Epigma editor.
 
+## TODO
+
+- dev-dep & dep
+- fix undoables -- undo/redo states of each doc seprtly
+- add moment.js for date/time formatting
+- redux dev-tools
+- refactor reducer decomposition
+- research and use selectors for data access
+- finally deal with babel and mocha
+- split async actions into separate files, so that /actions/index.js define only atomic action creators (research/probably use: redux-observable)
+- each file up to 100 LOC
+- atomic entities (either all document (name, data, shapes), either only id and receive all properties via separate API calls)
+- C/D for nodes in edit mode of a shape
+
 ## License
 
 All code is distributed under the MIT License.
