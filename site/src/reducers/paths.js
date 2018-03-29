@@ -2,7 +2,7 @@
 //import * as uuid from 'uuid/v4';
 const actionTypes = require('../actions/actionTypes');
 const uuid = require('uuid/v4');
-import undoable from 'redux-undo'
+import undoable, {includeAction} from 'redux-undo'
 
 function path(state, action) {
     switch (action.type){
@@ -53,6 +53,6 @@ const paths = (state = [], action) => {
 
 //const undoablePaths = undoable(paths, {filter: includeAction(['CREATE_PATH', 'DELETE_PATH', 'UPDATE_PATH'])});
 
-const undoablePaths = undoable(paths);
+const undoablePaths = undoable(paths, {filter: includeAction([actionTypes.CREATE_PATH, actionTypes.UPDATE_PATH])});
 
 export default undoablePaths;
