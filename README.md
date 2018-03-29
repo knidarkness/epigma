@@ -29,7 +29,7 @@ For debug consider using [Redux DevTool Extensio](http://extension.remotedev.io)
 - fix undoables -- undo/redo states of each doc seprtly
 
 - <s><b>dev-dep & dep</b></s>
-- <s><b>add moment.js for date/time formatting<b></s>
+- <s><b>add moment.js for date/time formatting</b></s>
 - <s><b>redux dev-tools</b></s>
 - refactor reducer decomposition
 - research and use selectors for data access
