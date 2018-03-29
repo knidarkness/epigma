@@ -12,6 +12,7 @@ const config = {
         path: BUILD_DIR,
         filename: 'bundle.js'
     },
+    devtool: 'source-map',
     module: {
         rules:
         [
