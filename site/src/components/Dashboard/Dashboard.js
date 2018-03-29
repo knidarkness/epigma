@@ -1,6 +1,5 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import dateformat from 'dateformat';
 import moment from 'moment';
 import Header from './../Header/Header';
 import './Dashboard.scss'
