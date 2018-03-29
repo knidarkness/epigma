@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import dateformat from 'dateformat';
+import moment from 'moment';
 import Header from './../Header/Header';
 import './Dashboard.scss'
 
@@ -57,7 +57,7 @@ class Dashboard extends React.Component {
                                 <li key={d.id} className="document-list__item">
                                     <Link to={`/edit?id=${d.id}`}>
                                         <span>{d.name}</span>
-                                        <span>{dateformat(d.editedAt, 'dddd mmmm yyyy,  hh:MM:ss ')}</span>
+                                        <span>{moment(d.editedAt).format('MMMM Do YYYY, h:mm:ss a')}</span>
                                         <div>
                                             <button className="button button_edit" onClick={(e) => {
                                                 e.stopPropagation();

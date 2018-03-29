@@ -1,4 +1,4 @@
-import * as uuid4 from 'uuid/v4'
+import uuid4 from 'uuid/v4'
 import * as actionTypes from "./actionTypes";
 import {DOCUMENT_LIST_URI} from "../const";
 
@@ -33,7 +33,7 @@ export const changeZoom = (zoom) => ({
 });
 
 export const zoomTo = (zoom, cursorX, cursorY) => ({
-    type: actionTypes.CHANGE_ZOOM,
+    type: actionTypes.ZOOM_TO,
     zoom,
     cursorX,
     cursorY

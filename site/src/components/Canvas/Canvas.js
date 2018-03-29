@@ -71,6 +71,7 @@ class Canvas extends React.Component {
     componentDidMount() {
         this.props.fetchPaths(this.props.documentId);
 
+        let alreadyDrawing = false;
         const canvas = document.querySelector('#canvas');
         const click = most.fromEvent("click", canvas);
         const mousemove = most.fromEvent("mousemove", document);
@@ -93,19 +94,23 @@ class Canvas extends React.Component {
 
         keydownEnter
             .observe(() => {
-                if (this.props.editedPath.path.length > 0) {
-                    let newPath;
+                let newPath;
 
-                    if (this.props.edit) {
-                        newPath = this.props.editedPath.path
-                    } else {
-                        newPath = this.props.editedPath.path.slice(0, -1)
-                    }
-                    this.props.editOff();
+                if (this.props.edit) {
+                    newPath = this.props.editedPath.path
+                } else {
+                    newPath = this.props.editedPath.path.slice(0, -1)
+                }
+
+                if (newPath.length > 1){
                     this.props.createPath(newPath);
-                    this.props.setEditedPath([]);
                     this.pushPathsToBackend();
                 }
+
+                this.props.editOff();
+                this.props.setEditedPath([]);
+
+                alreadyDrawing = false;
             });
 
         keydownDelete
@@ -115,7 +120,7 @@ class Canvas extends React.Component {
                 this.pushPathsToBackend();
             });
 
-        click // enter edit mode
+        click // delete shape
             .filter(e => this.props.editorMode === DELETE_MODE)
             .filter(e => e.target.dataset && 'pathIndex' in e.target.dataset)
             .observe(e => {
@@ -136,11 +141,12 @@ class Canvas extends React.Component {
             .observe(e => this.setTempNode(e[0], e[1]));
 
         click // draw line
-            .filter(e => this.props.editorMode === DRAW_MODE)
+            .filter(e => this.props.editorMode === DRAW_MODE && !alreadyDrawing)
             .filter(e => {
                 return !(e.target.dataset && 'pathIndex' in e.target.dataset)
             })
             .chain(p => {
+                alreadyDrawing = true;
                 this.props.editOff();
                 p = this.getNormalizedPoint([p.x, p.y]);
                 this.addPathNode(p[0],p[1]);
@@ -152,9 +158,10 @@ class Canvas extends React.Component {
 
 
         click // enter edit mode
-            .filter(e => this.props.editorMode === DRAW_MODE)
+            .filter(e => this.props.editorMode === DRAW_MODE && !alreadyDrawing)
             .filter(e => e.target.dataset && 'pathIndex' in e.target.dataset)
             .observe(e => {
+                alreadyDrawing = true;
                 this.props.editOn();
                 const editPath = this.props.paths.filter(path => path.id === e.target.dataset.pathIndex)[0];
                 this.props.setEditedPath(editPath.path);
