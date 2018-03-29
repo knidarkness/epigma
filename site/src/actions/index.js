@@ -1,4 +1,4 @@
-import * as uuid4 from 'uuid/v4'
+import uuid4 from 'uuid/v4'
 import * as actionTypes from "./actionTypes";
 import {DOCUMENT_LIST_URI} from "../const";
 
