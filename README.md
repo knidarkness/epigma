@@ -20,13 +20,17 @@ Another way to launch this project is to run it with docker-compose. To do that 
 docker-compose installed in your system. Then you can simply run ```docker-compose up``` from the root directory
 of the repository and navigate to http://localhost to explore the Epigma editor.
 
+## Dev-tools
+
+For debug consider using [Redux DevTool Extensio](http://extension.remotedev.io) for Firefox or Chrome.
+
 ## TODO
 
 - fix undoables -- undo/redo states of each doc seprtly
 
 - <s><b>dev-dep & dep</b></s>
 - <s><b>add moment.js for date/time formatting<b></s>
-- redux dev-tools
+- <s><b>redux dev-tools</b></s>
 - refactor reducer decomposition
 - research and use selectors for data access
 - <s><b>finally deal with babel and mocha</b></s>
