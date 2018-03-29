@@ -25,7 +25,7 @@ of the repository and navigate to http://localhost to explore the Epigma editor.
 - fix undoables -- undo/redo states of each doc seprtly
 
 - <s><b>dev-dep & dep</b></s>
-- add moment.js for date/time formatting
+- <s><b>add moment.js for date/time formatting<b></s>
 - redux dev-tools
 - refactor reducer decomposition
 - research and use selectors for data access
