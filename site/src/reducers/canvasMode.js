@@ -20,8 +20,8 @@ const scaleToPointMatrix = (s, x, y, curViewMatrix) => {
     let viewMatrix = translateMatrix(x, y);
         viewMatrix = mathjs.multiply(viewMatrix, scaleMatrix(s, s));
         viewMatrix = mathjs.multiply(viewMatrix, translateMatrix(-normalizedPoint[0], -normalizedPoint[1]));
-    return viewMatrix
-}
+    return viewMatrix;
+};
 
 const canvasMode = (state = defaultState, action) => {
     let newZoom;
