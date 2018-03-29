@@ -24,12 +24,12 @@ of the repository and navigate to http://localhost to explore the Epigma editor.
 
 - fix undoables -- undo/redo states of each doc seprtly
 
-- dev-dep & dep
+- <s>dev-dep & dep</s>
 - add moment.js for date/time formatting
 - redux dev-tools
 - refactor reducer decomposition
 - research and use selectors for data access
-- finally deal with babel and mocha
+- <s>finally deal with babel and mocha</s>
 - split async actions into separate files, so that /actions/index.js define only atomic action creators (research/probably use: redux-observable)
 - each file up to 100 LOC
 - atomic entities (either all document (name, data, shapes), either only id and receive all properties via separate API calls)
