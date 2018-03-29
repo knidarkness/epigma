@@ -27,21 +27,21 @@ export const setEditedPath = (path, color = '#000000') => ({
 });
 
 
-export const changeZoom = (zoom, cursorX, cursorY) => ({
+export const changeZoom = (zoom) => ({
+    type: actionTypes.CHANGE_ZOOM,
+    zoom
+});
+
+export const zoomTo = (zoom, cursorX, cursorY) => ({
     type: actionTypes.CHANGE_ZOOM,
     zoom,
     cursorX,
     cursorY
 });
 
+
 export const shiftCanvas = (shiftX, shiftY) => ({
     type: actionTypes.SHIFT_CANVAS,
-    shiftX,
-    shiftY
-});
-
-export const moveTo = (shiftX, shiftY) => ({
-    type: actionTypes.MOVE_TO,
     shiftX,
     shiftY
 });
@@ -156,10 +156,13 @@ export const fetchPaths = (id) => {
                 return response.json();
             })
             .then((data) => {
-                console.log(data);
                 dispatch({
                     type: actionTypes.FETCH_PATHS,
-                    paths: data.paths
+                    paths: data.paths.map(path => ({
+                        id: uuid4(),
+                        path: path,
+                        color: 'black'
+                    }))
                 });
             })
             .catch(err => {
@@ -167,6 +170,18 @@ export const fetchPaths = (id) => {
             });
     };
 };
+
+export const enableDrawMode = () => ({
+    type: actionTypes.ENABLE_DRAW_MODE
+});
+
+export const enableViewMode = () => ({
+    type: actionTypes.ENABLE_VIEW_MODE
+});
+
+export const enableDeleteMode = () => ({
+    type: actionTypes.ENABLE_DELETE_MODE
+});
 
 export const editOn = () => ({
     type: actionTypes.EDIT_ON

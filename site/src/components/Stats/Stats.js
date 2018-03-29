@@ -1,12 +1,12 @@
 import React from 'react';
-import {changeZoom} from "../../actions/index";
 
 import './Stats.scss'
 
-const Stats = ({paths, nodes}) => (
+const Stats = ({paths, nodes, canvasMode}) => (
     <div className="stats">
-        <p className="stats__lines">lines: {paths}</p>
-        <p className="stats__nodes">nodes: {nodes}</p>
+        <p className="stats__scale">s: {Math.round(canvasMode.zoom * 100)}%</p>
+        <p className="stats__lines">p: {paths}</p>
+        <p className="stats__nodes">n: {nodes}</p>
     </div>
 );
 

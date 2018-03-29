@@ -1,20 +1,21 @@
 .stats{
   z-index: 100;
+  padding-left: 5px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: start;
   text-align: left;
   position: fixed;
-  left: 30px;
-  bottom: 30px;
-  width: 10vw;
-  height: 20vh;
+  left: 0;
+  bottom: 0;
+  width: 55px;
+  height: 100px;
   line-height: 0;
-  background-color: #212528;
   opacity: 0.7;
-  border: solid 1px  #e5e5e5;
-  font-size: 2vh;
+  border-top: solid 1px  #808080;
+  padding-top: 10px;
+  font-size: 14px;
 
   &__nodes, &__lines{
     display: inline-block;

@@ -11,7 +11,7 @@ class DrawPage extends React.Component{
         return (
             <div>
                 <Toolbar/>
-                <Stats/>
+                {/*<Stats/>*/}
                 <RenderCanvas documentId={qstring.parse(this.props.location.search).id}/>
             </div>
         )

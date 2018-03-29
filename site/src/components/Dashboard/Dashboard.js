@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-
+import dateformat from 'dateformat';
 import Header from './../Header/Header';
 import './Dashboard.scss'
 
@@ -18,33 +18,25 @@ class Dashboard extends React.Component {
     }
 
     async deleteDocument(documentId){
-        this.props.deleteDocument(documentId);
+        const confirmed = confirm('Are you sure, you want to delete this document?');
+        if (confirmed){
+            this.props.deleteDocument(documentId);
+        }
     }
 
     async editDocument(documentId){
         const newName = prompt('Enter new document name', 'Current name');
-        this.props.renameDocument(documentId, newName);
+        if (newName && newName.length > 0){
+            this.props.renameDocument(documentId, newName);
+        }
     }
 
     async componentDidMount() {
         this.props.itemsFetchData(DOCUMENT_LIST_URI);
     }
 
-    timeConverter(UNIX_timestamp){
-        const a = new Date(UNIX_timestamp * 1000);
-        const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-        const year = a.getFullYear();
-        const month = months[a.getMonth()];
-        const date = a.getDate();
-        const hour = a.getHours();
-        const min = a.getMinutes().toString().length === 2 ? a.getMinutes() : '0' + a.getMinutes();
-        const sec = a.getSeconds().toString().length === 2 ? a.getSeconds() : '0' + a.getSeconds();
-        const time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
-        return time;
-    }
 
     render() {
-        console.log(this.props.documents);
         return (
             <div>
                 <Header/>
@@ -63,9 +55,9 @@ class Dashboard extends React.Component {
                         {
                             this.props.documents.map(d => (
                                 <li key={d.id} className="document-list__item">
-                                    <Link to={`/edit?&id=${d.id}`}>
+                                    <Link to={`/edit?id=${d.id}`}>
                                         <span>{d.name}</span>
-                                        <span>{this.timeConverter(Number(d.editedAt)/1000)}</span>
+                                        <span>{dateformat(d.editedAt, 'dddd mmmm yyyy,  hh:MM:ss ')}</span>
                                         <div>
                                             <button className="button button_edit" onClick={(e) => {
                                                 e.stopPropagation();
