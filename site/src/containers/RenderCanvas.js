@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import {getAllShapes, getMode, getEdit, getCursor, getSelectedShape, getViewMatrix} from "../reducers";
 
 import Canvas from '../components/Canvas/Canvas';
-import {createShape, deleteShape, updateShape, fetchShapes, setSelectedShape, changeZoom, zoomTo, shiftCanvas, editOff, editToggle, editOn} from "../actions";
+import {createShape, deleteShape, updateShape, fetchShapes, setSelectedShape, selectedShapeAddNode, selectedShapeDeleteNode, selectedShapeUpdateNode, changeZoom, zoomTo, shiftCanvas, editOff, editToggle, editOn, updateCursorPosition} from "../actions";
 
 
 const mapStateToProps = (state) => ({
@@ -22,12 +22,16 @@ const mapDispatchToProps = ({
     deleteShape,
     updateShape,
     setSelectedShape,
+    selectedShapeAddNode,
+    selectedShapeDeleteNode,
+    selectedShapeUpdateNode,
     changeZoom,
     zoomTo,
     shiftCanvas,
     editToggle,
     editOn,
-    editOff
+    editOff,
+    updateCursorPosition
 });
 
 const RenderCanvas = connect(

@@ -12,7 +12,7 @@ describe('Edited shape tests', function () {
             color: 'yellow'
         };
         const action = setSelectedShape(editedShape.nodes, editedShape.color);
-        const actual = editedShapeReducer([], action);
+        const actual = editedShapeReducer({}, action);
         assert.deepEqual(editedShape, actual);
     })
 });

@@ -41,14 +41,11 @@ class Canvas extends React.Component {
         })
     }
 
-    addShapeNode(x, y) {
-        const newSelectedShape = [...this.props.selectedShape.nodes, [x, y]];
-        this.props.setSelectedShape(newSelectedShape);
+    isShape(e){
+        return e.target.dataset && 'shapeIndex' in e.target.dataset
     }
-
-    setTempNode(x, y) {
-        const newSelectedShape = this.props.selectedShape.nodes.slice(0, -1);
-        this.props.setSelectedShape([...newSelectedShape, [x, y]]);
+    isNode(e){
+        return e.target.dataset && 'nodeIndex' in e.target.dataset
     }
 
 
@@ -90,16 +87,12 @@ class Canvas extends React.Component {
         const mouseup = most.fromEvent('mouseup', canvas)
             .until(canvasWillUnmount);
 
-
         const keydown = most.fromEvent('keydown', document)
             .until(canvasWillUnmount);
-        const keydownDelete = most.fromEvent('keydown', document)
-            .filter(e => {
-                return e.key === 'Delete' || e.key === 'r'
-            });
+        const keydownDelete = keydown
+            .filter(e => e.key === 'Delete' || e.key === 'r');
         const keydownEnter = keydown
-            .filter(e => e.key === 'Enter' || e.key === 'Escape')
-        ;
+            .filter(e => e.key === 'Enter' || e.key === 'Escape');
         const wheel = most.fromEvent('wheel', document)
             .until(canvasWillUnmount);
 
@@ -137,66 +130,53 @@ class Canvas extends React.Component {
 
         click // delete shape
             .filter(e => this.props.mode === EDITOR_MODE.DELETE)
-            .filter(e => e.target.dataset && 'shapeIndex' in e.target.dataset)
+            .filter(e => this.isShape(e))
             .observe(e => {
                 this.props.deleteShape(e.target.dataset.shapeIndex);
                 this.pushShapesToBackend();
             });
 
-        click // animate drawing
-            .filter(e => this.props.mode === EDITOR_MODE.DRAW)
-            .filter(e => {
-                return !(e.target.dataset && 'shapeIndex' in e.target.dataset)
-            })
-            .chain(p => {
-                return mousemove
-                    .until(keydownEnter)
-            })
-            .map(e => this.getNormalizedPoint([e.x, e.y]))
-            .observe(e => this.setTempNode(e[0], e[1]));
+        mousemove 
+            .filter(e => this.props.mode === EDITOR_MODE.DRAW)   
+            .observe(cursor => this.props.updateCursorPosition(cursor.x, cursor.y));
 
         click // draw line
             .filter(e => this.props.mode === EDITOR_MODE.DRAW && !alreadyDrawing)
-            .filter(e => {
-                return !(e.target.dataset && 'shapeIndex' in e.target.dataset)
-            })
+            .filter(e => !this.isShape(e))
             .chain(p => {
                 alreadyDrawing = true;
                 this.props.editOff();
-                p = this.getNormalizedPoint([p.x, p.y]);
-                this.addShapeNode(p[0],p[1]);
+                let node = this.getNormalizedPoint([p.x, p.y]);
+                this.props.selectedShapeAddNode(node);
                 return click
                     .until(keydownEnter)
             })
             .map(e => this.getNormalizedPoint([e.x, e.y]))
-            .observe(e => this.addShapeNode(e[0], e[1]));
+            .observe(node => this.props.selectedShapeAddNode(node));
 
 
         click // enter edit mode
             .filter(e => this.props.mode === EDITOR_MODE.DRAW && !alreadyDrawing)
-            .filter(e => e.target.dataset && 'shapeIndex' in e.target.dataset)
-            .observe(e => {
+            .filter(e => this.isShape(e))
+            .map(e => e.target.dataset.shapeIndex)
+            .observe(shapeIndex => {
                 alreadyDrawing = true;
                 this.props.editOn();
-                const editShape = this.props.shapes.filter(shape => shape.id === e.target.dataset.shapeIndex)[0];
+                const editShape = this.props.shapes.filter(shape => shape.id === shapeIndex)[0];
                 this.props.setSelectedShape(editShape.nodes);
-
-                this.props.deleteShape(e.target.dataset.shapeIndex);
+                this.props.deleteShape(shapeIndex);
             });
-
-        let editNode = -1;
+        let editNodeIndex = -1
         mousedown // edit node of the line
             .filter(e => this.props.mode === EDITOR_MODE.DRAW)
-            .filter(e => e.target.dataset && 'nodeIndex' in e.target.dataset)
+            .filter(e => this.isNode(e))
             .chain(md => {
-                editNode = Number(md.target.dataset.nodeIndex);
+                let editNodeIndex = Number(md.target.dataset.nodeIndex);
                 return mousemove
                     .until(mouseup);
             })
             .observe(e => {
-                const newSelectedShape = this.props.selectedShape.nodes;
-                newSelectedShape[editNode] = this.getNormalizedPoint([e.x, e.y]);
-                this.props.setSelectedShape(newSelectedShape);
+                this.props.selectedShapeUpdateNode(editNodeIndex, this.getNormalizedPoint([e.x, e.y]));
             });
 
         mousedown
@@ -211,11 +191,17 @@ class Canvas extends React.Component {
     }
 
     render() {
+        const cursor = this.props.cursor;
+        
+        const selectedShape = {
+            nodes: (this.props.mode === EDITOR_MODE.DRAW) ? [...this.props.selectedShape.nodes, this.getNormalizedPoint(cursor.position)] : this.props.selectedShape.nodes,
+            color: this.props.selectedShape.color
+        }
         return (
             <div>
-                <svg id="canvas" className="canvas" width="100%" height="100%" style={{cursor: this.props.cursor}}>
-                    {this.renderShape(this.props.selectedShape, 0, false)}
-                    {this.renderShapeNodes(this.props.selectedShape.nodes)}
+                <svg id="canvas" className="canvas" width="100%" height="100%" style={{cursor: cursor.icon}}>
+                    {this.renderShape(selectedShape, 0, false)}
+                    {this.renderShapeNodes(selectedShape.nodes)}
                     {this.renderAllSaved()}
                 </svg>
             </div>

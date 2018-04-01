@@ -26,6 +26,22 @@ export const setSelectedShape = (nodes, color = '#000000') => ({
     color: color
 });
 
+export const selectedShapeAddNode = (node, index = 0) => ({
+    type: actionTypes.SELECTED_SHAPE_ADD_NODE,
+    node,
+    index
+});
+
+export const selectedShapeDeleteNode = (index) => ({
+    type: actionTypes.SELECTED_SHAPE_DELETE_NODE,
+    index
+});
+
+export const selectedShapeUpdateNode = (node, index) => ({
+    type: actionTypes.SELECTED_SHAPE_UPDATE_NODE,
+    node,
+    index
+});
 
 export const changeZoom = (zoom) => ({
     type: actionTypes.CHANGE_ZOOM,
@@ -192,4 +208,10 @@ export const editOff = () => ({
 
 export const editToggle = () => ({
     type: actionTypes.TOGGLE_EDIT
+});
+
+export const updateCursorPosition = (x, y) => ({
+    type: actionTypes.UPDATE_CURSOR_POSITION,
+    x,
+    y
 });
