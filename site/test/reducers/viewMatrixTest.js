@@ -3,26 +3,34 @@ import assert from 'assert';
 import {shiftCanvas} from "../../src/actions";
 import viewMatrix from '../../src/reducers/canvas/viewMatrix';
 
-import mathjs from 'mathjs';
+import Matrix from '../../src/utils/matrix';
 
 describe('Canvas zoom/shift tests', function () {
     it('Shift from zero coordinate', function () {
         const state = {
             zoom: 1,
-            viewMatrix: [
-                [1, 0, 0],
-                [0, 1, 0],
-                [0, 0, 1]
-            ]
+            viewMatrix: Matrix.identity()
         };
         const action = shiftCanvas(10, 10);
         const actual = viewMatrix(state, action);
         const expected = {
             zoom: 1,
-            viewMatrix: mathjs.matrix([[1, 0, 10],
-                                       [0, 1, 10],
-                                       [0, 0, 1]])
+            viewMatrix: new Matrix(1, 0, 0, 1, 10, 10)
+        };
+        assert.deepEqual(actual, expected);
+    }),
+    it('Shift from non-zero coordinate', function () {
+        const state = {
+            zoom: 1,
+            viewMatrix: new Matrix(1, 0, 0, 1, 15, 15)
+        };
+        const action = shiftCanvas(10, -10);
+        const actual = viewMatrix(state, action);
+        const expected = {
+            zoom: 1,
+            viewMatrix: new Matrix(1, 0, 0, 1, 25, 5)
         };
         assert.deepEqual(actual, expected);
     })
 });
+

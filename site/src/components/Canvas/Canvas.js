@@ -2,7 +2,7 @@ import React from 'react';
 import * as most from 'most'
 import v4 from 'uuid/v4';
 import {DOCUMENT_LIST_URI, EDITOR_MODES} from "../../const";
-import mathjs from 'mathjs';
+import Matrix from '../../utils/matrix.js';
 
 import './Canvas.scss';
 
@@ -12,11 +12,11 @@ class Canvas extends React.Component {
     }
 
     getOffsetedPoint(point) {
-        return mathjs.multiply(this.props.viewMatrix, [point[0],point[1], 1])._data.slice(0,2);
+        return this.props.viewMatrix.transformPoint(point);
     }
 
     getNormalizedPoint(point) {
-        return mathjs.multiply(mathjs.inv(this.props.viewMatrix), [point[0], point[1], 1])._data.slice(0,2);
+        return this.props.viewMatrix.inverse().transformPoint(point);
     }
 
     renderShape(shape, i = 0) {

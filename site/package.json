@@ -16,7 +16,6 @@
     "babel-preset-react": "^6.24.1",
     "css-loader": "^0.28.10",
     "helmet": "^3.12.0",
-    "mathjs": "^4.0.1",
     "moment": "^2.21.0",
     "most": "^1.7.3",
     "node-sass": "^4.7.2",
