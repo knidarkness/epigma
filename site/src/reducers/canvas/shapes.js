@@ -49,7 +49,6 @@ export const shapes = (state = [], action) => {
 };
 
 
-//TODO: add DELETE_SHAPE to undoables???
-const undoableShapes = undoable(shapes, {filter: includeAction([actionTypes.CREATE_SHAPE, actionTypes.UPDATE_SHAPE])});
+const undoableShapes = undoable(shapes, {filter: includeAction([actionTypes.CREATE_SHAPE, actionTypes.UPDATE_SHAPE, actionTypes.DELETE_SHAPE])});
 
 export default undoableShapes;
