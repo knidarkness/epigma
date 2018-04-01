@@ -1,0 +1,2 @@
+cd site
+npm install
