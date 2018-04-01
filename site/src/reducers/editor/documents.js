@@ -1,4 +1,4 @@
-const actionTypes = require('../actions/actionTypes');
+import * as actionTypes from '../../actions/actionTypes';
 
 const illustration = (state, action) => {
     switch (action.type) {
@@ -24,7 +24,7 @@ const illustration = (state, action) => {
 };
 
 const documents = (state=[], action) => {
-    switch (action.type){
+    switch (action.type) {
         case actionTypes.ITEMS_FETCH_DATA_SUCCESS:
             return [...action.items]
                 .sort((a, b) => b.editedAt - a.editedAt);
@@ -46,5 +46,4 @@ const documents = (state=[], action) => {
     }
 };
 
-module.exports = documents;
-//export default documents;
+export default documents;

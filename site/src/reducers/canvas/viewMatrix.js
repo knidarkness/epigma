@@ -1,5 +1,5 @@
-const actionTypes = require('./../actions/actionTypes');
-const mathjs = require('mathjs');
+import * as actionTypes from '../../actions/actionTypes';
+import mathjs from 'mathjs';
 
 const defaultState = {
     zoom: 1,
@@ -23,9 +23,9 @@ const scaleToPointMatrix = (s, x, y, curViewMatrix) => {
     return viewMatrix;
 };
 
-const canvasMode = (state = defaultState, action) => {
+const viewMatrix = (state = defaultState, action) => {
     let newZoom;
-    switch (action.type){
+    switch (action.type) {
         case actionTypes.SHIFT_CANVAS:
             return {
                 zoom: state.zoom,
@@ -52,4 +52,4 @@ const canvasMode = (state = defaultState, action) => {
     }
 };
 
-module.exports = canvasMode;
+export default viewMatrix;

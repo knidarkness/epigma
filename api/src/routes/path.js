@@ -9,9 +9,9 @@ router.get('/', async (req, res) => {
 });
 
 router.put('/', async (req, res) => {
-    const paths = req.body.paths.map(p => p.path);
+    const shapes = req.body.shapes.map(shape => shape.nodes);
     const illustrations = await models.Illustration.find({});
-    illustrations[0].paths = paths;
+    illustrations[0].shapes = shapes;
     illustrations[0].save((err, upd) => {
         res.status(200).send();
     });

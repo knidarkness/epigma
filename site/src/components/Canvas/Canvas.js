@@ -1,7 +1,7 @@
 import React from 'react';
 import * as most from 'most'
 import v4 from 'uuid/v4';
-import {DOCUMENT_LIST_URI, VIEW_MODE, DRAW_MODE, DELETE_MODE} from "../../const";
+import {DOCUMENT_LIST_URI, EDITOR_MODES} from "../../const";
 import mathjs from 'mathjs';
 
 import './Canvas.scss';
@@ -9,31 +9,34 @@ import './Canvas.scss';
 class Canvas extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+
+        }
     }
 
     getOffsetedPoint(point) {
-        return mathjs.multiply(this.props.canvasMode.viewMatrix, [point[0],point[1], 1])._data.slice(0,2);
+        return mathjs.multiply(this.props.viewMatrix, [point[0],point[1], 1])._data.slice(0,2);
     }
 
     getNormalizedPoint(point) {
-        return mathjs.multiply(mathjs.inv(this.props.canvasMode.viewMatrix), [point[0], point[1], 1])._data.slice(0,2);
+        return mathjs.multiply(mathjs.inv(this.props.viewMatrix), [point[0], point[1], 1])._data.slice(0,2);
     }
 
-    renderPath(path, i = 0) {
-        if (path.path.length === 0) return;
-        const pathLine = path.path
+    renderShape(shape, i = 0) {
+        if (shape.nodes.length === 0) return;
+        const shapeNodesPath = shape.nodes
             .map(point => this.getOffsetedPoint(point))
             .reduce((prev, current) => prev + `${current[0]},${current[1]} `, '');
-        return (<polyline data-path-index={path.id} className="shape" key={i} points={pathLine}
-                          style={{fill: 'none', stroke: path.color, strokeWidth: '3'}}/>);
+        return (<polyline data-shape-index={shape.id} className="shape" key={i} points={shapeNodesPath}
+                          style={{fill: 'none', stroke: shape.color, strokeWidth: '3'}}/>);
     }
 
     renderAllSaved() {
-        return this.props.paths.map((path, id) => this.renderPath(path, id));
+        return this.props.shapes.map((shape, id) => this.renderShape(shape, id));
     }
 
-    renderPathNodes(path) {
-        return path
+    renderShapeNodes(shape) {
+        return shape
             .map(point => this.getOffsetedPoint(point))
             .map((point, i) => {
                 return <circle data-node-index={i} cx={point[0]} cy={point[1]} r="5" key={v4()} stroke="black"
@@ -41,44 +44,60 @@ class Canvas extends React.Component {
         })
     }
 
-    addPathNode(x, y) {
-        const newEditPath = [...this.props.editedPath.path, [x, y]];
-        this.props.setEditedPath(newEditPath);
+    addShapeNode(x, y) {
+        const newSelectedShape = [...this.props.selectedShape.nodes, [x, y]];
+        this.props.setSelectedShape(newSelectedShape);
     }
 
     setTempNode(x, y) {
-        const newEditPath = this.props.editedPath.path.slice(0, -1);
-        this.props.setEditedPath([...newEditPath, [x, y]]);
+        const newSelectedShape = this.props.selectedShape.nodes.slice(0, -1);
+        this.props.setSelectedShape([...newSelectedShape, [x, y]]);
     }
 
 
-    pushPathsToBackend() {
-        const request = new Request(DOCUMENT_LIST_URI + '/' + this.props.documentId + '/paths/', {
+    pushShapesToBackend() {
+        const request = new Request(DOCUMENT_LIST_URI + '/' + this.props.documentId + '/shapes/', {
             method: 'PUT',
             mode: 'cors',
             redirect: 'follow',
             body: JSON.stringify({
-                paths: this.props.paths
+                shapes: this.props.shapes
             }),
             headers: new Headers({
                 'Content-Type': 'application/json'
             })
         });
-
         fetch(request);
     }
 
+    componentWillUnmount(){
+        const canvasWillUnmountEvent = new Event('canvasWillUnmountEvent');
+        document.dispatchEvent(canvasWillUnmountEvent);
+    }
+
     componentDidMount() {
-        this.props.fetchPaths(this.props.documentId);
+        console.log('Did mount');
+        console.log(this.props);
+        this.props.fetchShapes(this.props.documentId);
 
         let alreadyDrawing = false;
+
         const canvas = document.querySelector('#canvas');
-        const click = most.fromEvent("click", canvas);
-        const mousemove = most.fromEvent("mousemove", document);
-        const mousedown = most.fromEvent('mousedown', document);
-        const mouseup = most.fromEvent('mouseup', document);
-        const doubleclick = most.fromEvent("dblclick", canvas);
-        const keydown = most.fromEvent('keydown', document);
+
+        const canvasWillUnmount = most.fromEvent('canvasWillUnmountEvent', document);
+
+        const click = most.fromEvent("click", canvas)
+            .until(canvasWillUnmount);
+        const mousemove = most.fromEvent("mousemove", canvas)
+            .until(canvasWillUnmount);
+        const mousedown = most.fromEvent('mousedown', canvas)
+            .until(canvasWillUnmount);
+        const mouseup = most.fromEvent('mouseup', canvas)
+            .until(canvasWillUnmount);
+
+
+        const keydown = most.fromEvent('keydown', document)
+            .until(canvasWillUnmount);
         const keydownDelete = most.fromEvent('keydown', document)
             .filter(e => {
                 return e.key === 'Delete' || e.key === 'r'
@@ -86,7 +105,9 @@ class Canvas extends React.Component {
         const keydownEnter = keydown
             .filter(e => e.key === 'Enter' || e.key === 'Escape')
         ;
-        const wheel = most.fromEvent('wheel', document);
+        const wheel = most.fromEvent('wheel', document)
+            .until(canvasWillUnmount);
+
 
         wheel.observe(e => {
             this.props.zoomTo(((e.deltaY > 0) ? 0.01 : -0.01), e.x, e.y);
@@ -94,44 +115,45 @@ class Canvas extends React.Component {
 
         keydownEnter
             .observe(() => {
-                let newPath;
+                console.log('Clicked\n');
+                console.log(this.props);
+                let newShape;
 
                 if (this.props.edit) {
-                    newPath = this.props.editedPath.path
+                    newShape = this.props.selectedShape.nodes
                 } else {
-                    newPath = this.props.editedPath.path.slice(0, -1)
+                    newShape = this.props.selectedShape.nodes.slice(0, -1)
                 }
-
-                if (newPath.length > 1){
-                    this.props.createPath(newPath);
-                    this.pushPathsToBackend();
+                if (newShape.length > 1){
+                    this.props.createShape(newShape);
+                    this.pushShapesToBackend();
                 }
 
                 this.props.editOff();
-                this.props.setEditedPath([]);
+                this.props.setSelectedShape([]);
 
                 alreadyDrawing = false;
             });
 
         keydownDelete
             .observe(e => {
-                this.props.setEditedPath([]);
+                this.props.setSelectedShape([]);
                 this.props.editOff();
-                this.pushPathsToBackend();
+                this.pushShapesToBackend();
             });
 
         click // delete shape
-            .filter(e => this.props.editorMode === DELETE_MODE)
-            .filter(e => e.target.dataset && 'pathIndex' in e.target.dataset)
+            .filter(e => this.props.mode === EDITOR_MODES.DELETE_MODE)
+            .filter(e => e.target.dataset && 'shapeIndex' in e.target.dataset)
             .observe(e => {
-                this.props.deletePath(e.target.dataset.pathIndex);
-                this.pushPathsToBackend();
+                this.props.deleteShape(e.target.dataset.shapeIndex);
+                this.pushShapesToBackend();
             });
 
         click // animate drawing
-            .filter(e => this.props.editorMode === DRAW_MODE)
+            .filter(e => this.props.mode === EDITOR_MODES.DRAW_MODE)
             .filter(e => {
-                return !(e.target.dataset && 'pathIndex' in e.target.dataset)
+                return !(e.target.dataset && 'shapeIndex' in e.target.dataset)
             })
             .chain(p => {
                 return mousemove
@@ -141,37 +163,37 @@ class Canvas extends React.Component {
             .observe(e => this.setTempNode(e[0], e[1]));
 
         click // draw line
-            .filter(e => this.props.editorMode === DRAW_MODE && !alreadyDrawing)
+            .filter(e => this.props.mode === EDITOR_MODES.DRAW_MODE && !alreadyDrawing)
             .filter(e => {
-                return !(e.target.dataset && 'pathIndex' in e.target.dataset)
+                return !(e.target.dataset && 'shapeIndex' in e.target.dataset)
             })
             .chain(p => {
                 alreadyDrawing = true;
                 this.props.editOff();
                 p = this.getNormalizedPoint([p.x, p.y]);
-                this.addPathNode(p[0],p[1]);
+                this.addShapeNode(p[0],p[1]);
                 return click
                     .until(keydownEnter)
             })
             .map(e => this.getNormalizedPoint([e.x, e.y]))
-            .observe(e => this.addPathNode(e[0], e[1]));
+            .observe(e => this.addShapeNode(e[0], e[1]));
 
 
         click // enter edit mode
-            .filter(e => this.props.editorMode === DRAW_MODE && !alreadyDrawing)
-            .filter(e => e.target.dataset && 'pathIndex' in e.target.dataset)
+            .filter(e => this.props.mode === EDITOR_MODES.DRAW_MODE && !alreadyDrawing)
+            .filter(e => e.target.dataset && 'shapeIndex' in e.target.dataset)
             .observe(e => {
                 alreadyDrawing = true;
                 this.props.editOn();
-                const editPath = this.props.paths.filter(path => path.id === e.target.dataset.pathIndex)[0];
-                this.props.setEditedPath(editPath.path);
+                const editShape = this.props.shapes.filter(shape => shape.id === e.target.dataset.shapeIndex)[0];
+                this.props.setSelectedShape(editShape.nodes);
 
-                this.props.deletePath(e.target.dataset.pathIndex);
+                this.props.deleteShape(e.target.dataset.shapeIndex);
             });
 
         let editNode = -1;
         mousedown // edit node of the line
-            .filter(e => this.props.editorMode === DRAW_MODE)
+            .filter(e => this.props.mode === EDITOR_MODES.DRAW_MODE)
             .filter(e => e.target.dataset && 'nodeIndex' in e.target.dataset)
             .chain(md => {
                 editNode = Number(md.target.dataset.nodeIndex);
@@ -179,13 +201,13 @@ class Canvas extends React.Component {
                     .until(mouseup);
             })
             .observe(e => {
-                const newEditPath = this.props.editedPath.path;
-                newEditPath[editNode] = this.getNormalizedPoint([e.x, e.y]);
-                this.props.setEditedPath(newEditPath);
+                const newSelectedShape = this.props.selectedShape.nodes;
+                newSelectedShape[editNode] = this.getNormalizedPoint([e.x, e.y]);
+                this.props.setSelectedShape(newSelectedShape);
             });
 
         mousedown
-            .filter(e => this.props.editorMode === VIEW_MODE)
+            .filter(e => this.props.mode === EDITOR_MODES.VIEW_MODE)
             .chain(md => {
                 return mousemove
                     .until(mouseup);
@@ -197,14 +219,14 @@ class Canvas extends React.Component {
 
     render() {
         let activeCursor ;
-        switch (this.props.editorMode){
-            case (DRAW_MODE):
+        switch (this.props.mode){
+            case (EDITOR_MODES.DRAW_MODE):
                 activeCursor = 'crosshair';
                 break;
-            case (VIEW_MODE):
+            case (EDITOR_MODES.VIEW_MODE):
                 activeCursor = 'grab';
                 break;
-            case (DELETE_MODE):
+            case (EDITOR_MODES.DELETE_MODE):
                 activeCursor = 'crosshair';
                 break;
             default:
@@ -213,8 +235,8 @@ class Canvas extends React.Component {
         return (
             <div>
                 <svg id="canvas" className="canvas" width="100%" height="100%" style={{cursor: activeCursor}}>
-                    {this.renderPath(this.props.editedPath, 0, false)}
-                    {this.renderPathNodes(this.props.editedPath.path)}
+                    {this.renderShape(this.props.selectedShape, 0, false)}
+                    {this.renderShapeNodes(this.props.selectedShape.nodes)}
                     {this.renderAllSaved()}
                 </svg>
             </div>

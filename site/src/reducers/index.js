@@ -1,18 +1,10 @@
 import { combineReducers } from 'redux'
-import paths from './paths';
-import canvasMode from './canvasMode';
-import edit from './edit';
-import editedPath from './editedPath';
-import documents from './documents';
-import editorMode from './editorMode';
+import editor from './editor';
+import canvas from './canvas';
 
 const epigmaReducers = combineReducers({
-    paths,
-    canvasMode,
-    edit,
-    editedPath,
-    documents,
-    editorMode
+    canvas,
+    editor,
 });
 
 export default epigmaReducers;

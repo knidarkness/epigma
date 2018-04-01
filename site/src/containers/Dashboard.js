@@ -5,7 +5,7 @@ import {createIllustration, renameDocument, deleteDocument, itemsFetchData} from
 import DashboardComponent from './../components/Dashboard/Dashboard';
 
 const mapStateToProps = (state) => ({
-    documents: state.documents
+    documents: state.editor.documents
 });
 
 const mapDispatchToProps = ({

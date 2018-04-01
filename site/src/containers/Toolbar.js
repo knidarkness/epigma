@@ -16,8 +16,8 @@ const mapDispatchToProps = ({
 
 const ToolbarContainer = connect(
     (state) => ({
-        editorMode: state.editorMode,
-        zoom: state.canvasMode.zoom
+        mode: state.canvas.mode,
+        zoom: state.canvas.viewMatrix.zoom
     }),
     mapDispatchToProps
 )(Toolbar);
