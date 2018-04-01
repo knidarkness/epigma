@@ -4,3 +4,11 @@ export const EDITOR_MODES = {
     VIEW_MODE: 'VIEW_MODE',
     DELETE_MODE: 'DELETE_MODE'
 };
+
+export const CURSOR = {
+    DRAW: 'crosshair',
+    EDIT: 'crosshair',
+    DELETE: 'crosshair',
+    VIEW: 'grab',
+    DEFAULT: 'auto',       
+}

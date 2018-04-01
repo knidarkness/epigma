@@ -211,23 +211,9 @@ class Canvas extends React.Component {
     }
 
     render() {
-        let activeCursor ;
-        switch (this.props.mode){
-            case (EDITOR_MODES.DRAW_MODE):
-                activeCursor = 'crosshair';
-                break;
-            case (EDITOR_MODES.VIEW_MODE):
-                activeCursor = 'grab';
-                break;
-            case (EDITOR_MODES.DELETE_MODE):
-                activeCursor = 'crosshair';
-                break;
-            default:
-                activeCursor = 'auto';
-        }
         return (
             <div>
-                <svg id="canvas" className="canvas" width="100%" height="100%" style={{cursor: activeCursor}}>
+                <svg id="canvas" className="canvas" width="100%" height="100%" style={{cursor: this.props.cursor}}>
                     {this.renderShape(this.props.selectedShape, 0, false)}
                     {this.renderShapeNodes(this.props.selectedShape.nodes)}
                     {this.renderAllSaved()}

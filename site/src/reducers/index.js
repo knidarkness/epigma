@@ -9,6 +9,7 @@ const epigmaReducers = combineReducers({
 
 export const getAllShapes = state => state.canvas.shapes.present;
 export const getMode = state => state.canvas.mode;
+export const getCursor = state => state.canvas.cursor;
 export const getViewMatrix = state => state.canvas.viewMatrix.viewMatrix;
 export const getEdit = state => state.canvas.edit;
 export const getSelectedShape = state => state.canvas.selectedShape;
