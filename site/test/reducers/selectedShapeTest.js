@@ -1,18 +1,18 @@
 import assert from 'assert';
 import {setSelectedShape} from "../../src/actions";
-import editedPathReducer from './../../src/reducers/canvas/selectedPath';
+import editedShapeReducer from './../../src/reducers/canvas/selectedShape';
 
-describe('Edited path tests', function () {
-    it('Set edited path', function () {
-        const editedPath = {
+describe('Edited shape tests', function () {
+    it('Set edited shape', function () {
+        const editedShape = {
             nodes: [
                 [100, 100, 1],
                 [200, 200, 1]
             ],
             color: 'yellow'
         };
-        const action = setSelectedShape(editedPath.nodes, editedPath.color);
-        const actual = editedPathReducer([], action);
-        assert.deepEqual(editedPath, actual);
+        const action = setSelectedShape(editedShape.nodes, editedShape.color);
+        const actual = editedShapeReducer([], action);
+        assert.deepEqual(editedShape, actual);
     })
 });
