@@ -2,8 +2,6 @@
 
 ## Launching 
 
-Before launching you should run the back-end project from [epigma-be](https://github.com/knidarkness/epigma-be) repository.
-
 Then set its URI in the ```const.js``` as following: ```http://host:80/api/path```.
 
 To run this project run following commands in the root directory of the project:
@@ -22,7 +20,7 @@ of the repository and navigate to http://localhost to explore the Epigma editor.
 
 ## Dev-tools
 
-For debug consider using [Redux DevTool Extensio](http://extension.remotedev.io) for Firefox or Chrome.
+For debug consider using [Redux DevTool Extension](http://extension.remotedev.io) for Firefox or Chrome.
 
 ## TODO
 
