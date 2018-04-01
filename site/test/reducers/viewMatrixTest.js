@@ -1,6 +1,6 @@
 import assert from 'assert';
 
-import {shiftCanvas} from "../../src/actions";
+import {shiftCanvas, zoomTo} from "../../src/actions";
 import viewMatrix from '../../src/reducers/canvas/viewMatrix';
 
 import Matrix from '../../src/utils/matrix';
@@ -32,5 +32,21 @@ describe('Canvas zoom/shift tests', function () {
         };
         assert.deepEqual(actual, expected);
     })
+    
+    it('Zoom into a point', function () {
+        const state = {
+            zoom: 1,
+            viewMatrix: new Matrix(1, 0, 0, 1, 15, 15)
+        };
+        const point = [300, 300]
+        const action = zoomTo(point, 0.1);
+        const actual = viewMatrix(state, action);
+        const expected = {
+            zoom: 1.1,
+            viewMatrix: new Matrix(1.1, 0, 0, 1.1, -13.5, -13.5)
+        };
+        assert.deepEqual(actual, expected);
+    })
+   
 });
 

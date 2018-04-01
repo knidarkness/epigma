@@ -19,16 +19,16 @@ const viewMatrix = (state = defaultState, action) => {
             newZoom = Math.max(state.zoom + action.zoom, 0.5);
             return {
                 zoom: newZoom,
-                viewMatrix: state.viewMatrix.scaleToPoint(newZoom, action.cursorX, action.cursorY)
+                viewMatrix: state.viewMatrix.scaleToPoint(action.point, newZoom)
             };
 
         case actionTypes.CHANGE_ZOOM:
             newZoom = Math.max(state.zoom + action.zoom, 0.5);
-            const centerX = document.getElementById('canvas').getBoundingClientRect().width / 2; 
-            const centerY = document.getElementById('canvas').getBoundingClientRect().height / 2;
+            const center = [document.getElementById('canvas').getBoundingClientRect().width / 2, 
+                            document.getElementById('canvas').getBoundingClientRect().height / 2];
             return {
                 zoom: newZoom,
-                viewMatrix: state.viewMatrix.scaleToPoint(newZoom, centerX, centerY)
+                viewMatrix: state.viewMatrix.scaleToPoint(center, newZoom)
             };
         default:
             return state;

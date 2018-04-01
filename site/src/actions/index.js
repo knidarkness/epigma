@@ -32,11 +32,10 @@ export const changeZoom = (zoom) => ({
     zoom
 });
 
-export const zoomTo = (zoom, cursorX, cursorY) => ({
+export const zoomTo = (point, zoom) => ({
     type: actionTypes.ZOOM_TO,
-    zoom,
-    cursorX,
-    cursorY
+    point,
+    zoom
 });
 
 

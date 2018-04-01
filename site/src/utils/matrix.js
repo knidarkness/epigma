@@ -51,11 +51,11 @@ class Matrix {
             this.b * point[0] + this.d * point[1] + this.f
         ]
     }
-    scaleToPoint(s, x, y) {
-        const normalizedPoint = this.inverse().transformPoint([x, y]);    
+    scaleToPoint(point, s) {
+        const normalizedPoint = this.inverse().transformPoint(point);    
         return Matrix.translation(-normalizedPoint[0], -normalizedPoint[1])
                      .scale(s, s)
-                     .translate(x, y);
+                     .translate(point[0], point[1]);
     };
 
     static identity() {

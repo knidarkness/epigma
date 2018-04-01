@@ -105,7 +105,7 @@ class Canvas extends React.Component {
 
 
         wheel.observe(e => {
-            this.props.zoomTo(((e.deltaY > 0) ? 0.01 : -0.01), e.x, e.y);
+            this.props.zoomTo([e.x, e.y], ((e.deltaY > 0) ? 0.01 : -0.01));
         });
 
         keydownEnter
