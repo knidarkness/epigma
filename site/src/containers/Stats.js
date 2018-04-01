@@ -1,13 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {changeZoom} from "../actions";
+
+import {getZoom, getShapesNum, getNodesNum} from "../reducers";
 
 import Stats from '../components/Stats/Stats';
 
 const mapStateToProps = (state) => ({
-    paths: state.canvas.shapes.present.length,
-    canvasMode: state.canvas.viewMatrix,
-    nodes:  state.canvas.shapes.present.reduce((acc, element) => acc + element.nodes.length, 0)
+    shapes: getShapesNum(state),
+    zoom: getZoom(state),
+    nodes: getNodesNum(state)
 });
 
 const StatsData = connect(

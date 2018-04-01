@@ -9,9 +9,6 @@ import './Canvas.scss';
 class Canvas extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-
-        }
     }
 
     getOffsetedPoint(point) {
@@ -76,8 +73,6 @@ class Canvas extends React.Component {
     }
 
     componentDidMount() {
-        console.log('Did mount');
-        console.log(this.props);
         this.props.fetchShapes(this.props.documentId);
 
         let alreadyDrawing = false;
@@ -115,8 +110,6 @@ class Canvas extends React.Component {
 
         keydownEnter
             .observe(() => {
-                console.log('Clicked\n');
-                console.log(this.props);
                 let newShape;
 
                 if (this.props.edit) {
