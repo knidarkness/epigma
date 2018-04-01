@@ -1,5 +1,5 @@
-const host = window.document.location.host.replace(/:.*/, '');
-export const DOCUMENT_LIST_URI = 'http://' + host + ':3000/api/document';
+const host = 'http://52.47.126.164:3000'
+export const DOCUMENT_LIST_URI = host + '/api/document';
 export const EDITOR_MODE = {
     DRAW: 'DRAW_MODE',
     VIEW: 'VIEW_MODE',
