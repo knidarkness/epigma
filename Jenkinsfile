@@ -16,8 +16,6 @@
          stage('Build') {
              steps {
                   sh 'ls -l'
-                  sh 'chmod +x ./build-site.sh'
-                  sh './build-site.sh'
              }
          }
          stage('Deploy'){
