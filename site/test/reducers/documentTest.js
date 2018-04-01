@@ -1,6 +1,6 @@
-const assert = require('assert');
-const documentsReducer = require('./../../src/reducers/documents');
-const actionTypes = require('./../../src/actions/actionTypes');
+import assert from 'assert';
+import documentsReducer from '../../src/reducers/editor/documents';
+import * as actionTypes from './../../src/actions/actionTypes';
 
 describe('Documents reducers tests', function() {
    it('Create document for empty state', function() {

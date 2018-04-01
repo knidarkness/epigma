@@ -1,30 +1,37 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import {getAllShapes, getMode, getEdit, getCursor, getSelectedShape, getViewMatrix} from "../reducers";
+
 import Canvas from '../components/Canvas/Canvas';
-import {createPath, deletePath, updatePath, fetchPaths, setEditedPath, changeZoom, zoomTo, shiftCanvas, moveTo, editOff, editToggle, editOn} from "../actions";
+import {createShape, deleteShape, updateShape, fetchShapes, setSelectedShape, selectedShapeAddNode, selectedShapeDeleteNode, selectedShapeUpdateNode, changeZoom, zoomTo, shiftCanvas, editOff, editToggle, editOn, updateCursorPosition} from "../actions";
+
 
 const mapStateToProps = (state) => ({
-    editorMode: state.editorMode,
-    paths: state.paths.present,
-    canvasMode: state.canvasMode,
-    edit: state.edit,
-    editedPath: state.editedPath
+    mode: getMode(state),
+    shapes: getAllShapes(state),
+    viewMatrix: getViewMatrix(state),
+    edit: getEdit(state),
+    selectedShape: getSelectedShape(state),
+    cursor: getCursor(state)
 });
 
 const mapDispatchToProps = ({
-    fetchPaths,
-    createPath,
-    deletePath,
-    updatePath,
-    setEditedPath,
+    fetchShapes,
+    createShape,
+    deleteShape,
+    updateShape,
+    setSelectedShape,
+    selectedShapeAddNode,
+    selectedShapeDeleteNode,
+    selectedShapeUpdateNode,
     changeZoom,
     zoomTo,
     shiftCanvas,
-    moveTo,
     editToggle,
     editOn,
-    editOff
+    editOff,
+    updateCursorPosition
 });
 
 const RenderCanvas = connect(

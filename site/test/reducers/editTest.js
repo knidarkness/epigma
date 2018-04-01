@@ -1,7 +1,7 @@
-const assert = require('assert');
-const actionTypes = require('./../../src/actions/actionTypes');
+import assert from 'assert';
+import * as actionTypes from './../../src/actions/actionTypes';
 
-const editReducer = require('./../../src/reducers/edit');
+import editReducer from'../../src/reducers/canvas/edit';
 
 describe('Edit mode tests', function () {
     it('Edit mode on', function () {

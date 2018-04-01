@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
     const illustrations = await models.Illustration.find({});
     const namedIllustrations = illustrations
         .map((illustration, id) => ({
-            paths: illustration.paths,
+            shapes: illustration.shapes,
             name: illustration.name,
             id: illustration._id,
             editedAt: illustration.editedAt
@@ -27,7 +27,7 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
     const newIllustration = new models.Illustration({
         name: req.body.name,
-        paths: [],
+        shapes: [],
         editedAt: Date.now()
     });
     const savedIllustration = await newIllustration.save();
@@ -52,25 +52,25 @@ router.patch('/:documentId', async (req, res) => {
 });
 
 router.delete('/:documentId/', async (req, res) => {
-    await models.Illustration.findByIdAndRemove(req.params.documentId, (err, todo) => {
-
+    models.Illustration.findByIdAndRemove(req.params.documentId, (err, illustration) => {
+        console.log(`Illustration ${illustration} was deleted`);
+        res.status(200).send();
     });
-    res.status(200).send();
+
 });
 
-router.get('/:documentId/paths', async (req, res) => {
+router.get('/:documentId/shapes', async (req, res) => {
     const illustrations = await models.Illustration.find({_id: req.params.documentId});
     res.json(illustrations[0]);
 });
 
 
-router.put('/:documentId/paths', async (req, res) => {
-    const paths = req.body.paths.map(p => p.path);
+router.put('/:documentId/shapes', async (req, res) => {
+    const shapes = req.body.shapes.map(p => p.nodes);
     const illustrations = await models.Illustration.find({_id: req.params.documentId});
-    illustrations[0].paths = paths;
+    illustrations[0].shapes = shapes;
     illustrations[0].editedAt = Date.now();
     illustrations[0].save((err, upd) => {
-        console.log('saved 1');
         res.status(200).send();
     });
 });

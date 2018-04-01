@@ -1,7 +1,7 @@
-const actionTypes = require('./../actions/actionTypes');
+import * as actionTypes from '../../actions/actionTypes';
 
 const editMode = (state = false, action) => {
-    switch (action.type){
+    switch (action.type) {
         case actionTypes.EDIT_ON:
             return true;
         case actionTypes.EDIT_OFF:
@@ -13,4 +13,4 @@ const editMode = (state = false, action) => {
     }
 };
 
-module.exports = editMode;
+export default editMode;

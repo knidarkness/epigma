@@ -2,41 +2,56 @@ import uuid4 from 'uuid/v4'
 import * as actionTypes from "./actionTypes";
 import {DOCUMENT_LIST_URI} from "../const";
 
-export const createPath = (path, color = 'black') => ({
-    type: actionTypes.CREATE_PATH,
+export const createShape = (nodes, color = 'black') => ({
+    type: actionTypes.CREATE_SHAPE,
     id: uuid4(),
-    path,
+    nodes,
     color
 });
 
-export const deletePath = (pathId) => ({
-    type: actionTypes.DELETE_PATH,
+export const deleteShape = (pathId) => ({
+    type: actionTypes.DELETE_SHAPE,
     id: pathId
 });
 
-export const updatePath = (id, path) => ({
-    type: actionTypes.UPDATE_PATH,
+export const updateShape = (id, nodes) => ({
+    type: actionTypes.UPDATE_SHAPE,
     id,
-    path
+    nodes
 });
 
-export const setEditedPath = (path, color = '#000000') => ({
-   type: actionTypes.SET_EDITED_PATH,
-   path: path,
-   color: color
+export const setSelectedShape = (nodes, color = '#000000') => ({
+    type: actionTypes.SET_SELECTED_SHAPE,
+    nodes: nodes,
+    color: color
 });
 
+export const selectedShapeAddNode = (node, index = 0) => ({
+    type: actionTypes.SELECTED_SHAPE_ADD_NODE,
+    node,
+    index
+});
+
+export const selectedShapeDeleteNode = (index) => ({
+    type: actionTypes.SELECTED_SHAPE_DELETE_NODE,
+    index
+});
+
+export const selectedShapeUpdateNode = (node, index) => ({
+    type: actionTypes.SELECTED_SHAPE_UPDATE_NODE,
+    node,
+    index
+});
 
 export const changeZoom = (zoom) => ({
     type: actionTypes.CHANGE_ZOOM,
     zoom
 });
 
-export const zoomTo = (zoom, cursorX, cursorY) => ({
+export const zoomTo = (point, zoom) => ({
     type: actionTypes.ZOOM_TO,
-    zoom,
-    cursorX,
-    cursorY
+    point,
+    zoom
 });
 
 
@@ -149,18 +164,18 @@ export const renameDocument = (id, name) => {
     }
 };
 
-export const fetchPaths = (id) => {
+export const fetchShapes = (id) => {
     return (dispatch) => {
-        fetch(DOCUMENT_LIST_URI + '/' + id + '/paths/')
+        fetch(DOCUMENT_LIST_URI + '/' + id + '/shapes/')
             .then(function (response) {
                 return response.json();
             })
             .then((data) => {
                 dispatch({
-                    type: actionTypes.FETCH_PATHS,
-                    paths: data.paths.map(path => ({
+                    type: actionTypes.FETCH_SHAPES,
+                    shapes: data.shapes.map(shape => ({
                         id: uuid4(),
-                        path: path,
+                        nodes: shape,
                         color: 'black'
                     }))
                 });
@@ -193,4 +208,10 @@ export const editOff = () => ({
 
 export const editToggle = () => ({
     type: actionTypes.TOGGLE_EDIT
+});
+
+export const updateCursorPosition = (x, y) => ({
+    type: actionTypes.UPDATE_CURSOR_POSITION,
+    x,
+    y
 });

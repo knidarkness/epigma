@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const illustrationSchema = mongoose.Schema({
-    paths: Array,
+    shapes: Array,
     name: String,
     editedAt: Number
 });

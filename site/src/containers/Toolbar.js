@@ -5,6 +5,8 @@ import {changeZoom, enableViewMode, enableDrawMode, enableDeleteMode} from "../a
 import Toolbar from '../components/Toolbar/Toolbar';
 import { ActionCreators } from 'redux-undo';
 
+import {getMode, getZoom} from "../reducers";
+
 const mapDispatchToProps = ({
     changeZoom,
     undo: ActionCreators.undo,
@@ -16,8 +18,8 @@ const mapDispatchToProps = ({
 
 const ToolbarContainer = connect(
     (state) => ({
-        editorMode: state.editorMode,
-        zoom: state.canvasMode.zoom
+        mode: getMode(state),
+        zoom: getZoom(state)
     }),
     mapDispatchToProps
 )(Toolbar);
