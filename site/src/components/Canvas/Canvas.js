@@ -1,7 +1,7 @@
 import React from 'react';
 import * as most from 'most'
 import v4 from 'uuid/v4';
-import {DOCUMENT_LIST_URI, EDITOR_MODES} from "../../const";
+import {DOCUMENT_LIST_URI, EDITOR_MODE} from "../../const";
 import Matrix from '../../utils/matrix.js';
 
 import './Canvas.scss';
@@ -136,7 +136,7 @@ class Canvas extends React.Component {
             });
 
         click // delete shape
-            .filter(e => this.props.mode === EDITOR_MODES.DELETE_MODE)
+            .filter(e => this.props.mode === EDITOR_MODE.DELETE)
             .filter(e => e.target.dataset && 'shapeIndex' in e.target.dataset)
             .observe(e => {
                 this.props.deleteShape(e.target.dataset.shapeIndex);
@@ -144,7 +144,7 @@ class Canvas extends React.Component {
             });
 
         click // animate drawing
-            .filter(e => this.props.mode === EDITOR_MODES.DRAW_MODE)
+            .filter(e => this.props.mode === EDITOR_MODE.DRAW)
             .filter(e => {
                 return !(e.target.dataset && 'shapeIndex' in e.target.dataset)
             })
@@ -156,7 +156,7 @@ class Canvas extends React.Component {
             .observe(e => this.setTempNode(e[0], e[1]));
 
         click // draw line
-            .filter(e => this.props.mode === EDITOR_MODES.DRAW_MODE && !alreadyDrawing)
+            .filter(e => this.props.mode === EDITOR_MODE.DRAW && !alreadyDrawing)
             .filter(e => {
                 return !(e.target.dataset && 'shapeIndex' in e.target.dataset)
             })
@@ -173,7 +173,7 @@ class Canvas extends React.Component {
 
 
         click // enter edit mode
-            .filter(e => this.props.mode === EDITOR_MODES.DRAW_MODE && !alreadyDrawing)
+            .filter(e => this.props.mode === EDITOR_MODE.DRAW && !alreadyDrawing)
             .filter(e => e.target.dataset && 'shapeIndex' in e.target.dataset)
             .observe(e => {
                 alreadyDrawing = true;
@@ -186,7 +186,7 @@ class Canvas extends React.Component {
 
         let editNode = -1;
         mousedown // edit node of the line
-            .filter(e => this.props.mode === EDITOR_MODES.DRAW_MODE)
+            .filter(e => this.props.mode === EDITOR_MODE.DRAW)
             .filter(e => e.target.dataset && 'nodeIndex' in e.target.dataset)
             .chain(md => {
                 editNode = Number(md.target.dataset.nodeIndex);
@@ -200,7 +200,7 @@ class Canvas extends React.Component {
             });
 
         mousedown
-            .filter(e => this.props.mode === EDITOR_MODES.VIEW_MODE)
+            .filter(e => this.props.mode === EDITOR_MODE.VIEW)
             .chain(md => {
                 return mousemove
                     .until(mouseup);
