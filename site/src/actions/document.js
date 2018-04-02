@@ -1,4 +1,4 @@
-import {itemsFetchDataSuccess} from "./index";
+import {itemsFetchDataSuccess} from "./atomic";
 import {DOCUMENT_LIST_URI} from "../const";
 import * as actionTypes from "./actionTypes";
 
