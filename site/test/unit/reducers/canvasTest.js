@@ -1,9 +1,9 @@
 import assert from 'assert';
 
-import {shiftCanvas, zoomTo} from "../../src/actions/atomic";
-import canvas from '../../src/reducers/editor/canvas';
+import {shiftCanvas, zoomTo} from "../../../src/actions/atomic";
+import canvas from '../../../src/reducers/editor/canvas';
 
-import Matrix from '../../src/utils/matrix';
+import Matrix from '../../../src/utils/matrix';
 
 describe('Canvas zoom/shift tests', function () {
     it('Shift from zero coordinate', function () {

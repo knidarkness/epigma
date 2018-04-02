@@ -8,15 +8,16 @@
     "build": "webpack --mode production",
     "prod": "npm run build && echo 'done'",
     "start": "npm run dev | serve --single",
-    "test": "mocha --require babel-register --compilers js:babel-register ./test/*"
+    "test:unit": "mocha --require babel-register --compilers js:babel-register ./test/unit/*",
+    "test:e2e": "mocha --require babel-register --compilers js:babel-register ./test/e2e/*"
   },
   "author": "knidarkness, alien, tarasz",
   "license": "ISC",
   "dependencies": {
     "babel-preset-react": "^6.24.1",
     "css-loader": "^0.28.10",
+    "dateformat": "^3.0.3",
     "helmet": "^3.12.0",
-    "moment": "^2.21.0",
     "most": "^1.7.3",
     "node-sass": "^4.7.2",
     "query-string": "^6.0.0",
@@ -41,6 +42,7 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "mocha": "^5.0.5",
+    "nightmare": "^3.0.1",
     "webpack": "^4.4.1",
     "webpack-cli": "^2.0.13"
   }

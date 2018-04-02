@@ -5,7 +5,7 @@ import {getAllShapes, getMode, getEdit, getZoom, getCursor, getSelectedShape, ge
 
 import Canvas from '../components/Canvas/Canvas';
 import {createShape, deleteShape, updateShape, setSelectedShape, selectedShapeAddNode, selectedShapeDeleteNode, selectedShapeUpdateNode, changeZoom, zoomTo, shiftCanvas, editOff, editToggle, editOn, updateCursorPosition} from "../actions/atomic";
-import {fetchShapes} from "../actions/shape";
+import {fetchShapes, pushShapesToBackend} from "../actions/shape";
 
 const mapStateToProps = (state) => ({
     mode: getMode(state),
@@ -19,6 +19,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = ({
     fetchShapes,
+    pushShapesToBackend,
     createShape,
     deleteShape,
     updateShape,
