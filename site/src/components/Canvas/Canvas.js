@@ -104,13 +104,8 @@ class Canvas extends React.Component {
 
         keydownEnter
             .observe(() => {
-                let newShape;
+                const newShape = this.props.selectedShape.nodes;
 
-                if (this.props.edit) {
-                    newShape = this.props.selectedShape.nodes
-                } else {
-                    newShape = this.props.selectedShape.nodes.slice(0, -1)
-                }
                 if (newShape.length > 1){
                     this.props.createShape(newShape);
                     this.pushShapesToBackend();
