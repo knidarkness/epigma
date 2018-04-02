@@ -1,6 +1,6 @@
 import assert from 'assert';
-import {setSelectedShape} from "../../src/actions";
-import editedShapeReducer from './../../src/reducers/canvas/selectedShape';
+import {setSelectedShape} from "../../src/actions/atomic";
+import editedShapeReducer from './../../src/reducers/editor/selectedShape';
 
 describe('Edited shape tests', function () {
     it('Set edited shape', function () {
@@ -12,7 +12,7 @@ describe('Edited shape tests', function () {
             color: 'yellow'
         };
         const action = setSelectedShape(editedShape.nodes, editedShape.color);
-        const actual = editedShapeReducer([], action);
+        const actual = editedShapeReducer({}, action);
         assert.deepEqual(editedShape, actual);
     })
 });

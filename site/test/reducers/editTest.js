@@ -1,7 +1,7 @@
 import assert from 'assert';
 import * as actionTypes from './../../src/actions/actionTypes';
 
-import editReducer from'../../src/reducers/canvas/edit';
+import editReducer from'../../src/reducers/editor/edit';
 
 describe('Edit mode tests', function () {
     it('Edit mode on', function () {

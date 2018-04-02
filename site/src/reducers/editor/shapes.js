@@ -9,11 +9,7 @@ function shape(state, action) {
                 nodes: action.nodes,
                 color: action.color
             };
-        case actionTypes.DELETE_SHAPE:
-            if (state.id !== action.id) return state;
-            else return null;
-        case  actionTypes.UPDATE_SHAPE:
-            if (state.id !== action.id) return state;
+        case actionTypes.UPDATE_SHAPE:
             return {
                 id: state.id,
                 color: state.color,
@@ -30,26 +26,21 @@ export const shapes = (state = [], action) => {
                 nodes: shape.nodes,
                 color: shape.color
             }));
-        case  actionTypes.CREATE_SHAPE:
+        case actionTypes.CREATE_SHAPE:
             return [
                 ...state,
                 shape(undefined, action)
             ];
-        case  actionTypes.DELETE_SHAPE:
-            return state
-                .filter(p => {
-                    return p.id !== action.id
-                });
-        case  actionTypes.UPDATE_SHAPE:
-            return state
-                .map(p => shape(p, action));
+        case actionTypes.DELETE_SHAPE:
+            return state.filter(p => p.id !== action.id);
+        case actionTypes.UPDATE_SHAPE:
+            return state.map(p => (p.id === action.id) ? shape(p, action) : p);
         default:
             return state;
     }
 };
 
 
-//TODO: add DELETE_SHAPE to undoables???
-const undoableShapes = undoable(shapes, {filter: includeAction([actionTypes.CREATE_SHAPE, actionTypes.UPDATE_SHAPE])});
+const undoableShapes = undoable(shapes, {filter: includeAction([actionTypes.CREATE_SHAPE, actionTypes.UPDATE_SHAPE, actionTypes.DELETE_SHAPE])});
 
 export default undoableShapes;

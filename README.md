@@ -1,5 +1,7 @@
 # E-pigma project
 
+[![Build Status](http://52.47.206.37:8080/buildStatus/icon?job=epigma/master)](http://52.47.206.37:8080/job/epigma/job/master/)
+
 ## Launching 
 
 Then set its URI in the ```const.js``` as following: ```http://host:80/api/path```.

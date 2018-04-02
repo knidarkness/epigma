@@ -1,8 +1,9 @@
+import { combineReducers } from 'redux'
 import * as actionTypes from '../../actions/actionTypes';
 import {EDITOR_MODES, CURSOR} from '../../const';
 
-const defaultState = CURSOR.DRAW;
-const cursor = (state = defaultState, action) => {
+
+const icon = (state = CURSOR.VIEW, action) => {
     switch (action.type) {
         case actionTypes.ENABLE_DRAW_MODE:
             return CURSOR.DRAW;
@@ -17,4 +18,19 @@ const cursor = (state = defaultState, action) => {
     }
 };
 
+
+const position = (state = [0, 0], action) => {
+    switch (action.type) {
+        case actionTypes.UPDATE_CURSOR_POSITION:
+            return [action.x, action.y];
+        default:
+            return state;
+    }
+};
+
+
+const cursor = combineReducers({
+    position,
+    icon
+});
 export default cursor;

@@ -1,4 +1,8 @@
-export const DOCUMENT_LIST_URI = 'http://localhost:3000/api/document';
+import {getCurrentHost} from "./utils";
+
+const host = getCurrentHost(3000);
+
+export const DOCUMENT_LIST_URI = host + '/api/document';
 export const EDITOR_MODE = {
     DRAW: 'DRAW_MODE',
     VIEW: 'VIEW_MODE',
@@ -11,4 +15,4 @@ export const CURSOR = {
     DELETE: 'crosshair',
     VIEW: 'grab',
     DEFAULT: 'auto',       
-}
+};
