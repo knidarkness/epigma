@@ -57,7 +57,7 @@ class Dashboard extends React.Component {
                                 <li key={d.id} className="document-list__item">
                                     <Link to={`/edit?id=${d.id}`}>
                                         <span>{d.name}</span>
-                                        <span>{dateformat(d.editedAt, 'dddd mmmm yyyy,  hh:MM:ss ')}</span>
+                                        <span>{dateformat(d.editedAt, 'dd mm yyyy,  hh:MM:ss ')}</span>
                                         <div>
                                             <button className="button button_edit" onClick={(e) => {
                                                 e.stopPropagation();
