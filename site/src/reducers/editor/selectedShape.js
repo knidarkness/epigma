@@ -32,7 +32,7 @@ const color = (state = '#000000', action) => {
         default:
             return state;
     }
-}
+};
 
 const selectedShape = combineReducers({
     nodes,
