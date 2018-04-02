@@ -21,6 +21,7 @@
          stage('Build & Test') {
              steps {
                   sh 'cd site && npm install'
+                  sh 'npm i -g mocha'
                   sh 'cd site && npm test'
              }
          }
