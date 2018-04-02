@@ -8,6 +8,11 @@
          }
      }
      stages{
+         stage('Detect branch'){
+            steps{
+                println("now parsing branch name:"+BRANCH_NAME)
+            }
+         }
          stage('Pull'){
              steps{
                  git 'git@github.com:knidarkness/epigma.git'
