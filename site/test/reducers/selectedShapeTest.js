@@ -1,6 +1,6 @@
 import assert from 'assert';
 import {setSelectedShape} from "../../src/actions";
-import editedShapeReducer from './../../src/reducers/canvas/selectedShape';
+import editedShapeReducer from './../../src/reducers/editor/selectedShape';
 
 describe('Edited shape tests', function () {
     it('Set edited shape', function () {

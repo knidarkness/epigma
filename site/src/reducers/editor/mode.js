@@ -1,9 +1,7 @@
 import * as actionTypes from '../../actions/actionTypes';
 import {EDITOR_MODE} from '../../const';
 
-const defaultState = EDITOR_MODE.VIEW;
-
-const mode = (state = defaultState, action) => {
+const mode = (state = EDITOR_MODE.VIEW, action) => {
     switch (action.type) {
         case actionTypes.ENABLE_DRAW_MODE:
             return EDITOR_MODE.DRAW;
