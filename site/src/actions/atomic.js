@@ -36,10 +36,10 @@ export const selectedShapeDeleteNode = (index) => ({
     index
 });
 
-export const selectedShapeUpdateNode = (node, index) => ({
+export const selectedShapeUpdateNode = (index, node) => ({
     type: actionTypes.SELECTED_SHAPE_UPDATE_NODE,
-    node,
-    index
+    index,
+    node
 });
 
 export const changeZoom = (zoom) => ({

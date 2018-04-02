@@ -162,12 +162,13 @@ class Canvas extends React.Component {
                 this.props.setSelectedShape(editShape.nodes);
                 this.props.deleteShape(shapeIndex);
             });
-        let editNodeIndex = -1
+
+        let editNodeIndex = -1;
         mousedown // edit node of the line
             .filter(e => this.props.mode === EDITOR_MODE.DRAW)
             .filter(e => this.isNode(e))
             .chain(md => {
-                let editNodeIndex = Number(md.target.dataset.nodeIndex);
+                editNodeIndex = Number(md.target.dataset.nodeIndex);
                 return mousemove
                     .until(mouseup);
             })
@@ -190,9 +191,10 @@ class Canvas extends React.Component {
         const cursor = this.props.cursor;
         
         const selectedShape = {
-            nodes: (this.props.mode === EDITOR_MODE.DRAW) ? [...this.props.selectedShape.nodes, this.getNormalizedPoint(cursor.position)] : this.props.selectedShape.nodes,
+            nodes: (this.props.mode === EDITOR_MODE.DRAW && !this.props.edit) ? [...this.props.selectedShape.nodes, this.getNormalizedPoint(cursor.position)] : this.props.selectedShape.nodes,
             color: this.props.selectedShape.color
-        }
+        };
+
         return (
             <div>
                 <svg id="canvas" className="canvas" width="100%" height="100%" style={{cursor: cursor.icon}}>
