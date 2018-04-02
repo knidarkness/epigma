@@ -31,7 +31,7 @@ services:
   mongo:
     image: mongo
     volumes:
-      - mongo_data:/var/lib/mongo
+      - mongo_data:/data/db
     networks:
       epigma_local:
         aliases:
