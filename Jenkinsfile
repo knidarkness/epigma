@@ -24,10 +24,14 @@
              }
          }
          stage('Deploy'){
-             if (BRANCH_NAME == 'dev'){
-                sh 'echo "done dev"'
-             } else if (BRANCH_NAME == 'master'){
-                sh 'echo "done master"'
+             steps{
+                script{
+                    if (BRANCH_NAME == 'dev'){
+                        sh 'echo "done dev"'
+                    } else if (BRANCH_NAME == 'master'){
+                        sh 'echo "done master"'
+                    }
+                }
              }
          }
      }
