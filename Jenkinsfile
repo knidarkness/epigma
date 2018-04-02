@@ -15,7 +15,7 @@
          }
          stage('Pull'){
              steps{
-                 git 'git@github.com:knidarkness/epigma.git'
+                 git 'git@github.com:knidarkness/epigma.git' 'master'
              }
          }
          stage('Build & Test') {
