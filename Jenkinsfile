@@ -15,14 +15,14 @@
          }
          stage('Pull'){
              steps{
-                 git 'git@github.com:knidarkness/epigma.git master'
+                 git 'git@github.com:knidarkness/epigma.git'
              }
          }
          stage('Build & Test') {
              steps {
                   sh 'cd site && npm install'
                   sh 'npm i -g mocha'
-                  sh 'cd site && npm test'
+                  sh 'cd site && npm run test:unit'
              }
          }
          stage('Deploy'){
