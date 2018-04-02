@@ -32,7 +32,7 @@
                         sh 'echo "done dev"'
                     } else if (BRANCH_NAME == 'master'){
                         sh 'echo "done master"'
-                        // sh 'ssh ubuntu@52.47.126.164 "cd /usr/epigma/epigma; sudo docker-compose down; cd /usr/epigma/; sudo rm -rf /usr/epigma/epigma; sudo git clone https://github.com/knidarkness/epigma.git; cd /usr/epigma/epigma; sudo docker-compose up --build -d"'
+                        sh 'ssh ubuntu@52.47.126.164 "cd /usr/epigma/epigma; sudo docker-compose down; cd /usr/epigma/; sudo rm -rf /usr/epigma/epigma; sudo git clone https://github.com/knidarkness/epigma.git; cd /usr/epigma/epigma; sudo docker-compose up --build -d"'
                     }
                 }
              }
