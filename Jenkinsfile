@@ -13,11 +13,7 @@
                 println("now parsing branch name:"+BRANCH_NAME)
             }
          }
-         stage('Pull'){
-             steps{
-                 git 'git@github.com:knidarkness/epigma.git'
-             }
-         }
+
          stage('Build & Test') {
              steps {
                   sh 'cd site && npm install'
