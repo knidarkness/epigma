@@ -3,7 +3,7 @@ import * as actionTypes from '../../actions/actionTypes';
 import {EDITOR_MODES, CURSOR} from '../../const';
 
 
-const icon = (state = CURSOR.DRAW, action) => {
+const icon = (state = CURSOR.VIEW, action) => {
     switch (action.type) {
         case actionTypes.ENABLE_DRAW_MODE:
             return CURSOR.DRAW;
