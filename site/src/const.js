@@ -1,4 +1,7 @@
-const host = 'http://52.47.126.164:3000'
+import {getCurrentHost} from "./utils";
+
+const host = getCurrentHost(3000);
+
 export const DOCUMENT_LIST_URI = host + '/api/document';
 export const EDITOR_MODE = {
     DRAW: 'DRAW_MODE',
@@ -12,4 +15,4 @@ export const CURSOR = {
     DELETE: 'crosshair',
     VIEW: 'grab',
     DEFAULT: 'auto',       
-}
+};
