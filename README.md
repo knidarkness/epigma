@@ -40,6 +40,12 @@ For debug consider using [Redux DevTool Extension](http://extension.remotedev.io
 - <s><b>refactor reducer decomposition</s></b>
 - <s><b>finally deal with babel and mocha</b></s>
 
+## Would be nice to have
+
+- add type to the shapes
+- color palette for the shapes (stroke/fill colors)
+- rectangles drawing
+
 ## License
 
 All code is distributed under the MIT License.
