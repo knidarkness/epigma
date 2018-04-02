@@ -2,15 +2,10 @@ import React from 'react';
 import * as most from 'most'
 import v4 from 'uuid/v4';
 import {DOCUMENT_LIST_URI, EDITOR_MODE} from "../../const";
-import Matrix from '../../utils/matrix.js';
 
 import './Canvas.scss';
 
 class Canvas extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     getOffsetedPoint(point) {
         return this.props.viewMatrix.transformPoint(point);
     }
@@ -46,22 +41,6 @@ class Canvas extends React.Component {
     }
     isNode(e){
         return e.target.dataset && 'nodeIndex' in e.target.dataset
-    }
-
-
-    pushShapesToBackend() {
-        const request = new Request(DOCUMENT_LIST_URI + '/' + this.props.documentId + '/shapes/', {
-            method: 'PUT',
-            mode: 'cors',
-            redirect: 'follow',
-            body: JSON.stringify({
-                shapes: this.props.shapes
-            }),
-            headers: new Headers({
-                'Content-Type': 'application/json'
-            })
-        });
-        fetch(request);
     }
 
     componentWillUnmount(){
@@ -108,7 +87,7 @@ class Canvas extends React.Component {
 
                 if (newShape.length > 1){
                     this.props.createShape(newShape);
-                    this.pushShapesToBackend();
+                    this.props.pushShapesToBackend(this.props.documentId, this.props.shapes);
                 }
 
                 this.props.editOff();
@@ -121,7 +100,7 @@ class Canvas extends React.Component {
             .observe(e => {
                 this.props.setSelectedShape([]);
                 this.props.editOff();
-                this.pushShapesToBackend();
+                this.props.pushShapesToBackend(this.props.documentId, this.props.shapes);
             });
 
         click // delete shape
@@ -129,7 +108,7 @@ class Canvas extends React.Component {
             .filter(e => this.isShape(e))
             .observe(e => {
                 this.props.deleteShape(e.target.dataset.shapeIndex);
-                this.pushShapesToBackend();
+                this.props.pushShapesToBackend(this.props.documentId, this.props.shapes);
             });
 
         mousemove 
