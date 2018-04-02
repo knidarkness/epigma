@@ -1,6 +1,6 @@
 # E-pigma project
 
-[![Build Status](http://52.47.206.37:8080/job/epigma/job/master/badge/icon)](http://52.47.206.37:8080/job/epigma/job/master/)
+[![Build Status](http://52.47.206.37:8080/buildStatus/icon?job=epigma/master)](http://52.47.206.37:8080/job/epigma/job/master/)
 
 ## Launching 
 
