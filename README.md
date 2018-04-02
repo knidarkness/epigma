@@ -27,12 +27,12 @@ For debug consider using [Redux DevTool Extension](http://extension.remotedev.io
 ## TODO
 
 
-- fix undoables -- undo/redo states of each doc seprtly
-- split async actions into separate files, so that /actions/index.js define only atomic action creators (research/probably use: redux-observable)
-- each file up to 100 LOC
-- atomic entities (either all document (name, data, shapes), either only id and receive all properties via separate API calls)
 - C/D for nodes in edit mode of a shape
+- atomic entities (either all document (name, data, shapes), either only id and receive all properties via separate API calls)
+- fix undoables -- undo/redo states of each doc seprtly
+- each file up to 100 LOC
 
+- <s><b>split async actions into separate files, so that /actions/index.js define only atomic action creators (research/probably use: redux-observable)</b></s>
 - <s><b>research and use selectors for data access</b></s>
 - <s><b>dev-dep & dep</b></s>
 - <s><b>add moment.js for date/time formatting</b></s>
