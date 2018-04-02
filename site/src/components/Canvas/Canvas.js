@@ -1,7 +1,7 @@
 import React from 'react';
 import * as most from 'most'
 import v4 from 'uuid/v4';
-import {DOCUMENT_LIST_URI, EDITOR_MODE} from "../../const";
+import {EDITOR_MODE} from "../../const";
 
 import './Canvas.scss';
 
