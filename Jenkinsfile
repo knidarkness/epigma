@@ -18,14 +18,18 @@
                  git 'git@github.com:knidarkness/epigma.git'
              }
          }
-         stage('Build') {
+         stage('Build & Test') {
              steps {
-                  sh 'ls -l'
+                  sh 'cd site && npm install && npm test'
              }
          }
          stage('Deploy'){
              steps{
-                 sh 'echo done'
+                 if (BRANCH_NAME == 'dev'){
+                    sh 'echo "done dev"'
+                 } else if (BRANCH_NAME == 'master'){
+                    sh 'echo "done master"'
+                 }
              }
          }
      }
