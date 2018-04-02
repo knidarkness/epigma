@@ -1,6 +1,6 @@
 import assert from 'assert';
-import documentsReducer from '../../src/reducers/application/documents';
-import * as actionTypes from './../../src/actions/actionTypes';
+import documentsReducer from '../../../src/reducers/application/documents';
+import * as actionTypes from '../../../src/actions/actionTypes';
 
 describe('Documents reducers tests', function() {
    it('Create document for empty state', function() {

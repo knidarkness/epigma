@@ -8,7 +8,8 @@
     "build": "webpack --mode production",
     "prod": "npm run build && echo 'done'",
     "start": "npm run dev | serve --single",
-    "test": "mocha --require babel-register --compilers js:babel-register ./test/*"
+    "test:unit": "mocha --require babel-register --compilers js:babel-register ./test/unit/*",
+    "test:e2e": "mocha --require babel-register --compilers js:babel-register ./test/e2e/*"
   },
   "author": "knidarkness, alien, tarasz",
   "license": "ISC",
@@ -41,6 +42,7 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "mocha": "^5.0.5",
+    "nightmare": "^3.0.1",
     "webpack": "^4.4.1",
     "webpack-cli": "^2.0.13"
   }
