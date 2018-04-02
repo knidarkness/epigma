@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import {getDocuments} from "../reducers";
 
-import {createIllustration, renameDocument, deleteDocument, itemsFetchData} from "../actions";
+import {createIllustration, renameDocument, deleteDocument, itemsFetchData} from "../actions/document";
 import DashboardComponent from './../components/Dashboard/Dashboard';
 
 const mapStateToProps = (state) => ({

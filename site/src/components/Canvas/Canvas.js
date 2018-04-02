@@ -98,18 +98,14 @@ class Canvas extends React.Component {
 
 
         wheel.observe(e => {
-            this.props.zoomTo([e.x, e.y], ((e.deltaY > 0) ? 0.01 : -0.01));
+            const newZoom = Math.max(this.props.zoom + ((e.deltaY > 0) ? 0.01 : -0.01), 0.5);
+            this.props.zoomTo([e.x, e.y], newZoom);
         });
 
         keydownEnter
             .observe(() => {
-                let newShape;
+                const newShape = this.props.selectedShape.nodes;
 
-                if (this.props.edit) {
-                    newShape = this.props.selectedShape.nodes
-                } else {
-                    newShape = this.props.selectedShape.nodes.slice(0, -1)
-                }
                 if (newShape.length > 1){
                     this.props.createShape(newShape);
                     this.pushShapesToBackend();

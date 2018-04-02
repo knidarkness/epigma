@@ -1,5 +1,5 @@
 import assert from 'assert';
-import documentsReducer from '../../src/reducers/editor/documents';
+import documentsReducer from '../../src/reducers/application/documents';
 import * as actionTypes from './../../src/actions/actionTypes';
 
 describe('Documents reducers tests', function() {
