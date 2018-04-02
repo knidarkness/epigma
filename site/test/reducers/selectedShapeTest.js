@@ -1,5 +1,5 @@
 import assert from 'assert';
-import {setSelectedShape} from "../../src/actions";
+import {setSelectedShape} from "../../src/actions/atomic";
 import editedShapeReducer from './../../src/reducers/editor/selectedShape';
 
 describe('Edited shape tests', function () {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {changeZoom, enableViewMode, enableDrawMode, enableDeleteMode} from "../actions";
+import {changeZoom, enableViewMode, enableDrawMode, enableDeleteMode} from "../actions/atomic";
 
 import Toolbar from '../components/Toolbar/Toolbar';
 import { ActionCreators } from 'redux-undo';
