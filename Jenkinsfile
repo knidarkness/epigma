@@ -2,7 +2,7 @@
     agent {
          docker {
              image 'node:carbon'
-             args '-p 3000:3000 -e npm_config_cache=npm-cache -e HOME=. -u root:root -v /var/lib/jenkins/workspace/myworkspace:/tmp/' +
+             args '-e npm_config_cache=npm-cache -e HOME=. -u root:root -v /var/lib/jenkins/workspace/myworkspace:/tmp/' +
                          ' -v /var/lib/jenkins/.ssh:/root/.ssh'
 
          }
