@@ -1,9 +1,13 @@
 export const getCurrentHost = (port) => {
     let hostname;
-    if(window){
+
+    try {
         hostname = window.location.protocol + '//' + window.location.hostname;
-    } else {
-        hostname = 'http://localhost';
+    }
+    catch(e) {
+        if(e.name === "ReferenceError") {
+            hostname = 'http://localhost';
+        }
     }
     return `${hostname}:${port}`;
 };
