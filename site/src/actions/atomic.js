@@ -79,6 +79,11 @@ export const enableViewMode = () => ({
     type: actionTypes.ENABLE_VIEW_MODE
 });
 
+export const enableEditMode = () => ({
+    type: actionTypes.ENABLE_EDIT_MODE
+});
+
+
 export const enableDeleteMode = () => ({
     type: actionTypes.ENABLE_DELETE_MODE
 });
