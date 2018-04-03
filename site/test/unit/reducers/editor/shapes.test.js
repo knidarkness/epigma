@@ -1,6 +1,6 @@
 import assert from 'assert';
-import {shapes} from "../../../src/reducers/editor/shapes";
-import * as actionTypes from '../../../src/actions/actionTypes';
+import {shapes} from "../../../../src/reducers/editor/shapes";
+import * as actionTypes from '../../../../src/actions/actionTypes';
 
 
 describe('Paths reducer tests', function() {
