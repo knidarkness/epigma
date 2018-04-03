@@ -1,8 +1,8 @@
 import React from 'react';
 import * as most from 'most'
-import v4 from 'uuid/v4';
-import {EDITOR_MODE} from "../../const";
 
+import {EDITOR_MODE} from "../../const";
+import {createSVG} from "../../utils/svg";
 import './Canvas.scss';
 
 class Canvas extends React.Component {
@@ -14,27 +14,6 @@ class Canvas extends React.Component {
         return this.props.viewMatrix.inverse().transformPoint(point);
     }
 
-    renderShape(shape, i = 0) {
-        if (shape.nodes.length === 0) return;
-        const shapeNodesPath = shape.nodes
-            .map(point => this.getOffsetedPoint(point))
-            .reduce((prev, current) => prev + `${current[0]},${current[1]} `, '');
-        return (<polyline data-shape-index={shape.id} className="shape" key={i} points={shapeNodesPath}
-                          style={{fill: 'none', stroke: shape.color, strokeWidth: '3'}}/>);
-    }
-
-    renderAllSaved() {
-        return this.props.shapes.map((shape, id) => this.renderShape(shape, id));
-    }
-
-    renderShapeNodes(shape) {
-        return shape
-            .map(point => this.getOffsetedPoint(point))
-            .map((point, i) => {
-                return <circle data-node-index={i} cx={point[0]} cy={point[1]} r="5" key={v4()} stroke="black"
-                            strokeWidth="3" fill="red"/>
-        })
-    }
 
     isShape(e){
         return e.target.dataset && 'shapeIndex' in e.target.dataset
@@ -174,12 +153,17 @@ class Canvas extends React.Component {
             color: this.props.selectedShape.color
         };
 
+        selectedShape.nodes.map(point => this.getOffsetedPoint(point));
+        const shapes = this.props.shapes
+            .map(shape => ({
+                ...shape,
+                nodes: shape.nodes.map(point => this.getOffsetedPoint(point)),
+            }));
+
         return (
             <div>
                 <svg id="canvas" className="canvas" width="100%" height="100%" style={{cursor: cursor.icon}}>
-                    {this.renderShape(selectedShape, 0, false)}
-                    {this.renderShapeNodes(selectedShape.nodes)}
-                    {this.renderAllSaved()}
+                {createSVG(selectedShape, shapes)}
                 </svg>
             </div>
         )
