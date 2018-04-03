@@ -153,7 +153,8 @@ class Canvas extends React.Component {
             color: this.props.selectedShape.color
         };
 
-        selectedShape.nodes.map(point => this.getOffsetedPoint(point));
+        selectedShape.nodes = selectedShape.nodes.map(point => this.getOffsetedPoint(point));
+
         const shapes = this.props.shapes
             .map(shape => ({
                 ...shape,
