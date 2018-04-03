@@ -1,11 +1,11 @@
 import React from 'react';
 import * as most from 'most'
+
 import {EDITOR_MODE} from "../../const";
 import {createSVG} from "../../utils/svg";
 import './Canvas.scss';
 
 class Canvas extends React.Component {
-    
     getOffsetedPoint(point) {
         return this.props.viewMatrix.transformPoint(point);
     }
