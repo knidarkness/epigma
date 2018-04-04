@@ -8,7 +8,17 @@ const nodes = (state = [], action) => {
             return action.nodes;
     
         case actionTypes.SELECTED_SHAPE_ADD_NODE:
-            return [...state, action.node];
+            return [
+                ...state,
+                action.node,
+            ];
+
+        case actionTypes.SELECTED_SHAPE_INSERT_NODE:
+            return [
+                ...state.slice(0, action.index),
+                action.node,
+                ...state.slice(action.index)
+            ];
     
         case actionTypes.SELECTED_SHAPE_DELETE_NODE:
             return state.filter((node, i) => i !== action.index);            
