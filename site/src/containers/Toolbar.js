@@ -12,8 +12,7 @@ const mapDispatchToProps = ({
     undo: ActionCreators.undo,
     redo: ActionCreators.redo,
     enableDrawMode,
-    enableViewMode,
-    enableDeleteMode
+    enableViewMode
 });
 
 const ToolbarContainer = connect(

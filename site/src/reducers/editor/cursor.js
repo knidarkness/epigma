@@ -7,8 +7,6 @@ export const icon = (state = CURSOR.VIEW, action) => {
     switch (action.type) {
         case actionTypes.ENABLE_DRAW_MODE:
             return CURSOR.DRAW;
-        case actionTypes.ENABLE_DELETE_MODE:
-            return CURSOR.DELETE;
         case actionTypes.ENABLE_VIEW_MODE:        
             return CURSOR.VIEW;
         case actionTypes.ENABLE_EDIT_MODE:

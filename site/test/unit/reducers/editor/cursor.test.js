@@ -11,12 +11,6 @@ describe('Cursor reducer tests', function () {
         assert.equal(actual, expected);
     });
 
-    it('Cursor image when delete mode enabled', function () {
-        const actual = iconReducer(CURSOR.DEFAULT, atomicActions.enableDeleteMode());
-        const expected = CURSOR.DELETE;
-        assert.equal(actual, expected);
-    });
-
     it('Cursor image when view mode enabled', function () {
         const actual = iconReducer(CURSOR.DEFAULT, atomicActions.enableViewMode());
         const expected = CURSOR.VIEW;
