@@ -31,8 +31,6 @@ class Canvas extends React.Component {
     componentDidMount() {
         this.props.fetchShapes(this.props.documentId);
 
-        let alreadyDrawing = false;
-
         const canvas = document.querySelector('#canvas');
 
         const canvasWillUnmount = most.fromEvent('canvasWillUnmountEvent', document);
@@ -70,16 +68,15 @@ class Canvas extends React.Component {
                     this.props.pushShapesToBackend(this.props.documentId, this.props.shapes);
                 }
 
-                this.props.editOff();
+                this.props.enableViewMode();
                 this.props.setSelectedShape([]);
 
-                alreadyDrawing = false;
             });
 
         keydownDelete
             .observe(e => {
                 this.props.setSelectedShape([]);
-                this.props.editOff();
+                this.props.enableViewMode();
                 this.props.pushShapesToBackend(this.props.documentId, this.props.shapes);
             });
 
@@ -96,27 +93,18 @@ class Canvas extends React.Component {
             .observe(cursor => this.props.updateCursorPosition(cursor.x, cursor.y));
 
         click // draw line
-            .filter(e => this.props.mode === EDITOR_MODE.DRAW && !alreadyDrawing)
+            .filter(e => this.props.mode === EDITOR_MODE.DRAW)
             .filter(e => !this.isShape(e))
-            .chain(p => {
-                alreadyDrawing = true;
-                this.props.editOff();
-                let node = this.getNormalizedPoint([p.x, p.y]);
-                this.props.selectedShapeAddNode(node);
-                return click
-                    .until(keydownEnter)
-            })
             .map(e => this.getNormalizedPoint([e.x, e.y]))
             .observe(node => this.props.selectedShapeAddNode(node));
 
 
         click // enter edit mode
-            .filter(e => this.props.mode === EDITOR_MODE.DRAW && !alreadyDrawing)
+            .filter(e => this.props.mode === EDITOR_MODE.DRAW)
             .filter(e => this.isShape(e))
             .map(e => e.target.dataset.shapeIndex)
             .observe(shapeIndex => {
-                alreadyDrawing = true;
-                this.props.editOn();
+                this.props.enableEditMode();
                 const editShape = this.props.shapes.filter(shape => shape.id === shapeIndex)[0];
                 this.props.setSelectedShape(editShape.nodes);
                 this.props.deleteShape(shapeIndex);
@@ -124,7 +112,7 @@ class Canvas extends React.Component {
 
         let editNodeIndex = -1;
         mousedown // edit node of the line
-            .filter(e => this.props.mode === EDITOR_MODE.DRAW)
+            .filter(e => this.props.mode === EDITOR_MODE.EDIT)
             .filter(e => this.isNode(e))
             .chain(md => {
                 editNodeIndex = Number(md.target.dataset.nodeIndex);

@@ -9,6 +9,8 @@ const mode = (state = EDITOR_MODE.VIEW, action) => {
             return EDITOR_MODE.VIEW;
         case actionTypes.ENABLE_DELETE_MODE:
             return EDITOR_MODE.DELETE;
+        case actionTypes.ENABLE_EDIT_MODE:
+            return EDITOR_MODE.EDIT;
         default:
             return state;
     }
