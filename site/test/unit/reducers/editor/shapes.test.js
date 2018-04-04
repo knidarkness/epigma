@@ -5,15 +5,26 @@ import * as actionTypes from '../../../../src/actions/actionTypes';
 
 describe('Paths reducer tests', function() {
     it('Create new path for empty state', function() {
-        const action = {type: actionTypes.CREATE_SHAPE, id: 1, color: 'black', nodes: [
-            [50, 50, 1],
-            [200, 50, 1]]
+        const action = {
+            type: actionTypes.CREATE_SHAPE,
+            id: 1,
+            color: 'black',
+            nodes: [
+                [50, 50, 1],
+                [200, 50, 1]
+            ]
         };
         const actual = shapes([], action);
-        const expected = [{id: 1, color: 'black', nodes:
-                [[50, 50, 1],
-                [200, 50, 1]]
-        }];
+        const expected = [
+            {
+                id: 1,
+                color: 'black',
+                nodes: [
+                    [50, 50, 1],
+                    [200, 50, 1]
+                ]
+            }
+        ];
         assert.deepEqual(actual, expected);
     });
     it('Delete path from the state', function() {
@@ -24,7 +35,8 @@ describe('Paths reducer tests', function() {
                 color: 'black',
                 nodes: [
                     [50, 50, 1],
-                    [200, 50, 1]]
+                    [200, 50, 1]
+                ]
             }
         ];
         const actual = shapes(state, action);
@@ -109,9 +121,13 @@ describe('Paths reducer tests', function() {
                 ]
             }
         ];
-        const action = {type: actionTypes.CREATE_SHAPE, id: 2, color: 'black', nodes: [
+        const action = {
+            type: actionTypes.CREATE_SHAPE, 
+            id: 2, 
+            color: 'black', 
+            nodes: [
                 [200, 200, 1]
-                ]
+            ]
         };
         const actual = shapes(state, action);
         const expected = [
