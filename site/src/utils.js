@@ -11,3 +11,8 @@ export const getCurrentHost = (port) => {
     }
     return `${hostname}:${port}`;
 };
+
+export const getCenterPoint = (selector) => [
+    document.querySelector(selector).getBoundingClientRect().width / 2, 
+    document.querySelector(selector).getBoundingClientRect().height / 2
+]

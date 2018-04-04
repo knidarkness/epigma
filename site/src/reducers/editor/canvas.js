@@ -2,7 +2,6 @@ import { combineReducers } from 'redux'
 import * as actionTypes from '../../actions/actionTypes';
 import Matrix from '../../utils/matrix.js';
 
-
 const viewMatrix = (state =  Matrix.identity(), action) => {
     switch (action.type) {
         case actionTypes.SHIFT_CANVAS:
@@ -10,12 +9,7 @@ const viewMatrix = (state =  Matrix.identity(), action) => {
 
         case actionTypes.ZOOM_TO:
             return state.scaleToPoint(action.point, action.zoom)
-
-        case actionTypes.CHANGE_ZOOM:
-            const center = [document.getElementById('canvas').getBoundingClientRect().width / 2, 
-                            document.getElementById('canvas').getBoundingClientRect().height / 2];
-            return state.scaleToPoint(center, action.zoom)
-            
+           
         default:
             return state;
     }
