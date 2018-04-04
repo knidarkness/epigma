@@ -83,21 +83,8 @@ export const enableEditMode = () => ({
     type: actionTypes.ENABLE_EDIT_MODE
 });
 
-
 export const enableDeleteMode = () => ({
     type: actionTypes.ENABLE_DELETE_MODE
-});
-
-export const editOn = () => ({
-    type: actionTypes.EDIT_ON
-});
-
-export const editOff = () => ({
-    type: actionTypes.EDIT_OFF
-});
-
-export const editToggle = () => ({
-    type: actionTypes.TOGGLE_EDIT
 });
 
 export const updateCursorPosition = (x, y) => ({
