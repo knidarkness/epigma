@@ -47,11 +47,6 @@ export const selectedShapeUpdateNode = (index, node) => ({
     node
 });
 
-export const changeZoom = (zoom) => ({
-    type: actionTypes.CHANGE_ZOOM,
-    zoom
-});
-
 export const zoomTo = (point, zoom) => ({
     type: actionTypes.ZOOM_TO,
     point,

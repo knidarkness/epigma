@@ -28,7 +28,6 @@ const mapDispatchToProps = ({
     selectedShapeInsertNode,
     selectedShapeDeleteNode,
     selectedShapeUpdateNode,
-    changeZoom,
     zoomTo,
     shiftCanvas,
     editToggle,
