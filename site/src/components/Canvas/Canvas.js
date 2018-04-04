@@ -54,12 +54,13 @@ class Canvas extends React.Component {
             .until(canvasWillUnmount);
 
 
-        wheel.observe(e => {
+        wheel // zoom
+            .observe(e => { 
             const newZoom = Math.max(this.props.zoom + ((e.deltaY > 0) ? 0.01 : -0.01), 0.5);
             this.props.zoomTo([e.x, e.y], newZoom);
         });
 
-        keydownEnter
+        keydownEnter // save selected shape
             .observe(() => {
                 const newShape = this.props.selectedShape.nodes;
 
@@ -73,7 +74,7 @@ class Canvas extends React.Component {
 
             });
 
-        keydownDelete
+        keydownDelete // delete selected shape
             .observe(e => {
                 this.props.setSelectedShape([]);
                 this.props.enableViewMode();
@@ -88,7 +89,7 @@ class Canvas extends React.Component {
                 this.props.pushShapesToBackend(this.props.documentId, this.props.shapes);
             });
 
-        mousemove 
+        mousemove // save cursor position
             .filter(e => this.props.mode === EDITOR_MODE.DRAW)   
             .observe(cursor => this.props.updateCursorPosition(cursor.x, cursor.y));
 
@@ -123,7 +124,7 @@ class Canvas extends React.Component {
                 this.props.selectedShapeUpdateNode(editNodeIndex, this.getNormalizedPoint([e.x, e.y]));
             });
 
-        mousedown
+        mousedown // drag&drop canvas
             .filter(e => this.props.mode === EDITOR_MODE.VIEW)
             .chain(md => {
                 return mousemove
