@@ -26,6 +26,7 @@ class Canvas extends React.Component {
         const canvasWillUnmountEvent = new Event('canvasWillUnmountEvent');
         document.dispatchEvent(canvasWillUnmountEvent);
         this.props.setSelectedShape([]);
+        this.props.enableViewMode();
     }
 
     componentDidMount() {
