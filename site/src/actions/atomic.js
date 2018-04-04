@@ -25,10 +25,15 @@ export const setSelectedShape = (nodes, color = '#000000') => ({
     color: color
 });
 
-export const selectedShapeAddNode = (node, index = 0) => ({
+export const selectedShapeAddNode = (node) => ({
     type: actionTypes.SELECTED_SHAPE_ADD_NODE,
-    node,
-    index
+    node
+});
+
+export const selectedShapeInsertNode = (index, node) => ({
+    type: actionTypes.SELECTED_SHAPE_INSERT_NODE,
+    index,
+    node
 });
 
 export const selectedShapeDeleteNode = (index) => ({
