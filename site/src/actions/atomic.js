@@ -7,10 +7,12 @@ export const createShape = (nodes=[], color = 'black') => ({
     nodes,
     color
 });
+
 export const deleteShape = (id) => ({
     type: actionTypes.DELETE_SHAPE,
     id
 });
+
 
 
 export const addShapeNode = (shape_id, node) => ({
@@ -42,10 +44,9 @@ export const updateShapeNode = (shape_id, index, node) => ({
     node
 });
 
-export const setSelectedShape = (nodes, color = "#000000") => ({
+export const setSelectedShape = (id) => ({
     type: actionTypes.SET_SELECTED_SHAPE,
-    nodes,
-    color
+    id
 });
 
 
@@ -53,28 +54,6 @@ export const clearSelectedShape = () => ({
     type: actionTypes.CLEAR_SELECTED_SHAPE
 });
 
-
-export const selectedShapeAddNode = (node) => ({
-    type: actionTypes.SELECTED_SHAPE_ADD_NODE,
-    node
-});
-
-export const selectedShapeInsertNode = (index, node) => ({
-    type: actionTypes.SELECTED_SHAPE_INSERT_NODE,
-    index,
-    node
-});
-
-export const selectedShapeDeleteNode = (index) => ({
-    type: actionTypes.SELECTED_SHAPE_DELETE_NODE,
-    index
-});
-
-export const selectedShapeUpdateNode = (index, node) => ({
-    type: actionTypes.SELECTED_SHAPE_UPDATE_NODE,
-    index,
-    node
-});
 
 export const zoomTo = (point, zoom) => ({
     type: actionTypes.ZOOM_TO,
