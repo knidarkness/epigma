@@ -1,25 +1,26 @@
 import assert from 'assert';
-import * as atomicActions from '../../../../src/actions/atomic';
-
+import * as actionTypes from '../../../../src/actions/actionTypes';
 import {EDITOR_MODE} from "../../../../src/const";
 import modeReducer from '../../../../src/reducers/editor/mode';
 
+ 
 describe('Editor mode reducer tests', function () {
-    it('Editor mode when draw mode enabled', function () {
-        const actual = modeReducer(EDITOR_MODE.VIEW, atomicActions.enableDrawMode());
+    it('Enable View mode', function () {
+        const actual = modeReducer(EDITOR_MODE.VIEW, {type: actionTypes.ENABLE_MODE, mode:EDITOR_MODE.VIEW});
+        const expected = EDITOR_MODE.VIEW;
+        assert.equal(actual, expected);
+    });
+
+    it('Enable Draw mode', function () {
+        const actual = modeReducer(EDITOR_MODE.VIEW,  {type: actionTypes.ENABLE_MODE, mode:EDITOR_MODE.DRAW});
         const expected = EDITOR_MODE.DRAW;
         assert.equal(actual, expected);
     });
 
-    it('Editor mode when delete mode enabled', function () {
-        const actual = modeReducer(EDITOR_MODE.VIEW, atomicActions.enableDeleteMode());
-        const expected = EDITOR_MODE.DELETE;
+    it('Enable Edit mode', function () {
+        const actual = modeReducer(EDITOR_MODE.VIEW,  {type: actionTypes.ENABLE_MODE, mode:EDITOR_MODE.EDIT});
+        const expected = EDITOR_MODE.EDIT;
         assert.equal(actual, expected);
     });
 
-    it('Editor mode when view mode enabled', function () {
-        const actual = modeReducer(EDITOR_MODE.DRAW, atomicActions.enableViewMode());
-        const expected = EDITOR_MODE.VIEW;
-        assert.equal(actual, expected);
-    });
 });

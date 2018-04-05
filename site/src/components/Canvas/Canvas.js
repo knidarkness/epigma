@@ -1,9 +1,10 @@
 import React from 'react';
 import * as most from 'most'
-
+import uuid4 from "uuid/v4";
 import {EDITOR_MODE} from "../../const";
 import {createSVG} from "../../utils/svg";
 import './Canvas.scss';
+
 
 class Canvas extends React.Component {
     getOffsetedPoint(point) {
@@ -25,7 +26,7 @@ class Canvas extends React.Component {
     componentWillUnmount(){
         const canvasWillUnmountEvent = new Event('canvasWillUnmountEvent');
         document.dispatchEvent(canvasWillUnmountEvent);
-        this.props.setSelectedShape([]);
+        this.props.clearSelectedShape();
     }
 
     componentDidMount() {
@@ -54,60 +55,51 @@ class Canvas extends React.Component {
             .until(canvasWillUnmount);
 
 
-        wheel.observe(e => {
+        wheel // zoom
+            .observe(e => { 
             const newZoom = Math.max(this.props.zoom + ((e.deltaY > 0) ? 0.01 : -0.01), 0.5);
             this.props.zoomTo([e.x, e.y], newZoom);
         });
 
-        keydownEnter
+        keydownEnter // save selected shape
             .observe(() => {
-                const newShape = this.props.selectedShape.nodes;
-
-                if (newShape.length > 1){
-                    this.props.createShape(newShape);
-                    this.props.pushShapesToBackend(this.props.documentId, this.props.shapes);
-                }
-
-                this.props.enableViewMode();
-                this.props.setSelectedShape([]);
+                this.props.pushShapesToBackend(this.props.documentId, this.props.shapes);
+                this.props.enableMode(EDITOR_MODE.VIEW);
+                this.props.clearSelectedShape();
 
             });
 
-        keydownDelete
+        keydownDelete // delete selected shape
             .observe(e => {
-                this.props.setSelectedShape([]);
-                this.props.enableViewMode();
+                this.props.deleteShape(this.props.selectedShape)
+                this.props.clearSelectedShape();
+                this.props.enableMode(EDITOR_MODE.VIEW);
                 this.props.pushShapesToBackend(this.props.documentId, this.props.shapes);
             });
 
-        click // delete shape
-            .filter(e => this.props.mode === EDITOR_MODE.DELETE)
-            .filter(e => this.isShape(e))
-            .observe(e => {
-                this.props.deleteShape(e.target.dataset.shapeIndex);
-                this.props.pushShapesToBackend(this.props.documentId, this.props.shapes);
-            });
-
-        mousemove 
+        mousemove // save cursor position
             .filter(e => this.props.mode === EDITOR_MODE.DRAW)   
             .observe(cursor => this.props.updateCursorPosition(cursor.x, cursor.y));
 
         click // draw line
             .filter(e => this.props.mode === EDITOR_MODE.DRAW)
-            .filter(e => !this.isShape(e))
             .map(e => this.getNormalizedPoint([e.x, e.y]))
-            .observe(node => this.props.selectedShapeAddNode(node));
+            .observe(node => {
+                if (this.props.selectedShape === -1) {
+                    this.props.createShape()
+                    this.props.setSelectedShape(this.props.shapes[this.props.shapes.length - 1].id)
+                }
+                this.props.addShapeNode(this.props.selectedShape, node)
+            });
 
 
         click // enter edit mode
-            .filter(e => this.props.mode === EDITOR_MODE.DRAW)
+            .filter(e => this.props.mode !== EDITOR_MODE.DRAW)
             .filter(e => this.isShape(e))
             .map(e => e.target.dataset.shapeIndex)
-            .observe(shapeIndex => {
-                this.props.enableEditMode();
-                const editShape = this.props.shapes.filter(shape => shape.id === shapeIndex)[0];
-                this.props.setSelectedShape(editShape.nodes);
-                this.props.deleteShape(shapeIndex);
+            .observe(shapeId => {
+                this.props.enableMode(EDITOR_MODE.EDIT);
+                this.props.setSelectedShape(shapeId);
             });
 
         let editNodeIndex = -1;
@@ -119,11 +111,10 @@ class Canvas extends React.Component {
                 return mousemove
                     .until(mouseup);
             })
-            .observe(e => {
-                this.props.selectedShapeUpdateNode(editNodeIndex, this.getNormalizedPoint([e.x, e.y]));
-            });
+            .map(e => this.getNormalizedPoint([e.x, e.y]))
+            .observe(node => this.props.updateShapeNode(this.props.selectedShape, editNodeIndex, node));
 
-        mousedown
+        mousedown // drag&drop canvas
             .filter(e => this.props.mode === EDITOR_MODE.VIEW)
             .chain(md => {
                 return mousemove
@@ -136,15 +127,11 @@ class Canvas extends React.Component {
 
     render() {
         const cursor = this.props.cursor;
-        
-        const selectedShape = {
-            nodes: (this.props.mode === EDITOR_MODE.DRAW && !this.props.edit) ? [...this.props.selectedShape.nodes, this.getNormalizedPoint(cursor.position)] : this.props.selectedShape.nodes,
-            color: this.props.selectedShape.color
-        };
-
-        selectedShape.nodes = selectedShape.nodes.map(point => this.getOffsetedPoint(point));
-
         const shapes = this.props.shapes
+            .map(shape => ({
+                ...shape,
+                nodes: this.props.mode === EDITOR_MODE.DRAW && shape.id == this.props.selectedShape ? [...shape.nodes, this.getNormalizedPoint(cursor.position)] : shape.nodes
+            }))
             .map(shape => ({
                 ...shape,
                 nodes: shape.nodes.map(point => this.getOffsetedPoint(point)),
@@ -153,7 +140,7 @@ class Canvas extends React.Component {
         return (
             <div>
                 <svg id="canvas" className="canvas" width="100%" height="100%" style={{cursor: cursor.icon}}>
-                {createSVG(selectedShape, shapes)}
+                {createSVG(this.props.selectedShape, shapes)}
                 </svg>
             </div>
         )
