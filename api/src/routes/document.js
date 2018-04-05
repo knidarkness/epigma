@@ -50,6 +50,7 @@ router.put('/:documentId/shapes', async (req, res) => {
 router.post('/:documentId/shapes', async (req, res) => {
     await illustrationService.addShape(req.params.documentId, req.body.shapeData);
     res.status(201).send()
+
 });
 
 router.patch('/:documentId/shapes/:shapeId', async (req, res) => {
