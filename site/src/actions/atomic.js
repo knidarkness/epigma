@@ -1,16 +1,52 @@
 import uuid4 from "uuid/v4";
 import * as actionTypes from "./actionTypes";
 
-export const createShape = (nodes=[], color = 'black') => ({
-    type: actionTypes.CREATE_SHAPE,
-    id: uuid4(),
-    nodes,
-    color
-});
-export const deleteShape = (id) => ({
-    type: actionTypes.DELETE_SHAPE,
-    id
-});
+
+export const createShape = (nodes=[], color = 'black') => {
+    return (dispatch) => {
+        const shape = {
+            id: uuid4(),
+            nodes,
+            color
+        }
+        const request = new Request(DOCUMENT_LIST_URI + '/' + documentId + '/shapes/', {
+            method: 'POST',
+            mode: 'cors',
+            redirect: 'follow',
+            body: JSON.stringify(shape),
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        });
+        fetch(request).then(() => {
+            dispatch({
+                type: actionTypes.CREATE_SHAPE,
+                ...shape
+            })
+        })
+        .catch(console.error);
+    };
+};
+export const deleteShape = (id) => {
+    return (dispatch) => {
+        const request = new Request(DOCUMENT_LIST_URI + '/' + documentId + '/shapes/' + id, {
+            method: 'DELETE',
+            mode: 'cors',
+            redirect: 'follow',
+            body: JSON.stringify(shape),
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        });
+        fetch(request).then(() => {
+            dispatch({
+                type: actionTypes.DELETE_SHAPE,
+                id
+            })
+        })
+        .catch(console.error);
+    };
+};
 
 
 export const addShapeNode = (shape_id, node) => ({

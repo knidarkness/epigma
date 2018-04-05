@@ -67,7 +67,7 @@ class Canvas extends React.Component {
 
                 if (newShape.length > 1){
                     this.props.createShape(newShape);
-                    this.props.pushShapesToBackend(this.props.documentId, this.props.shapes);
+
                 }
 
                 this.props.enableMode(EDITOR_MODE.VIEW);
@@ -80,7 +80,6 @@ class Canvas extends React.Component {
                 this.props.deleteShape(this.props.selectedShape)
                 this.props.clearSelectedShape();
                 this.props.enableMode(EDITOR_MODE.VIEW);
-                this.props.pushShapesToBackend(this.props.documentId, this.props.shapes);
             });
 
         mousemove // save cursor position
