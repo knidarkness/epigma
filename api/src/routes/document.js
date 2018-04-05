@@ -28,7 +28,6 @@ router.patch('/:documentId', async (req, res) => {
     res.json(illustration);
 });
 
-
 router.get('/:documentId/shapes', async (req, res) => {
     const illustration = await illustrationService.getShapes(req.params.documentId);
     res.json({
@@ -36,7 +35,6 @@ router.get('/:documentId/shapes', async (req, res) => {
             .map(shape => shape.nodes)
     });
 });
-
 
 router.put('/:documentId/shapes', async (req, res) => {
     const saved = await illustrationService.setShapes(req.params.documentId, req.body.shapes);

@@ -1,5 +1,4 @@
 const models = require('./../models');
-const uuid4 = require('uuid/v3');
 
 class illustrationService {
     async getIllustrations(){
@@ -52,7 +51,6 @@ class illustrationService {
 
     async addShape(docId, shape){
         const illustration = await models.Illustration.findOne({_id: docId});
-        shape.id = uuid4();
         illustration.shapes = [...illustration.shapes, shape];
         illustration.editedAt = Date.now();
         await illustration.save();
