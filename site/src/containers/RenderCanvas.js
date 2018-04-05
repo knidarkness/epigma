@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import {getAllShapes, getMode, getEdit, getZoom, getCursor, getSelectedShape, getViewMatrix} from "../reducers";
 
 import Canvas from '../components/Canvas/Canvas';
-import {createShape, deleteShape, deleteShapeNode, insertShapeNode, addShapeNode, updateShapeNode, setSelectedShape, clearSelectedShape, changeZoom, zoomTo, shiftCanvas, enableMode, updateCursorPosition} from "../actions/atomic";
+
+import * as atomicActions from "../actions/atomic";
+
 import {fetchShapes, pushShapesToBackend} from "../actions/shape";
 
 const mapStateToProps = (state) => ({
@@ -18,20 +20,24 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = ({
-    fetchShapes,
-    pushShapesToBackend,
-    createShape,
-    deleteShape,
-    addShapeNode, 
-    insertShapeNode,
-    deleteShapeNode, 
-    updateShapeNode,
-    setSelectedShape,
-    clearSelectedShape,
-    zoomTo,
-    shiftCanvas,
-    enableMode,
-    updateCursorPosition
+    fetchShapes: fetchShapes,
+    pushShapesToBackend: pushShapesToBackend,
+    createShape: atomicActions.createShape,
+    deleteShape: atomicActions.deleteShape,
+    addShapeNode: atomicActions.addShapeNode, 
+    insertShapeNode: atomicActions.insertShapeNode,
+    deleteShapeNode: atomicActions.deleteShapeNode, 
+    updateShapeNode: atomicActions.updateShapeNode,
+    setSelectedShape: atomicActions.setSelectedShape,
+    clearSelectedShape: atomicActions.clearSelectedShape,
+    selectedShapeInsertNode: atomicActions.selectedShapeInsertNode,
+    selectedShapeDeleteNode: atomicActions.selectedShapeDeleteNode,   
+    selectedShapeUpdateNode: atomicActions.selectedShapeUpdateNode,   
+    selectedShapeAddNode: atomicActions.selectedShapeAddNode,
+    zoomTo: atomicActions.zoomTo,
+    shiftCanvas: atomicActions.shiftCanvas,
+    enableMode: atomicActions.enableMode,
+    updateCursorPosition: atomicActions.updateCursorPosition
 });
 
 const RenderCanvas = connect(
