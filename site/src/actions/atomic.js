@@ -1,51 +1,57 @@
 import uuid4 from "uuid/v4";
 import * as actionTypes from "./actionTypes";
 
-export const createShape = (nodes, color = 'black') => ({
+export const createShape = (nodes=[], color = 'black') => ({
     type: actionTypes.CREATE_SHAPE,
     id: uuid4(),
     nodes,
     color
 });
-
-export const deleteShape = (pathId) => ({
+export const deleteShape = (id) => ({
     type: actionTypes.DELETE_SHAPE,
-    id: pathId
+    id
 });
 
-export const updateShape = (id, nodes) => ({
-    type: actionTypes.UPDATE_SHAPE,
-    id,
-    nodes
-});
 
-export const setSelectedShape = (nodes, color = '#000000') => ({
-    type: actionTypes.SET_SELECTED_SHAPE,
-    nodes: nodes,
-    color: color
-});
-
-export const selectedShapeAddNode = (node) => ({
-    type: actionTypes.SELECTED_SHAPE_ADD_NODE,
+export const addShapeNode = (shape_id, node) => ({
+    type: actionTypes.SHAPE_ADD_NODE,
+    shape_id,
     node
 });
 
-export const selectedShapeInsertNode = (index, node) => ({
-    type: actionTypes.SELECTED_SHAPE_INSERT_NODE,
-    index,
-    node
-});
 
-export const selectedShapeDeleteNode = (index) => ({
-    type: actionTypes.SELECTED_SHAPE_DELETE_NODE,
+export const deleteShapeNode = (shape_id, index) => ({
+    type: actionTypes.SHAPE_DELETE_NODE,
+    shape_id,
     index
 });
 
-export const selectedShapeUpdateNode = (index, node) => ({
-    type: actionTypes.SELECTED_SHAPE_UPDATE_NODE,
+
+export const insertShapeNode = (shape_id, index, node) => ({
+    type: actionTypes.SHAPE_INSERT_NODE,
+    shape_id,
     index,
     node
 });
+
+
+export const updateShapeNode = (shape_id, index, node) => ({
+    type: actionTypes.SHAPE_UPDATE_NODE,
+    shape_id,
+    index,
+    node
+});
+
+export const setSelectedShape = (id) => ({
+    type: actionTypes.SET_SELECTED_SHAPE,
+    id
+});
+
+
+export const clearSelectedShape = () => ({
+    type: actionTypes.CLEAR_SELECTED_SHAPE
+});
+
 
 export const zoomTo = (point, zoom) => ({
     type: actionTypes.ZOOM_TO,
@@ -71,17 +77,17 @@ export const itemsFetchDataSuccess = (items) => {
     };
 };
 
-export const enableDrawMode = () => ({
-    type: actionTypes.ENABLE_DRAW_MODE
-});
-
-export const enableViewMode = () => ({
-    type: actionTypes.ENABLE_VIEW_MODE
-});
-
-export const enableEditMode = () => ({
-    type: actionTypes.ENABLE_EDIT_MODE
-});
+export const enableMode = (mode) => {
+    return (dispatch) => {
+        dispatch({
+            type: actionTypes.ENABLE_MODE,
+            mode
+        })
+        dispatch({
+            type: actionTypes.CLEAR_SELECTED_SHAPE
+        })
+    };
+}
 
 export const updateCursorPosition = (x, y) => ({
     type: actionTypes.UPDATE_CURSOR_POSITION,
