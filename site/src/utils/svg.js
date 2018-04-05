@@ -12,16 +12,16 @@ const renderShape = (shape) => {
 
 const renderAllShapes = (shapes) => shapes.map((shape, id) => renderShape(shape, id));
 
-const renderShapeNodes = (shape) => {
-    return shape
-            .map((point, i) => <circle data-node-index={i} cx={point[0]} cy={point[1]} r="5" key={v4()} stroke="black"
-                        strokeWidth="3" fill="red"/>)
-};
+const renderShapeNodes = (selectedShape, shapes) => shapes
+    .filter(shape => selectedShape === shape.id)
+    .map(shape => 
+        shape.nodes.map((point, i) => <circle data-node-index={i} cx={point[0]} cy={point[1]} r="5" key={v4()} stroke="black"
+                strokeWidth="3" fill="red"/>)
+    );
 
 export const createSVG = (selectedShape, shapes) => (
     <g>
-        {renderShape(selectedShape, -1)}
-        {renderShapeNodes(selectedShape.nodes)}
         {renderAllShapes(shapes)}
+        {renderShapeNodes(selectedShape, shapes)}
     </g>
 );

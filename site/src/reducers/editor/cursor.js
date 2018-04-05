@@ -1,18 +1,22 @@
 import { combineReducers } from 'redux'
 import * as actionTypes from '../../actions/actionTypes';
-import {CURSOR} from '../../const';
+import {CURSOR, EDITOR_MODE} from '../../const';
 
 
 export const icon = (state = CURSOR.VIEW, action) => {
+    
     switch (action.type) {
-        case actionTypes.ENABLE_DRAW_MODE:
-            return CURSOR.DRAW;
-        case actionTypes.ENABLE_DELETE_MODE:
-            return CURSOR.DELETE;
-        case actionTypes.ENABLE_VIEW_MODE:        
-            return CURSOR.VIEW;
-        case actionTypes.ENABLE_EDIT_MODE:
-            return CURSOR.EDIT;
+        case actionTypes.ENABLE_MODE:
+            switch(action.mode) {
+                case EDITOR_MODE.DRAW:
+                    return CURSOR.DRAW;
+                case EDITOR_MODE.VIEW:        
+                    return CURSOR.VIEW;
+                case EDITOR_MODE.EDIT:
+                    return CURSOR.EDIT;
+                default:
+                    return EDITOR_MODE.DEFAULT;
+            }
         default:
             return state;
     }

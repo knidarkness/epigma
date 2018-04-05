@@ -17,11 +17,9 @@ export const getSelectedShape = state => state.editor.selectedShape;
 export const getDocuments = state => state.application.documents;
 
 export const getZoom = state => state.editor.canvas.zoom;
-export const getShapesNum = state => state.editor.shapes.present.length 
-            + (state.editor.selectedShape.nodes.length !== 0 ? 1 : 0);
+export const getShapesNum = state => state.editor.shapes.present.length;;
 
 export const getNodesNum = state => 
-        state.editor.shapes.present.reduce((acc, element) => acc + element.nodes.length, 0) 
-            + state.editor.selectedShape.nodes.length;
+        state.editor.shapes.present.reduce((acc, element) => acc + element.nodes.length, 0);
 
 export default epigmaReducers;
