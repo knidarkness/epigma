@@ -1,4 +1,5 @@
 const models = require('./../models');
+const uuid4 = require('uuid/v3');
 
 class illustrationService {
     async getIllustrations(){

@@ -31,7 +31,6 @@ function shape(state, action) {
                 ...state,
                 nodes: state.nodes.filter((node, i) => i !== action.index)
             }            
-    
         case actionTypes.SHAPE_UPDATE_NODE:
             return {
                 ...state,
@@ -65,6 +64,15 @@ export const shapes = (state = [], action) => {
 };
 
 
-const undoableShapes = undoable(shapes, {filter: includeAction([actionTypes.CREATE_SHAPE, actionTypes.UPDATE_SHAPE, actionTypes.DELETE_SHAPE])});
+const undoableShapes = undoable(shapes, {
+    filter: includeAction([
+        actionTypes.CREATE_SHAPE,
+        actionTypes.UPDATE_SHAPE,
+        actionTypes.SHAPE_ADD_NODE,
+        actionTypes.SHAPE_INSERT_NODE,
+        actionTypes.DELETE_SHAPE,
+        actionTypes.SHAPE_UPDATE_NODE
+    ])
+});
 
 export default undoableShapes;
