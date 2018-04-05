@@ -9,23 +9,44 @@ function shape(state, action) {
                 nodes: action.nodes,
                 color: action.color
             };
-        case actionTypes.UPDATE_SHAPE:
+
+        case actionTypes.SHAPE_ADD_NODE:
             return {
-                id: state.id,
-                color: state.color,
-                nodes: action.nodes
+                ...state,
+                nodes: [...state.nodes, action.node]
+            };
+
+        case actionTypes.SHAPE_INSERT_NODE:
+            return {
+                ...state,
+                nodes: [
+                    ...state.nodes.slice(0, action.index),
+                    action.node,
+                    ...state.nodes.slice(action.index)
+                ]
+            };
+    
+        case actionTypes.SHAPE_DELETE_NODE:
+            return {
+                ...state,
+                nodes: state.nodes.filter((node, i) => i !== action.index)
+            }            
+    
+        case actionTypes.SHAPE_UPDATE_NODE:
+            return {
+                ...state,
+                nodes: state.nodes.map((node, i) => i !== action.index ? node : action.node)
             }
+
+        default:
+            return state; 
     }
 }
 
 export const shapes = (state = [], action) => {
     switch (action.type) {
         case actionTypes.FETCH_SHAPES:
-            return action.shapes.map(shape => ({
-                id: shape.id,
-                nodes: shape.nodes,
-                color: shape.color
-            }));
+            return action.shapes;
         case actionTypes.CREATE_SHAPE:
             return [
                 ...state,
@@ -33,8 +54,11 @@ export const shapes = (state = [], action) => {
             ];
         case actionTypes.DELETE_SHAPE:
             return state.filter(p => p.id !== action.id);
-        case actionTypes.UPDATE_SHAPE:
-            return state.map(p => (p.id === action.id) ? shape(p, action) : p);
+        case actionTypes.SHAPE_ADD_NODE:
+        case actionTypes.SHAPE_INSERT_NODE:
+        case actionTypes.SHAPE_DELETE_NODE:
+        case actionTypes.SHAPE_UPDATE_NODE:
+            return state.map(p => (p.id === action.shape_id) ? shape(p, action) : p);
         default:
             return state;
     }
