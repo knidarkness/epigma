@@ -1,4 +1,5 @@
 const models = require('./../models');
+const uuid4 = require('uuid/v3');
 
 class illustrationService {
     async getIllustrations(){
@@ -42,24 +43,38 @@ class illustrationService {
     }
 
     async setShapes(docId, shapes){
-        const shapeNodeList = shapes.map(p => p.nodes);
-        const illustrations = await models.Illustration.find({_id: docId});
-        illustrations[0].shapes = shapes;
-        illustrations[0].editedAt = Date.now();
-        await illustrations[0].save();
+        const illustration = await models.Illustration.findOne({_id: docId});
+        illustration.shapes = shapes;
+        illustration.editedAt = Date.now();
+        await illustration.save();
         return true;
     }
 
-    addShape(docId, shape){
-
+    async addShape(docId, shape){
+        const illustration = await models.Illustration.findOne({_id: docId});
+        shape.id = uuid4();
+        illustration.shapes = [...illustration.shapes, shape];
+        illustration.editedAt = Date.now();
+        await illustration.save();
+        return shape;
     }
 
-    removeShape(docId, shape){
-
+    async removeShape(docId, shapeId){
+        const illustration = await models.Illustration.findOne({_id: docId});
+        illustration.shapes = illustration.shapes
+            .filter(shape => shape.id !== shapeId);
+        illustration.editedAt = Date.now();
+        await illustration.save();
+        return true;
     }
 
-    updateShape(docId, shapeId, newShapeData){
-
+    async updateShape(docId, shapeId, newShapeData){
+        const illustration = await models.Illustration.findOne({_id: docId});
+        illustration.shapes = illustration.shapes
+            .map(shape => shape.id === shapeId ? newShapeData : shape);
+        illustration.editedAt = Date.now();
+        await illustration.save();
+        return true;
     }
 }
 
