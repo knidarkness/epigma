@@ -6,7 +6,6 @@ class illustrationService {
         const allIllustrations = await models.Illustration.find({});
         const illustrations = allIllustrations
             .map((illustration) => ({
-                shapes: illustration.shapes,
                 name: illustration.name,
                 id: illustration._id,
                 editedAt: illustration.editedAt
