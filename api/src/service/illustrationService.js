@@ -52,7 +52,6 @@ class illustrationService {
 
     async addShape(docId, shape){
         const illustration = await models.Illustration.findOne({_id: docId});
-        shape.id = uuid4();
         illustration.shapes = [...illustration.shapes, shape];
         illustration.editedAt = Date.now();
         await illustration.save();
