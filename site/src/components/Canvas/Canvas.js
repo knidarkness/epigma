@@ -1,6 +1,5 @@
 import React from 'react';
 import * as most from 'most'
-import uuid4 from "uuid/v4";
 import {EDITOR_MODE} from "../../const";
 import {createSVG} from "../../utils/svg";
 import './Canvas.scss';
@@ -31,6 +30,7 @@ class Canvas extends React.Component {
 
     componentDidMount() {
         this.props.fetchShapes(this.props.documentId);
+        this.props.enableMode(EDITOR_MODE.VIEW);
 
         const canvas = document.querySelector('#canvas');
 
