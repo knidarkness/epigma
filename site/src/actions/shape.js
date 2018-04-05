@@ -11,11 +11,7 @@ export const fetchShapes = (id) => {
             .then((data) => {
                 dispatch({
                     type: actionTypes.FETCH_SHAPES,
-                    shapes: data.shapes.map(shape => ({
-                        id: uuid4(),
-                        nodes: shape,
-                        color: 'black'
-                    }))
+                    shapes: data.shapes
                 });
             })
             .catch(err => {
@@ -23,20 +19,3 @@ export const fetchShapes = (id) => {
             });
     };
 };
-
-export const pushShapesToBackend = (documentId, shapes) => {
-    return (dispatch) => {
-        const request = new Request(DOCUMENT_LIST_URI + '/' + documentId + '/shapes/', {
-            method: 'PUT',
-            mode: 'cors',
-            redirect: 'follow',
-            body: JSON.stringify({
-                shapes
-            }),
-            headers: new Headers({
-                'Content-Type': 'application/json'
-            })
-        });
-        fetch(request);
-    };
-}

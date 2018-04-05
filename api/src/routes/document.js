@@ -32,7 +32,7 @@ router.get('/:documentId/shapes', async (req, res) => {
     const illustration = await illustrationService.getShapes(req.params.documentId);
     res.json({
         shapes: illustration.shapes
-            .map(shape => shape.nodes)
+            .map(shape => shape)
     });
 });
 
@@ -51,7 +51,8 @@ router.post('/:documentId/shapes', async (req, res) => {
 
 });
 
-router.patch('/:documentId/shapes/:shapeId', async (req, res) => {
+router.put('/:documentId/shapes/:shapeId', async (req, res) => {
+    console.log(req.body.shapeData);
     await illustrationService.updateShape(req.params.documentId, req.params.shapeId, req.body.shapeData);
     res.status(200).send();
 });
