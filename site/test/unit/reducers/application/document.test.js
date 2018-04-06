@@ -18,7 +18,7 @@ describe('Documents reducers tests', function() {
 
    it('Store data after fetching documents', function() {
        const state = [{ id: '1', name: '1', editedAt: '1' }];
-       const actual = documentsReducer(state, {type: actionTypes.DOCUMENTS_FETCH_SUCCESS, items: [{id: '2', name: '2', editedAt: '2'}]});
+       const actual = documentsReducer(state, {type: actionTypes.DOCUMENTS_FETCH_SUCCESS, documents: [{id: '2', name: '2', editedAt: '2'}]});
        const expected = [{ id: '2', name: '2', editedAt: '2'}];
        assert.deepEqual(actual, expected);
    });
