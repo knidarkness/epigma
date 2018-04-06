@@ -1,4 +1,5 @@
-import {DOCUMENT_LIST_URI} from './const'
+import {DOCUMENT_LIST_URI} from 'const'
+
 const createShape = (documentId, shape) => {
     const request = new Request(DOCUMENT_LIST_URI + '/' + documentId + '/shapes/', {
         method: 'POST',

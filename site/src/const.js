@@ -1,4 +1,4 @@
-import {getCurrentHost} from "./utils";
+import {getCurrentHost} from "utils/utils";
 
 const host = getCurrentHost(3000);
 

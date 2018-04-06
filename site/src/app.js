@@ -6,9 +6,9 @@ import thunk from 'redux-thunk';
 
 import { Provider } from 'react-redux';
 
-import reducer from './reducers';
+import reducer from './state';
 
-import Editor from './containers/Editor';
+import Editor from './views/containers/Editor';
 
 import './app.scss';
 

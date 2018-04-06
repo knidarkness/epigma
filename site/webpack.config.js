@@ -13,6 +13,12 @@ const config = {
         filename: 'bundle.js'
     },
     devtool: 'source-map',
+    resolve: {
+        modules: [
+          path.resolve('./src'),
+          path.resolve('./node_modules')
+        ]
+    },
     module: {
         rules:
         [

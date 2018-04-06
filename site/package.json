@@ -8,8 +8,8 @@
     "build": "webpack --mode production",
     "prod": "npm run build && echo 'done'",
     "start": "npm run dev | serve --single",
-    "test:unit": "mocha --recursive --require babel-register --compilers js:babel-register ./test/unit/*",
-    "test:e2e": "mocha --recursive --require babel-register --compilers js:babel-register ./test/e2e/*"
+    "test:unit": "NODE_PATH=src mocha --recursive --require babel-register --compilers js:babel-register ./test/unit/*",
+    "test:e2e": "NODE_PATH=src mocha --recursive --require babel-register --compilers js:babel-register ./test/e2e/*"
   },
   "author": "knidarkness, alien, tarasz",
   "license": "ISC",

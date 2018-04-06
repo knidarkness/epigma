@@ -1,25 +1,37 @@
 import assert from 'assert';
-import * as actionTypes from '../../../../src/actions/actionTypes';
+import * as modeTypes from 'state/editor/mode/types';
 
-import {CURSOR, EDITOR_MODE} from "../../../../src/const";
-import {icon as iconReducer, position as positionReducer} from '../../../../src/reducers/editor/cursor';
+import {CURSOR, EDITOR_MODE} from "const";
+import reducer from 'state/editor/cursor';
 
 describe('Cursor reducer tests', function () {
     it('Cursor image when draw mode enabled', function () {
-        const actual = iconReducer(CURSOR.DEFAULT,{type: actionTypes.MODE_ENABLE, mode:EDITOR_MODE.DRAW});
+        const state = {
+            icon: CURSOR.DEFAULT,
+            position: undefined
+        }
+        const actual = reducer(state,{type: modeTypes.ENABLE, mode:EDITOR_MODE.DRAW});
         const expected = CURSOR.DRAW;
-        assert.equal(actual, expected);
+        assert.equal(actual.icon, expected);
     });
 
     it('Cursor image when view mode enabled', function () {
-        const actual = iconReducer(CURSOR.DEFAULT, {type: actionTypes.MODE_ENABLE, mode:EDITOR_MODE.VIEW});
+        const state = {
+            icon: CURSOR.DEFAULT,
+            position: undefined
+        }
+        const actual = reducer(state, {type: modeTypes.ENABLE, mode:EDITOR_MODE.VIEW});
         const expected = CURSOR.VIEW;
-        assert.equal(actual, expected);
+        assert.equal(actual.icon, expected);
     });
 
     it('Cursor image when edit mode enabled', function () {
-        const actual = iconReducer(CURSOR.DEFAULT, {type: actionTypes.MODE_ENABLE, mode:EDITOR_MODE.EDIT});
+        const state = {
+            icon: CURSOR.DEFAULT,
+            position: undefined
+        }
+        const actual = reducer(state, {type: modeTypes.ENABLE, mode:EDITOR_MODE.EDIT});
         const expected = CURSOR.EDIT;
-        assert.equal(actual, expected);
+        assert.equal(actual.icon, expected);
     });
 });
