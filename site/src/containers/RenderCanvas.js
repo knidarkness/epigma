@@ -7,7 +7,9 @@ import Canvas from '../components/Canvas/Canvas';
 
 import * as atomicActions from "../actions/atomic";
 
-import {fetchShapes, pushShapesToBackend} from "../actions/shape";
+import * as shapeActions from "../actions/shape";
+
+import * as  modeActions from "../actions/mode";
 
 const mapStateToProps = (state) => ({
     mode: getMode(state),
@@ -20,23 +22,23 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = ({
-    fetchShapes: fetchShapes,
-    pushShapesToBackend: pushShapesToBackend,
-    createShape: atomicActions.createShape,
-    deleteShape: atomicActions.deleteShape,
-    addShapeNode: atomicActions.addShapeNode, 
-    insertShapeNode: atomicActions.insertShapeNode,
-    deleteShapeNode: atomicActions.deleteShapeNode, 
-    updateShapeNode: atomicActions.updateShapeNode,
-    setSelectedShape: atomicActions.setSelectedShape,
-    clearSelectedShape: atomicActions.clearSelectedShape,
-    selectedShapeInsertNode: atomicActions.selectedShapeInsertNode,
-    selectedShapeDeleteNode: atomicActions.selectedShapeDeleteNode,   
-    selectedShapeUpdateNode: atomicActions.selectedShapeUpdateNode,   
-    selectedShapeAddNode: atomicActions.selectedShapeAddNode,
-    zoomTo: atomicActions.zoomTo,
+    fetchShapes: shapeActions.fetchShapes,
+    pushShapesToBackend: shapeActions.pushShapesToBackend,
+    createShape: shapeActions.createShape,
+    deleteShape: shapeActions.deleteShape,
+    addShapeNode: shapeActions.addShapeNode, 
+    insertShapeNode: shapeActions.insertShapeNode,
+    deleteShapeNode: shapeActions.deleteShapeNode, 
+    updateShapeNode: shapeActions.updateShapeNode,
+    setSelectedShape: shapeActions.setSelectedShape,
+    clearSelectedShape: shapeActions.clearSelectedShape,
+    selectedShapeInsertNode: shapeActions.selectedShapeInsertNode,
+    selectedShapeDeleteNode: shapeActions.selectedShapeDeleteNode,   
+    selectedShapeUpdateNode: shapeActions.selectedShapeUpdateNode,   
+    selectedShapeAddNode: shapeActions.selectedShapeAddNode,
+    zoomCanvas: atomicActions.zoomCanvas,
     shiftCanvas: atomicActions.shiftCanvas,
-    enableMode: atomicActions.enableMode,
+    changeMode: modeActions.changeMode,
     updateCursorPosition: atomicActions.updateCursorPosition
 });
 

@@ -1,23 +1,17 @@
-import {itemsFetchDataSuccess} from "./atomic";
 import {DOCUMENT_LIST_URI} from "../const";
 import * as actionTypes from "./actionTypes";
 
-export const itemsFetchData = (url) => {
+export const fetchDocuments = (url) => {
     return (dispatch) => {
         fetch(url)
-            .then((response) => {
-                if (!response.ok) {
-                    throw Error(response.statusText);
-                }
-                return response;
-            })
             .then((response) => response.json())
-            .then((items) => dispatch(itemsFetchDataSuccess(items)))
-            .catch(() => {});
+            .then((data) => dispatch(fetchDocumentsSuccess(data.documents)))
+            .catch((err) => dispatch(fetchDocumentsFailure(err)));
+
     };
 };
 
-export const createIllustration = (name) => {
+export const createDocument = (name) => {
     return (dispatch) => {
         const request = new Request(DOCUMENT_LIST_URI, {
             method: 'POST',
@@ -31,17 +25,9 @@ export const createIllustration = (name) => {
             })
         });
         fetch(request)
-            .then(r => {
-                r.json()
-                    .then((doc) => {
-                        dispatch({
-                            type: actionTypes.CREATE_DOCUMENT,
-                            id: doc.data._id,
-                            name: doc.data.name,
-                            editedAt: doc.data.editedAt
-                        });
-                    });
-            });
+            .then((response) => response.json())
+            .then((doc) => dispatch(createDocumentSuccess(doc.data._id, doc.data.name,doc.data.editedAt)))
+            .catch((err) => dispatch(createDocumentFailure(err)));
     };
 };
 
@@ -58,16 +44,12 @@ export const deleteDocument = (id) => {
         });
 
         fetch(request)
-            .then(() => {
-                dispatch({
-                    type: actionTypes.DELETE_DOCUMENT,
-                    id
-                })
-            });
+            .then(() => dispatch(deleteDocumentSuccess(id)))
+            .catch((err) => dispatch(deleteDocumentFailure(err)));
     }
 };
 
-export const renameDocument = (id, name) => {
+export const updateDocument = (id, name) => {
     return (dispatch) => {
         const request = new Request(DOCUMENT_LIST_URI + '/' + id, {
             method: 'PATCH',
@@ -82,14 +64,53 @@ export const renameDocument = (id, name) => {
         });
 
         fetch(request)
-            .then(async (result) => {
-                const document = await result.json();
-                dispatch({
-                    type: actionTypes.RENAME_DOCUMENT,
-                    id,
-                    name,
-                    editedAt: document.editedAt
-                })
-            });
+            .then((response) => response.json())
+            .then((data) => dispatch(updateDocumentSuccess(id, name, data.editedAt)))
+            .catch((err) => dispatch(updateDocumentFailure(err)));
     }
 };
+
+export const createDocumentSuccess = (id, name, editedAt) => ({
+    type: actionTypes.DOCUMENT_CREATE_SUCCESS,
+    id,
+    name,
+    editedAt
+});
+
+export const createDocumentFailure = (error_msg) => ({
+    type: actionTypes.DOCUMENT_CREATE_FAILURE,
+    error_msg
+});
+
+
+export const deleteDocumentSuccess = (id) => ({
+    type: actionTypes.DOCUMENT_DELETE_SUCCESS,
+    id
+});
+
+export const deleteDocumentFailure = (error_msg) => ({
+    type: actionTypes.DOCUMENT_DELETE_FAILURE,
+    error_msg
+});
+
+export const updateDocumentSuccess = (id, name, editedAt) => ({
+    type: actionTypes.DOCUMENT_UPDATE_SUCCESS,
+    id,
+    name,
+    editedAt
+});
+
+export const updateDocumentFailure = (error_msg) => ({
+    type: actionTypes.DOCUMENT_UPDATE_FAILURE,
+    error_msg
+});
+
+export const fetchDocumentsSuccess = (documents) => ({
+    type: actionTypes.DOCUMENTS_FETCH_SUCCESS,
+    documents
+});
+
+export const fetchDocumentsFailure = (error_msg) => ({
+    type: actionTypes.DOCUMENTS_FETCH_FAILURE,
+    error_msg
+});

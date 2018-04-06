@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import {getDocuments} from "../reducers";
 
-import {createIllustration, renameDocument, deleteDocument, itemsFetchData} from "../actions/document";
+import {createDocument, updateDocument, deleteDocument, fetchDocuments} from "../actions/document";
 import DashboardComponent from './../components/Dashboard/Dashboard';
 
 const mapStateToProps = (state) => ({
@@ -11,10 +11,10 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = ({
-    createIllustration,
-    renameDocument,
+    createDocument,
+    updateDocument,
     deleteDocument,
-    itemsFetchData
+    fetchDocuments
 });
 
 const Dashboard = connect(

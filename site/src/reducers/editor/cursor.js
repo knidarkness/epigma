@@ -6,7 +6,7 @@ import {CURSOR, EDITOR_MODE} from '../../const';
 export const icon = (state = CURSOR.VIEW, action) => {
     
     switch (action.type) {
-        case actionTypes.ENABLE_MODE:
+        case actionTypes.MODE_ENABLE:
             switch(action.mode) {
                 case EDITOR_MODE.DRAW:
                     return CURSOR.DRAW;
@@ -25,7 +25,7 @@ export const icon = (state = CURSOR.VIEW, action) => {
 
 export const position = (state = [0, 0], action) => {
     switch (action.type) {
-        case actionTypes.UPDATE_CURSOR_POSITION:
+        case actionTypes.CURSOR_POSITION_UPDATE:
             return [action.x, action.y];
         default:
             return state;

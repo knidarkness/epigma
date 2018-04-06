@@ -1,17 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {zoomTo, enableMode} from "../actions/atomic";
-
+import {zoomCanvas} from "../actions/atomic";
+import {changeMode} from "../actions/mode"
 import Toolbar from '../components/Toolbar/Toolbar';
 import { ActionCreators } from 'redux-undo';
 
 import {getMode, getZoom} from "../reducers";
 
 const mapDispatchToProps = ({
-    zoomTo,
+    zoomCanvas,
     undo: ActionCreators.undo,
     redo: ActionCreators.redo,
-    enableMode,
+    changeMode,
 });
 
 const ToolbarContainer = connect(

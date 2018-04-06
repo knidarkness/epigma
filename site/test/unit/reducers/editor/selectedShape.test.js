@@ -1,5 +1,5 @@
 import assert from 'assert';
-import {setSelectedShape, selectedShapeAddNode, selectedShapeDeleteNode, selectedShapeInsertNode, selectedShapeUpdateNode, clearSelectedShape} from "../../../../src/actions/atomic";
+import {setSelectedShape, selectedShapeAddNode, selectedShapeDeleteNode, selectedShapeInsertNode, selectedShapeUpdateNode, clearSelectedShape} from "../../../../src/actions/shape";
 import editedShapeReducer from '../../../../src/reducers/editor/selectedShape';
 
 describe('Selected shape tests', function () {

@@ -4,10 +4,10 @@ import Matrix from '../../utils/matrix.js';
 
 const viewMatrix = (state =  Matrix.identity(), action) => {
     switch (action.type) {
-        case actionTypes.SHIFT_CANVAS:
+        case actionTypes.CANVAS_SHIFT:
             return state.translate(action.shiftX, action.shiftY)
 
-        case actionTypes.ZOOM_TO:
+        case actionTypes.CANVAS_ZOOM:
             return state.scaleToPoint(action.point, action.zoom)
            
         default:
@@ -18,8 +18,7 @@ const viewMatrix = (state =  Matrix.identity(), action) => {
 
 const zoom = (state = 1, action) => {
     switch (action.type) {
-        case actionTypes.ZOOM_TO:
-        case actionTypes.CHANGE_ZOOM:
+        case actionTypes.CANVAS_ZOOM:
             return action.zoom
         default:
             return state;

@@ -2,45 +2,45 @@ import * as actionTypes from '../../actions/actionTypes';
 
 const illustration = (state, action) => {
     switch (action.type) {
-        case actionTypes.CREATE_DOCUMENT:
+        case actionTypes.DOCUMENT_CREATE_SUCCESS:
             return {
                 id: action.id,
                 name: action.name,
                 editedAt: action.editedAt
             };
-        case actionTypes.DELETE_DOCUMENT:
-            return null;
-        case actionTypes.RENAME_DOCUMENT:
-            if (state.id === action.id){
-                return {
-                    id: state.id,
-                    name: action.name,
-                    editedAt: action.editedAt
-                };
-            } else {
+        case actionTypes.DOCUMENT_UPDATE_SUCCESS:
+            return {
+                id: state.id,
+                name: action.name,
+                editedAt: action.editedAt
+            };
+        default: 
                 return state;
-            }
     }
 };
 
 const documents = (state=[], action) => {
     switch (action.type) {
-        case actionTypes.ITEMS_FETCH_DATA_SUCCESS:
-            return [...action.items]
-                .sort((a, b) => b.editedAt - a.editedAt);
-        case actionTypes.CREATE_DOCUMENT:
+        case actionTypes.DOCUMENTS_FETCH_SUCCESS:
+            return action.documents.sort((a, b) => b.editedAt - a.editedAt);
+        case actionTypes.DOCUMENT_CREATE_SUCCESS:
             return [
                 ...state,
                 illustration(undefined, action)
-            ]
-                .sort((a, b) => b.editedAt - a.editedAt);
-        case actionTypes.DELETE_DOCUMENT:
+            ].sort((a, b) => b.editedAt - a.editedAt);
+        case actionTypes.DOCUMENT_DELETE_SUCCESS:
             return state
                 .filter((d) => d.id !== action.id);
-        case actionTypes.RENAME_DOCUMENT:
+        case actionTypes.DOCUMENT_UPDATE_SUCCESS:
             return state
-                .map(p => illustration(p, action))
+                .map(d => d.id === action.id ? illustration(d, action) : d)
                 .sort((a, b) => b.editedAt - a.editedAt);
+        case actionTypes.DOCUMENTS_FETCH_FAILURE:
+        case actionTypes.DOCUMENT_CREATE_FAILURE:
+        case actionTypes.DOCUMENT_DELETE_FAILURE:
+        case actionTypes.DOCUMENT_UPDATE_FAILURE:
+            console.log(action.error_msg)
+            return state
         default:
             return state;
     }

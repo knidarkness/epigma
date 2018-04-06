@@ -4,10 +4,10 @@ import * as actionTypes from '../../actions/actionTypes';
 const selectedShape = (state = -1, action) => {
     switch (action.type) {
 
-        case actionTypes.SET_SELECTED_SHAPE:
+        case actionTypes.SELECTED_SHAPE_SET:
             return action.id;
     
-        case actionTypes.CLEAR_SELECTED_SHAPE:
+        case actionTypes.SELECTED_SHAPE_CLEAR:
             return -1;
             
         default:
