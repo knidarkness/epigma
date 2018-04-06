@@ -1,0 +1,1 @@
+export const getCursor = state => state.editor.cursor;

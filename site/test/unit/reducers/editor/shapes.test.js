@@ -1,6 +1,7 @@
 import assert from 'assert';
-import {shapes} from "../../../../src/reducers/editor/shapes";
-import {createShape, deleteShape, fetchShapesSuccess, addShapeNode, deleteShapeNode, updateShapeNode, insertShapeNode} from "../../../../src/actions/shape";
+import {shapes as reducer} from "state/editor/shapes/reducers";
+import {shapesOperations} from "state/editor/shapes";
+import * as shapesActions from "state/editor/shapes/actions";
 
 
 describe('Paths reducer tests', function() {
@@ -13,7 +14,7 @@ describe('Paths reducer tests', function() {
             ],
             color: 'black'
         };
-        const actual = shapes([], createShape(...Object.values(shape)));
+        const actual = reducer([], shapesOperations.createShape(...Object.values(shape)));
         const expected = [shape];
         assert.deepEqual(actual, expected);
     });
@@ -28,7 +29,7 @@ describe('Paths reducer tests', function() {
                 ]
             }
         ];
-        const actual = shapes(state, deleteShape(1));
+        const actual = reducer(state, shapesOperations.deleteShape(1));
         const expected = [];
         assert.deepEqual(actual, expected);
     });
@@ -61,7 +62,7 @@ describe('Paths reducer tests', function() {
                 ]
             }
         ];
-        const actual = shapes(state, fetchShapesSuccess(fetchedShapes));
+        const actual = reducer(state, shapesActions.fetchShapesSuccess(fetchedShapes));
         const expected = fetchedShapes;
         assert.deepEqual(actual, expected);
     });
@@ -84,7 +85,7 @@ describe('Paths reducer tests', function() {
             color: 'black'
 
         };
-        const actual = shapes(state, createShape(...Object.values(shape)));
+        const actual = reducer(state, shapesOperations.createShape(...Object.values(shape)));
         const expected = [
             {
                 id: 1,
@@ -124,7 +125,7 @@ describe('Paths reducer tests', function() {
             }
   
         ];
-        const actual = shapes(state, addShapeNode(2, [200, 200]));
+        const actual = reducer(state, shapesOperations.addShapeNode(2, [200, 200]));
         const expected = [
             {
                 id: 1,
@@ -168,7 +169,7 @@ describe('Paths reducer tests', function() {
             }
   
         ];
-        const actual = shapes(state, updateShapeNode(2, 1, [200,200]));
+        const actual = reducer(state, shapesOperations.updateShapeNode(2, 1, [200,200]));
         const expected = [
             {
                 id: 1,
@@ -210,7 +211,7 @@ describe('Paths reducer tests', function() {
             }
   
         ];
-        const actual = shapes(state, deleteShapeNode(2, 1));
+        const actual = reducer(state, shapesOperations.deleteShapeNode(2, 1));
         const expected = [
             {
                 id: 1,
@@ -253,7 +254,7 @@ describe('Paths reducer tests', function() {
   
         ];
 
-        const actual = shapes(state, insertShapeNode(2, 1, [300, 300]));
+        const actual = reducer(state, shapesOperations.insertShapeNode(2, 1, [300, 300]));
         const expected = [
             {
                 id: 1,

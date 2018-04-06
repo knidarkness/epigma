@@ -1,0 +1,1 @@
+export const getAllDocuments = state => state.application.documents;
