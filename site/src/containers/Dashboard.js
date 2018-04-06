@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import {getDocuments} from "../reducers";
+import {getDocuments} from "reducers";
 
-import {createDocument, updateDocument, deleteDocument, fetchDocuments} from "../actions/document";
-import DashboardComponent from './../components/Dashboard/Dashboard';
+import {createDocument, updateDocument, deleteDocument, fetchDocuments} from "actions/document";
+import DashboardComponent from 'components/Dashboard/Dashboard';
 
 const mapStateToProps = (state) => ({
     documents: getDocuments(state)

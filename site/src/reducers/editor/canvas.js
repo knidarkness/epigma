@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
-import * as actionTypes from '../../actions/actionTypes';
-import Matrix from '../../utils/matrix.js';
+import * as actionTypes from 'actions/actionTypes';
+import Matrix from 'utils/matrix.js';
 
 const viewMatrix = (state =  Matrix.identity(), action) => {
     switch (action.type) {

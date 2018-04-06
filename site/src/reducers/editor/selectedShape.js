@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import * as actionTypes from '../../actions/actionTypes';
+import * as actionTypes from 'actions/actionTypes';
 
 const selectedShape = (state = -1, action) => {
     switch (action.type) {

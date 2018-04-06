@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
-import * as actionTypes from '../../actions/actionTypes';
-import {CURSOR, EDITOR_MODE} from '../../const';
+import * as actionTypes from 'actions/actionTypes';
+import {CURSOR, EDITOR_MODE} from 'const';
 
 
 export const icon = (state = CURSOR.VIEW, action) => {

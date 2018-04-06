@@ -1,4 +1,4 @@
-import {DOCUMENT_LIST_URI} from "../const";
+import {DOCUMENT_LIST_URI} from "const";
 import * as actionTypes from "./actionTypes";
 
 export const fetchDocuments = (url) => {

@@ -1,9 +1,9 @@
 import React from 'react';
 import * as most from 'most'
-import {EDITOR_MODE} from "../../const";
-import {createSVG} from "../../utils/svg";
+import {EDITOR_MODE} from "const";
+import {createSVG} from "utils/svg";
 import './Canvas.scss';
-import API from '../../api';
+import API from 'api';
 
 class Canvas extends React.Component {
     getOffsetedPoint(point) {
@@ -101,7 +101,6 @@ class Canvas extends React.Component {
             .map(e => this.getNormalizedPoint([e.x, e.y]))
             .observe(node => {
                 if (this.props.selectedShape === -1) {
-                    console.log(this.props)
                     this.props.createShape()
                     this.props.setSelectedShape(this.props.shapes[this.props.shapes.length - 1].id)
                 }

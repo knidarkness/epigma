@@ -1,15 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import {getAllShapes, getMode, getEdit, getZoom, getCursor, getSelectedShape, getViewMatrix} from "../reducers";
+import {getAllShapes, getMode, getEdit, getZoom, getCursor, getSelectedShape, getViewMatrix} from "reducers";
 
-import Canvas from '../components/Canvas/Canvas';
+import Canvas from 'components/Canvas/Canvas';
 
-import * as atomicActions from "../actions/atomic";
+import * as atomicActions from "actions/atomic";
 
-import * as shapeActions from "../actions/shape";
+import * as shapeActions from "actions/shape";
 
-import * as  modeActions from "../actions/mode";
+import * as  modeActions from "actions/mode";
 
 const mapStateToProps = (state) => ({
     mode: getMode(state),

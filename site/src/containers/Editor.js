@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
 import Dashboard from './Dashboard';
-import DrawPage from './../components/DrawPage/DrawPage';
+import DrawPage from 'components/DrawPage/DrawPage';
 
 let Editor = ({dispatch}) => {
     return (

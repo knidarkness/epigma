@@ -1,5 +1,5 @@
 import uuid4 from "uuid/v4";
-import {DOCUMENT_LIST_URI} from "../const";
+import {DOCUMENT_LIST_URI} from "const";
 import * as actionTypes from "./actionTypes";
 
 export const fetchShapes = (id) => {

@@ -1,9 +1,9 @@
 import React from 'react';
 import qstring from 'query-string';
 
-import RenderCanvas from './../../containers/RenderCanvas';
-import Toolbar from './../../containers/Toolbar';
-import Stats from "./../../containers/Stats";
+import RenderCanvas from 'containers/RenderCanvas';
+import Toolbar from 'containers/Toolbar';
+import Stats from "containers/Stats";
 
 class DrawPage extends React.Component{
 

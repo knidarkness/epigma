@@ -1,4 +1,4 @@
-import * as actionTypes from '../../actions/actionTypes';
+import * as actionTypes from 'actions/actionTypes';
 import undoable, {includeAction} from 'redux-undo'
 
 function shape(state, action) {

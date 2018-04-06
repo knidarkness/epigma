@@ -1,5 +1,5 @@
-import * as actionTypes from '../../actions/actionTypes';
-import {EDITOR_MODE} from '../../const';
+import * as actionTypes from 'actions/actionTypes';
+import {EDITOR_MODE} from 'const';
 
 const mode = (state = EDITOR_MODE.VIEW, action) => {
     switch (action.type) {

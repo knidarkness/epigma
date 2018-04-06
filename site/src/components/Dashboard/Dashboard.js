@@ -1,10 +1,10 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import dateformat from 'dateformat';
-import Header from './../Header/Header';
+import Header from 'components/Header/Header';
 import './Dashboard.scss'
 
-import {DOCUMENT_LIST_URI} from "../../const";
+import {DOCUMENT_LIST_URI} from "const";
 
 class Dashboard extends React.Component {
     constructor(props){
