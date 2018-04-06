@@ -3,7 +3,7 @@ import undoable, {includeAction} from 'redux-undo'
 
 function shape(state, action) {
     switch (action.type) {
-        case actionTypes.CREATE_SHAPE:
+        case actionTypes.SHAPE_CREATE:
             return {
                 id: action.id,
                 nodes: action.nodes,
@@ -36,7 +36,7 @@ function shape(state, action) {
                 ...state,
                 nodes: state.nodes.map((node, i) => i !== action.index ? node : action.node)
             }
-
+    
         default:
             return state; 
     }
@@ -44,20 +44,24 @@ function shape(state, action) {
 
 export const shapes = (state = [], action) => {
     switch (action.type) {
-        case actionTypes.FETCH_SHAPES:
+        case actionTypes.SHAPES_FETCH_SUCCESS:
             return action.shapes;
-        case actionTypes.CREATE_SHAPE:
+        case actionTypes.SHAPE_CREATE:
             return [
                 ...state,
                 shape(undefined, action)
             ];
-        case actionTypes.DELETE_SHAPE:
-            return state.filter(p => p.id !== action.id);
+        case actionTypes.SHAPE_DELETE:
+            return state.filter(p => p.id !== action.id);            
         case actionTypes.SHAPE_ADD_NODE:
         case actionTypes.SHAPE_INSERT_NODE:
         case actionTypes.SHAPE_DELETE_NODE:
         case actionTypes.SHAPE_UPDATE_NODE:
             return state.map(p => (p.id === action.shape_id) ? shape(p, action) : p);
+        case actionTypes.SHAPES_FETCH_FAILURE:
+            console.log(action.error_msg)
+            return state
+
         default:
             return state;
     }
@@ -66,11 +70,11 @@ export const shapes = (state = [], action) => {
 
 const undoableShapes = undoable(shapes, {
     filter: includeAction([
-        actionTypes.CREATE_SHAPE,
-        actionTypes.UPDATE_SHAPE,
+        actionTypes.SHAPE_CREATE,
+        actionTypes.SHAPE_DELETE,
         actionTypes.SHAPE_ADD_NODE,
         actionTypes.SHAPE_INSERT_NODE,
-        actionTypes.DELETE_SHAPE,
+        actionTypes.SHAPE_DELETE_NODE,
         actionTypes.SHAPE_UPDATE_NODE
     ])
 });

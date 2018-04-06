@@ -14,7 +14,7 @@ class Dashboard extends React.Component {
     async createDocument(){
         const docName = prompt('Enter document name');
         if (!docName || docName.length === 0) return;
-        this.props.createIllustration(docName);
+        this.props.createDocument(docName);
     }
 
     async deleteDocument(documentId){
@@ -27,12 +27,12 @@ class Dashboard extends React.Component {
     async editDocument(documentId){
         const newName = prompt('Enter new document name', 'Current name');
         if (newName && newName.length > 0){
-            this.props.renameDocument(documentId, newName);
+            this.props.updateDocument(documentId, newName);
         }
     }
 
     async componentDidMount() {
-        this.props.itemsFetchData(DOCUMENT_LIST_URI);
+        this.props.fetchDocuments(DOCUMENT_LIST_URI);
     }
 
 

@@ -1,34 +1,23 @@
 import assert from 'assert';
 import {shapes} from "../../../../src/reducers/editor/shapes";
-import * as actionTypes from '../../../../src/actions/actionTypes';
+import {createShape, deleteShape, fetchShapesSuccess, addShapeNode, deleteShapeNode, updateShapeNode, insertShapeNode} from "../../../../src/actions/shape";
 
 
 describe('Paths reducer tests', function() {
     it('Create new path for empty state', function() {
-        const action = {
-            type: actionTypes.CREATE_SHAPE,
+        const shape = {
             id: 1,
-            color: 'black',
             nodes: [
                 [50, 50],
                 [200, 50]
-            ]
+            ],
+            color: 'black'
         };
-        const actual = shapes([], action);
-        const expected = [
-            {
-                id: 1,
-                color: 'black',
-                nodes: [
-                    [50, 50],
-                    [200, 50]
-                ]
-            }
-        ];
+        const actual = shapes([], createShape(...Object.values(shape)));
+        const expected = [shape];
         assert.deepEqual(actual, expected);
     });
     it('Delete path from the state', function() {
-        const action = {type: actionTypes.DELETE_SHAPE, id: 1};
         const state = [
             {
                 id: 1,
@@ -39,7 +28,7 @@ describe('Paths reducer tests', function() {
                 ]
             }
         ];
-        const actual = shapes(state, action);
+        const actual = shapes(state, deleteShape(1));
         const expected = [];
         assert.deepEqual(actual, expected);
     });
@@ -54,7 +43,7 @@ describe('Paths reducer tests', function() {
                 ]
             }
         ];
-        const fetchedPaths = [
+        const fetchedShapes = [
             {
                 id: 1,
                 color: 'black',
@@ -72,15 +61,11 @@ describe('Paths reducer tests', function() {
                 ]
             }
         ];
-        const action = {
-            type: actionTypes.FETCH_SHAPES,
-            shapes: fetchedPaths
-        };
-        const actual = shapes(state, action);
-        const expected = fetchedPaths;
+        const actual = shapes(state, fetchShapesSuccess(fetchedShapes));
+        const expected = fetchedShapes;
         assert.deepEqual(actual, expected);
     });
-    it('Add path to non-empty state', function () {
+    it('Add shape to non-empty state', function () {
         const state = [
             {
                 id: 1,
@@ -91,15 +76,15 @@ describe('Paths reducer tests', function() {
                 ]
             }
         ];
-        const action = {
-            type: actionTypes.CREATE_SHAPE, 
+        const shape = {
             id: 2, 
-            color: 'black', 
             nodes: [
                 [200, 200]
-            ]
+            ],
+            color: 'black'
+
         };
-        const actual = shapes(state, action);
+        const actual = shapes(state, createShape(...Object.values(shape)));
         const expected = [
             {
                 id: 1,
@@ -139,13 +124,7 @@ describe('Paths reducer tests', function() {
             }
   
         ];
-        const action = {
-            type: actionTypes.SHAPE_ADD_NODE, 
-            shape_id: 2, 
-            node: [200, 200]
-            
-        };
-        const actual = shapes(state, action);
+        const actual = shapes(state, addShapeNode(2, [200, 200]));
         const expected = [
             {
                 id: 1,
@@ -189,13 +168,7 @@ describe('Paths reducer tests', function() {
             }
   
         ];
-        const action = {
-            type: actionTypes.SHAPE_UPDATE_NODE, 
-            shape_id: 2, 
-            index: 1,
-            node: [200, 200]
-        };
-        const actual = shapes(state, action);
+        const actual = shapes(state, updateShapeNode(2, 1, [200,200]));
         const expected = [
             {
                 id: 1,
@@ -237,12 +210,7 @@ describe('Paths reducer tests', function() {
             }
   
         ];
-        const action = {
-            type: actionTypes.SHAPE_DELETE_NODE, 
-            shape_id: 2,
-            index: 1
-        };
-        const actual = shapes(state, action);
+        const actual = shapes(state, deleteShapeNode(2, 1));
         const expected = [
             {
                 id: 1,
@@ -284,13 +252,8 @@ describe('Paths reducer tests', function() {
             }
   
         ];
-        const action = {
-            type: actionTypes.SHAPE_INSERT_NODE, 
-            shape_id: 2,
-            index: 1,
-            node: [300, 300]
-        };
-        const actual = shapes(state, action);
+
+        const actual = shapes(state, insertShapeNode(2, 1, [300, 300]));
         const expected = [
             {
                 id: 1,

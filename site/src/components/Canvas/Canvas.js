@@ -30,7 +30,7 @@ class Canvas extends React.Component {
 
     componentDidMount() {
         this.props.fetchShapes(this.props.documentId);
-        this.props.enableMode(EDITOR_MODE.VIEW);
+        this.props.changeMode(EDITOR_MODE.VIEW);
 
         const canvas = document.querySelector('#canvas');
 
@@ -58,7 +58,7 @@ class Canvas extends React.Component {
         wheel // zoom
             .observe(e => { 
             const newZoom = Math.max(this.props.zoom + ((e.deltaY > 0) ? 0.01 : -0.01), 0.5);
-            this.props.zoomTo([e.x, e.y], newZoom);
+            this.props.zoomCanvas([e.x, e.y], newZoom);
         });
 
         keydownEnter // save selected shape
@@ -67,11 +67,9 @@ class Canvas extends React.Component {
                 const newShape = this.props.shapes.filter(shape => shape.id === this.props.selectedShape)[0];
                 if (newShape.nodes.length > 1){
                     API.createShape(this.props.documentId, newShape);
-
                 }
 
-                this.props.enableMode(EDITOR_MODE.VIEW);
-                this.props.clearSelectedShape();
+                this.props.changeMode(EDITOR_MODE.VIEW);
             });
         
         
@@ -84,16 +82,14 @@ class Canvas extends React.Component {
 
                 }
 
-                this.props.enableMode(EDITOR_MODE.VIEW);
-                this.props.clearSelectedShape();
+                this.props.changeMode(EDITOR_MODE.VIEW);
             });
 
         keydownDelete // delete selected shape
             .observe(e => {
                 API.deleteShape(this.props.documentId, this.props.selectedShape)
                 this.props.deleteShape(this.props.selectedShape)
-                this.props.clearSelectedShape();
-                this.props.enableMode(EDITOR_MODE.VIEW);
+                this.props.changeMode(EDITOR_MODE.VIEW);
             });
 
         mousemove // save cursor position
@@ -105,6 +101,7 @@ class Canvas extends React.Component {
             .map(e => this.getNormalizedPoint([e.x, e.y]))
             .observe(node => {
                 if (this.props.selectedShape === -1) {
+                    console.log(this.props)
                     this.props.createShape()
                     this.props.setSelectedShape(this.props.shapes[this.props.shapes.length - 1].id)
                 }
@@ -116,7 +113,7 @@ class Canvas extends React.Component {
             .filter(e => this.isShape(e))
             .map(e => e.target.dataset.shapeIndex)
             .observe(shapeId => {
-                this.props.enableMode(EDITOR_MODE.EDIT);
+                this.props.changeMode(EDITOR_MODE.EDIT);
                 this.props.setSelectedShape(shapeId);
             });
 
