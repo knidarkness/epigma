@@ -30,7 +30,7 @@ class Canvas extends React.Component {
 
     componentDidMount() {
         this.props.fetchShapes(this.props.documentId);
-        this.props.changeMode(EDITOR_MODE.VIEW);
+        this.props.changeMode(EDITOR_MODE.SELECT);
 
         const canvas = document.querySelector('#canvas');
 
@@ -64,12 +64,14 @@ class Canvas extends React.Component {
         keydownEnter // save selected shape
             .filter(e => this.props.mode === EDITOR_MODE.DRAW)
             .observe(() => {
-                const newShape = this.props.shapes.filter(shape => shape.id === this.props.selectedShape)[0];
-                if (newShape.nodes.length > 1){
-                    API.createShape(this.props.documentId, newShape);
+                if (this.props.selectedShape != -1){
+                    const newShape = this.props.shapes.filter(shape => shape.id === this.props.selectedShape)[0];
+                    if (newShape.nodes.length > 1){
+                        API.createShape(this.props.documentId, newShape);
+                    }
                 }
 
-                this.props.changeMode(EDITOR_MODE.VIEW);
+                this.props.changeMode(EDITOR_MODE.SELECT);
             });
         
         
@@ -82,14 +84,15 @@ class Canvas extends React.Component {
 
                 }
 
-                this.props.changeMode(EDITOR_MODE.VIEW);
+                this.props.changeMode(EDITOR_MODE.SELECT);
             });
 
         keydownDelete // delete selected shape
+            .filter(e => this.props.mode === EDITOR_MODE.EDIT)   
             .observe(e => {
                 API.deleteShape(this.props.documentId, this.props.selectedShape)
                 this.props.deleteShape(this.props.selectedShape)
-                this.props.changeMode(EDITOR_MODE.VIEW);
+                this.props.changeMode(EDITOR_MODE.SELECT);
             });
 
         mousemove // save cursor position
@@ -108,7 +111,7 @@ class Canvas extends React.Component {
             });
 
         click // enter edit mode
-            .filter(e => this.props.mode !== EDITOR_MODE.DRAW)
+            .filter(e => this.props.mode == EDITOR_MODE.SELECT)
             .filter(e => this.isShape(e))
             .map(e => e.target.dataset.shapeIndex)
             .observe(shapeId => {

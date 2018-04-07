@@ -8,6 +8,11 @@ import { ActionCreators } from 'redux-undo';
 import { canvasSelectors } from "state/editor/canvas";
 import { modeSelectors } from "state/editor/mode";
 
+const mapStateToProps = (state) => ({
+    mode: modeSelectors.getMode(state),
+    zoom: canvasSelectors.getZoom(state)
+});
+
 const mapDispatchToProps = ({
     zoomCanvas: canvasOperations.zoomCanvas,
     undo: ActionCreators.undo,
@@ -16,10 +21,7 @@ const mapDispatchToProps = ({
 });
 
 const ToolbarContainer = connect(
-    (state) => ({
-        mode: modeSelectors.getMode(state),
-        zoom: canvasSelectors.getZoom(state)
-    }),
+    mapStateToProps,
     mapDispatchToProps
 )(Toolbar);
 
