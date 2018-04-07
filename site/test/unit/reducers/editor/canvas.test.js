@@ -5,8 +5,8 @@ import reducer from 'state/editor/canvas';
 
 import Matrix from 'state/editor/canvas/utils/matrix';
 
-describe('Canvas zoom/shift tests', function () {
-    it('Shift from zero coordinate', function () {
+describe('Canvas zoom/shift tests', () => {
+    it('Shift from zero coordinate', () => {
         const state = {
             zoom: 1,
             viewMatrix: Matrix.identity()
@@ -19,7 +19,7 @@ describe('Canvas zoom/shift tests', function () {
         };
         assert.deepEqual(actual, expected);
     }),
-    it('Shift from non-zero coordinate', function () {
+    it('Shift from non-zero coordinate', () => {
         const state = {
             zoom: 1,
             viewMatrix: new Matrix(1, 0, 0, 1, 15, 15)
@@ -33,7 +33,7 @@ describe('Canvas zoom/shift tests', function () {
         assert.deepEqual(actual, expected);
     })
     
-    it('Zoom into a point', function () {
+    it('Zoom into a point', () => {
         const state = {
             zoom: 1,
             viewMatrix: new Matrix(1, 0, 0, 1, 15, 15)

@@ -32,7 +32,8 @@ const mapDispatchToProps = ({
     zoomCanvas: canvasOperations.zoomCanvas,
     shiftCanvas: canvasOperations.shiftCanvas,
     changeMode: modeOperations.changeMode,
-    updateCursorPosition: cursorOperations.updateCursorPosition
+    updateCursorPosition: cursorOperations.updateCursorPosition,
+    updateCursorIcon: cursorOperations.updateCursorIcon
 });
 
 const RenderCanvas = connect(

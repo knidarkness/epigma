@@ -3,9 +3,37 @@ import {shapes as reducer} from "state/editor/shapes/reducers";
 import {shapesOperations} from "state/editor/shapes";
 import * as shapesActions from "state/editor/shapes/actions";
 
+import fetchMock from 'fetch-mock'
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import {DOCUMENT_LIST_URI} from 'const'
 
-describe('Paths reducer tests', function() {
-    it('Create new path for empty state', function() {
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
+
+describe('Shapes actions tests', () => {
+    it('Creates SHAPE_FETCH_SUCCESS when shapes have been successfully fetched', () => {
+        fetchMock
+            .getOnce(DOCUMENT_LIST_URI + '/1/shapes/', { 
+                status: 200,
+                body: {shapes: [{"id":"1", "nodes":[[1, 1], [2, 3]], "color":"black"}]}
+            })
+  
+        const expectedActions = [
+            shapesActions.fetchShapesSuccess([{"id":"1", "nodes":[[1 ,1] ,[2, 3]], "color":"black"}])
+        ]
+        const store = mockStore({})
+        const action = shapesOperations.fetchShapes('1')
+        const actualActions = store.getActions()
+
+        return store.dispatch(action).then(() => {
+            assert.deepEqual(actualActions, expectedActions)
+        })
+    });
+});
+
+describe('Shapes reducer tests', () => {
+    it('Create new shape for empty state', () => {
         const shape = {
             id: 1,
             nodes: [
@@ -18,7 +46,7 @@ describe('Paths reducer tests', function() {
         const expected = [shape];
         assert.deepEqual(actual, expected);
     });
-    it('Delete path from the state', function() {
+    it('Delete shape from the state', () => {
         const state = [
             {
                 id: 1,
@@ -33,7 +61,7 @@ describe('Paths reducer tests', function() {
         const expected = [];
         assert.deepEqual(actual, expected);
     });
-    it('Fetch shapes successful from the back-end test', function () {
+    it('Fetch shapes successful from the back-end test', () => {
         const state = [
             {
                 id: 1,
@@ -66,7 +94,7 @@ describe('Paths reducer tests', function() {
         const expected = fetchedShapes;
         assert.deepEqual(actual, expected);
     });
-    it('Add shape to non-empty state', function () {
+    it('Add shape to non-empty state', () => {
         const state = [
             {
                 id: 1,
@@ -105,7 +133,7 @@ describe('Paths reducer tests', function() {
         ];
         assert.deepEqual(actual, expected);
     });
-    it('Add node to shape', function () {
+    it('Add node to shape', () => {
         const state = [
             {
                 id: 1,
@@ -149,7 +177,7 @@ describe('Paths reducer tests', function() {
         assert.deepEqual(actual, expected);
     });
 
-    it('Update node in a shape', function () {
+    it('Update node in a shape', () => {
         const state = [
             {
                 id: 1,
@@ -191,7 +219,7 @@ describe('Paths reducer tests', function() {
         ];
         assert.deepEqual(actual, expected);
     });
-    it('Delete node from the shape', function () {
+    it('Delete node from the shape', () => {
         const state = [
             {
                 id: 1,
@@ -233,7 +261,7 @@ describe('Paths reducer tests', function() {
         assert.deepEqual(actual, expected);
     });
 
-    it('Insert node into the shape', function () {
+    it('Insert node into the shape', () => {
         const state = [
             {
                 id: 1,
