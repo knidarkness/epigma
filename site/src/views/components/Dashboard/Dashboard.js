@@ -32,7 +32,7 @@ class Dashboard extends React.Component {
     }
 
     async componentDidMount() {
-        this.props.fetchDocuments(DOCUMENT_LIST_URI);
+        this.props.fetchDocuments();
     }
 
 

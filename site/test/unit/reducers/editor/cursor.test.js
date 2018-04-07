@@ -1,5 +1,5 @@
 import assert from 'assert';
-import * as modeTypes from 'state/editor/mode/types';
+import * as types from 'state/editor/mode/types';
 
 import {CURSOR, EDITOR_MODE} from "const";
 import reducer from 'state/editor/cursor';
@@ -10,7 +10,7 @@ describe('Cursor reducer tests', function () {
             icon: CURSOR.DEFAULT,
             position: undefined
         }
-        const actual = reducer(state,{type: modeTypes.ENABLE, mode:EDITOR_MODE.DRAW});
+        const actual = reducer(state,{type: types.ENABLE, mode:EDITOR_MODE.DRAW});
         const expected = CURSOR.DRAW;
         assert.equal(actual.icon, expected);
     });
@@ -20,7 +20,7 @@ describe('Cursor reducer tests', function () {
             icon: CURSOR.DEFAULT,
             position: undefined
         }
-        const actual = reducer(state, {type: modeTypes.ENABLE, mode:EDITOR_MODE.VIEW});
+        const actual = reducer(state, {type: types.ENABLE, mode:EDITOR_MODE.VIEW});
         const expected = CURSOR.VIEW;
         assert.equal(actual.icon, expected);
     });
@@ -30,7 +30,7 @@ describe('Cursor reducer tests', function () {
             icon: CURSOR.DEFAULT,
             position: undefined
         }
-        const actual = reducer(state, {type: modeTypes.ENABLE, mode:EDITOR_MODE.EDIT});
+        const actual = reducer(state, {type: types.ENABLE, mode:EDITOR_MODE.EDIT});
         const expected = CURSOR.EDIT;
         assert.equal(actual.icon, expected);
     });

@@ -3,9 +3,37 @@ import {shapes as reducer} from "state/editor/shapes/reducers";
 import {shapesOperations} from "state/editor/shapes";
 import * as shapesActions from "state/editor/shapes/actions";
 
+import fetchMock from 'fetch-mock'
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import {DOCUMENT_LIST_URI} from 'const'
 
-describe('Paths reducer tests', function() {
-    it('Create new path for empty state', function() {
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
+
+describe('Shapes actions tests', function() {
+    it('Creates SHAPE_FETCH_SUCCESS when shapes have been successfully fetched', function() {
+        fetchMock
+            .getOnce(DOCUMENT_LIST_URI + '/1/shapes/', { 
+                status: 200,
+                body: {shapes: [{"id":"1", "nodes":[[1, 1], [2, 3]], "color":"black"}]}
+            })
+  
+        const expectedActions = [
+            shapesActions.fetchShapesSuccess([{"id":"1", "nodes":[[1 ,1] ,[2, 3]], "color":"black"}])
+        ]
+        const store = mockStore({})
+        const action = shapesOperations.fetchShapes('1')
+        const actualActions = store.getActions()
+
+        return store.dispatch(action).then(() => {
+            assert.deepEqual(actualActions, expectedActions)
+        })
+    });
+});
+
+describe('Shapes reducer tests', function() {
+    it('Create new shape for empty state', function() {
         const shape = {
             id: 1,
             nodes: [
@@ -18,7 +46,7 @@ describe('Paths reducer tests', function() {
         const expected = [shape];
         assert.deepEqual(actual, expected);
     });
-    it('Delete path from the state', function() {
+    it('Delete shape from the state', function() {
         const state = [
             {
                 id: 1,

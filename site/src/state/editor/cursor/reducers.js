@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux'
-import * as modeTypes from 'state/editor/mode/types';
 import * as types from './types';
 import {CURSOR, EDITOR_MODE} from 'const';
 
@@ -7,7 +6,7 @@ import {CURSOR, EDITOR_MODE} from 'const';
 export const icon = (state = CURSOR.VIEW, action) => {
     
     switch (action.type) {
-        case modeTypes.ENABLE:
+        case types.ENABLE:
             switch(action.mode) {
                 case EDITOR_MODE.DRAW:
                     return CURSOR.DRAW;

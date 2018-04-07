@@ -1,9 +1,9 @@
 import {createDocumentSuccess, createDocumentFailure, deleteDocumentSuccess, deleteDocumentFailure, updateDocumentSuccess, updateDocumentFailure, fetchDocumentsSuccess, fetchDocumentsFailure} from './actions';
 import {DOCUMENT_LIST_URI} from 'const';
 
-const fetchDocuments = (url) => {
+const fetchDocuments = () => {
     return (dispatch) => {
-        fetch(url)
+        return fetch(DOCUMENT_LIST_URI)
             .then((response) => response.json())
             .then((data) => dispatch(fetchDocumentsSuccess(data.documents)))
             .catch((err) => dispatch(fetchDocumentsFailure(err)));
@@ -13,18 +13,17 @@ const fetchDocuments = (url) => {
 
 const createDocument = (name) => {
     return (dispatch) => {
-        const request = new Request(DOCUMENT_LIST_URI, {
+        return fetch(DOCUMENT_LIST_URI, {
             method: 'POST',
             mode: 'cors',
             redirect: 'follow',
             body: JSON.stringify({
                 name: name
             }),
-            headers: new Headers({
+            headers: {
                 'Content-Type': 'application/json'
-            })
-        });
-        fetch(request)
+            }
+        })
             .then((response) => response.json())
             .then((doc) => dispatch(createDocumentSuccess(doc.data._id, doc.data.name,doc.data.editedAt)))
             .catch((err) => dispatch(createDocumentFailure(err)));
@@ -34,16 +33,14 @@ const createDocument = (name) => {
 
 const deleteDocument = (id) => {
     return (dispatch) => {
-        const request = new Request(DOCUMENT_LIST_URI + '/' + id, {
+        return fetch(DOCUMENT_LIST_URI + '/' + id, {
             method: 'DELETE',
             mode: 'cors',
             redirect: 'follow',
-            headers: new Headers({
+            headers: {
                 'Content-Type': 'application/json'
-            })
-        });
-
-        fetch(request)
+            }
+        })
             .then(() => dispatch(deleteDocumentSuccess(id)))
             .catch((err) => dispatch(deleteDocumentFailure(err)));
     }
@@ -51,21 +48,19 @@ const deleteDocument = (id) => {
 
 const updateDocument = (id, name) => {
     return (dispatch) => {
-        const request = new Request(DOCUMENT_LIST_URI + '/' + id, {
+        return fetch(DOCUMENT_LIST_URI + '/' + id, {
             method: 'PATCH',
             mode: 'cors',
             redirect: 'follow',
             body: JSON.stringify({
                 name: name
             }),
-            headers: new Headers({
+            headers: {
                 'Content-Type': 'application/json'
-            })
-        });
-
-        fetch(request)
+            }
+        })
             .then((response) => response.json())
-            .then((data) => dispatch(updateDocumentSuccess(id, name, data.editedAt)))
+            .then((doc) => dispatch(updateDocumentSuccess(doc.data.id, doc.data.name, doc.data.editedAt)))
             .catch((err) => dispatch(updateDocumentFailure(err)));
     }
 };

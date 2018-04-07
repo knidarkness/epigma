@@ -1,45 +1,140 @@
 import assert from 'assert';
 import reducer from 'state/application/documents';
-import * as types from 'state/application/documents/types';
+import {documentsOperations}  from 'state/application/documents';
+import * as documentsActions  from 'state/application/documents/actions';
+import {DOCUMENT_LIST_URI} from 'const';
+
+import fetchMock from 'fetch-mock'
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
+
+describe('Documents actions tests', function() {
+    afterEach(() => {
+        fetchMock.reset()
+        fetchMock.restore()
+    })
+    it('Creates DOCUMENT_CREATE_SUCCESS when document has been successfully created', function() {
+        fetchMock
+            .postOnce(DOCUMENT_LIST_URI, { 
+                status: 200,
+                body: {data: { _id: '1', name: 'document 1', editedAt: '1523109000'}}
+            })
+  
+        const expectedActions = [
+            documentsActions.createDocumentSuccess('1', 'document 1', '1523109000')
+        ]
+        const store = mockStore({})
+        const action = documentsOperations.createDocument('document 1')
+        const actualActions = store.getActions()
+
+        return store.dispatch(action).then(() => {
+            assert.deepEqual(actualActions, expectedActions)
+        })
+    });
+ 
+    it('Creates DOCUMENT_FETCH_SUCCESS when documents have been successfully fetched', function() {
+        fetchMock
+            .getOnce(DOCUMENT_LIST_URI, { 
+                status: 200,
+                body: {documents: [{id: '1', name: 'document 1', editedAt: '1523109000'}]}
+            })
+  
+        const expectedActions = [
+            documentsActions.fetchDocumentsSuccess([{id: '1', name: 'document 1', editedAt: '1523109000'}])
+        ]
+        const store = mockStore({})
+        const action = documentsOperations.fetchDocuments()
+        const actualActions = store.getActions()
+
+        return store.dispatch(action).then(() => {
+            assert.deepEqual(actualActions, expectedActions)
+        })
+    });
+
+
+    it('Creates DOCUMENT_DELETE_SUCCESS when document has been successfully deleted', function() {
+        fetchMock
+            .deleteOnce("begin:" + DOCUMENT_LIST_URI, { 
+                status: 200
+            })
+  
+        const expectedActions = [
+            documentsActions.deleteDocumentSuccess('1')
+        ]
+        const store = mockStore({})
+        const action = documentsOperations.deleteDocument('1')
+        const actualActions = store.getActions()
+
+        return store.dispatch(action).then(() => {
+            assert.deepEqual(actualActions, expectedActions)
+        })
+    });
+
+
+    it('Creates DOCUMENT_UPDATE_SUCCESS when document has been successfully updated', function() {
+        fetchMock
+            .patchOnce("begin:" + DOCUMENT_LIST_URI, { 
+                status: 200,
+                body: {data: {id: '1', name: 'new name', editedAt: '1523109000'}}
+            })
+  
+        const expectedActions = [
+            documentsActions.updateDocumentSuccess('1', 'new name', '1523109000')
+        ]
+        const store = mockStore({})
+        const action = documentsOperations.updateDocument('1', 'new name')
+        const actualActions = store.getActions()
+
+        return store.dispatch(action).then(() => {
+            assert.deepEqual(actualActions, expectedActions)
+        })
+    });
+})
 
 describe('Documents reducers tests', function() {
    it('Create document for empty state', function() {
-       const actual = reducer([], {type: types.DOCUMENT_CREATE_SUCCESS, id: '1', name: '1', editedAt: '1'});
-       const expected = [{ id: '1', name: '1', editedAt: '1' }];
+       const actual = reducer([], documentsActions.createDocumentSuccess('1', 'document 1', '1523109000'));
+       const expected = [{ id: '1', name: 'document 1', editedAt: '1523109000' }];
        assert.deepEqual(actual, expected);
    });
 
    it('Create document for non-empty state', function() {
-       const state = [{ id: '1', name: '1', editedAt: '1' }];
-       const actual = reducer(state, {type: types.DOCUMENT_CREATE_SUCCESS, id: '2', name: '2', editedAt: '2'});
-       const expected = [{ id: '2', name: '2', editedAt: '2'}, { id: '1', name: '1', editedAt: '1' }];
+       const state = [{ id: '1', name: 'document 1', editedAt: '1523109000'}];
+       const actual = reducer(state, documentsActions.createDocumentSuccess('2', 'document 2', '1523109001'));
+       const expected = [{ id: '2', name: 'document 2', editedAt: '1523109001'}, { id: '1', name: 'document 1', editedAt: '1523109000' }];
        assert.deepEqual(actual, expected);
    });
 
    it('Store data after fetching documents', function() {
-       const state = [{ id: '1', name: '1', editedAt: '1' }];
-       const actual = reducer(state, {type: types.DOCUMENTS_FETCH_SUCCESS, documents: [{id: '2', name: '2', editedAt: '2'}]});
-       const expected = [{ id: '2', name: '2', editedAt: '2'}];
+       const state = [{ id: '1', name: 'document 1', editedAt: '1523109000'}];
+       const actual = reducer(state, documentsActions.fetchDocumentsSuccess([{ id: '2', name: 'document 2', editedAt: '1523109001'}]));
+       const expected = [{ id: '2', name: 'document 2', editedAt: '1523109001'}];
        assert.deepEqual(actual, expected);
    });
 
    it('Delete document from non-empty state', function() {
-       const state = [{ id: '1', name: '1', editedAt: '1' }, { id: '2', name: '2', editedAt: '2'}];
-       const actual = reducer(state, {type: types.DOCUMENT_DELETE_SUCCESS, id: '2'});
-       const expected = [{ id: '1', name: '1', editedAt: '1'}];
+       const state = [{ id: '1', name: 'document 1', editedAt: '1523109000' }, { id: '2', name: 'document 2', editedAt: '1523109001'}];
+       const actual = reducer(state, documentsActions.deleteDocumentSuccess('2'));
+       const expected = [{ id: '1', name: 'document 1', editedAt: '1523109000'}];
        assert.deepEqual(actual, expected);
    });
 
    it('Try to delete document from non-empty state, no matching id', function() {
-       const state = [{ id: '1', name: '1', editedAt: '1' }, { id: '2', name: '2', editedAt: '2'}];
-       const actual = reducer(state, {type: types.DOCUMENT_DELETE_SUCCESS, id: '3'});
+       const state = [{ id: '1', name: 'document 1', editedAt: '1523109000' }, { id: '2', name: 'document 2', editedAt: '1523109001'}];
+       const actual = reducer(state, documentsActions.deleteDocumentSuccess(3));
        assert.deepEqual(actual, state);
    });
 
    it('Rename document in not-empty state', function() {
-       const state = [{ id: '1', name: '1', editedAt: '1' }, { id: '2', name: '2', editedAt: '2'}];
-       const actual = reducer(state, {type: types.DOCUMENT_UPDATE_SUCCESS, id: '2', name: 'new name', editedAt: '3'});
-       const expected = [{ id: '2', name: 'new name', editedAt: '3'}, { id: '1', name: '1', editedAt: '1' }];
+       const state = [{ id: '1', name: 'document 1', editedAt: '1523109000' }, { id: '2', name: 'document 2', editedAt: '1523109001'}];
+       const actual = reducer(state, documentsActions.updateDocumentSuccess('2', 'new name', '1523109002'));
+       const expected = [{ id: '2', name: 'new name', editedAt: '1523109002'}, { id: '1', name: 'document 1', editedAt: '1523109000' }];
        assert.deepEqual(actual, expected);
    });
+
+
+
 });
