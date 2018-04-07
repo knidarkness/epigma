@@ -15,6 +15,19 @@ const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
 describe('Editor mode actions tests', () => {
+    it('Change mode to Select, change cursor to SELECT and call clearSelectedShape', () => {
+        const expectedActions = [
+            modeActions.enableMode(EDITOR_MODE.SELECT),
+            cursorOperations.updateCursorIcon(CURSOR.SELECT),
+            selectedShapeOperations.clearSelectedShape(),
+          ];
+        const action = modeOperations.changeMode(EDITOR_MODE.SELECT);
+        const store = mockStore({})
+        store.dispatch(action)
+        const actualActions = store.getActions()
+        assert.deepEqual(actualActions, expectedActions);
+    });
+
     it('Change mode to View, change cursor to VIEW and call clearSelectedShape', () => {
         const expectedActions = [
             modeActions.enableMode(EDITOR_MODE.VIEW),
