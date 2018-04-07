@@ -4,19 +4,9 @@ import {CURSOR, EDITOR_MODE} from 'const';
 
 
 export const icon = (state = CURSOR.VIEW, action) => {
-    
     switch (action.type) {
-        case types.ENABLE:
-            switch(action.mode) {
-                case EDITOR_MODE.DRAW:
-                    return CURSOR.DRAW;
-                case EDITOR_MODE.VIEW:        
-                    return CURSOR.VIEW;
-                case EDITOR_MODE.EDIT:
-                    return CURSOR.EDIT;
-                default:
-                    return EDITOR_MODE.DEFAULT;
-            }
+        case types.ICON_UPDATE:
+            return action.icon
         default:
             return state;
     }
