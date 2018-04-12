@@ -49,26 +49,26 @@ class Matrix {
         return [
             this.a * point[0] + this.c * point[1] + this.e,
             this.b * point[0] + this.d * point[1] + this.f
-        ]
+        ];
     }
     scaleToPoint(point, s) {
         const normalizedPoint = this.inverse().transformPoint(point);    
         return Matrix.translation(-normalizedPoint[0], -normalizedPoint[1])
-                     .scale(s, s)
-                     .translate(point[0], point[1]);
-    };
+            .scale(s, s)
+            .translate(point[0], point[1]);
+    }
 
     static identity() {
         return new Matrix(1, 0, 0, 1, 0, 0);
-    };
+    }
     
     static scale(sx, sy) {
         return new Matrix(sx, 0, 0, sy, 0, 0);
-    };
+    }
     
     static translation(tx, ty) {
         return new Matrix(1, 0, 0, 1, tx, ty);
-    };
+    }
 
 
 }

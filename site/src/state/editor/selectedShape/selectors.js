@@ -1,0 +1,1 @@
+export const getSelectedShape = state => state.editor.selectedShape;
