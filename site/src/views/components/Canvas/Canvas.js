@@ -1,7 +1,11 @@
 import React from 'react';
 import * as most from 'most';
-import {EDITOR_MODE} from 'const';
+import PropTypes from 'prop-types';
+
+import {EDITOR_MODE, CURSOR} from 'const';
 import {createSVG} from 'utils/svg';
+import Matrix from 'utils/matrix';
+
 import './Canvas.scss';
 import API from 'api';
 
@@ -58,13 +62,15 @@ class Canvas extends React.Component {
         wheel // zoom
             .observe(e => { 
                 const newZoom = Math.max(this.props.zoom + ((e.deltaY > 0) ? 0.01 : -0.01), 0.5);
-                this.props.zoomCanvas([e.x, e.y], newZoom);
+                this.props.zoomCanvas([
+                    e.x, e.y
+                ], newZoom);
             });
 
         keydownEnter // save selected shape
             .filter(() => this.props.mode === EDITOR_MODE.DRAW)
             .observe(() => {
-                if (this.props.selectedShape != -1){
+                if (this.props.selectedShape !== -1){
                     const newShape = this.props.shapes.filter(shape => shape.id === this.props.selectedShape)[0];
                     if (newShape.nodes.length > 1){
                         API.createShape(this.props.documentId, newShape);
@@ -101,7 +107,9 @@ class Canvas extends React.Component {
 
         click // draw line
             .filter(() => this.props.mode === EDITOR_MODE.DRAW)
-            .map(e => this.getNormalizedPoint([e.x, e.y]))
+            .map(e => this.getNormalizedPoint([
+                e.x, e.y
+            ]))
             .observe(node => {
                 if (this.props.selectedShape === -1) {
                     this.props.createShape();
@@ -128,7 +136,9 @@ class Canvas extends React.Component {
                 return mousemove
                     .until(mouseup);
             })
-            .map(e => this.getNormalizedPoint([e.x, e.y]))
+            .map(e => this.getNormalizedPoint([
+                e.x, e.y
+            ]))
             .observe(node => this.props.updateShapeNode(this.props.selectedShape, editNodeIndex, node));
 
         mousedown // drag&drop canvas
@@ -147,7 +157,9 @@ class Canvas extends React.Component {
         const shapes = this.props.shapes
             .map(shape => ({
                 ...shape,
-                nodes: this.props.mode === EDITOR_MODE.DRAW && shape.id === this.props.selectedShape ? [...shape.nodes, this.getNormalizedPoint(cursor.position)] : shape.nodes
+                nodes: this.props.mode === EDITOR_MODE.DRAW && shape.id === this.props.selectedShape ? [
+                    ...shape.nodes, this.getNormalizedPoint(cursor.position)
+                ] : shape.nodes
             }))
             .map(shape => ({
                 ...shape,
@@ -163,5 +175,26 @@ class Canvas extends React.Component {
         );
     }
 }
+
+Canvas.propTypes = {
+    viewMatrix: PropTypes.instanceOf(Matrix),
+    clearSelectedShape: PropTypes.func.isRequired,
+    fetchShapes: PropTypes.func.isRequired,
+    documentId: PropTypes.string.isRequired,
+    changeMode: PropTypes.func.isRequired,
+    zoom: PropTypes.number.isRequired,
+    zoomCanvas: PropTypes.func.isRequired,
+    mode: PropTypes.oneOf(Object.values(EDITOR_MODE)),
+    selectedShape: PropTypes.string,
+    shapes: PropTypes.array.isRequired,
+    deleteShape: PropTypes.func.isRequired,
+    updateCursorPosition: PropTypes.func.isRequired,
+    createShape: PropTypes.func.isRequired,
+    setSelectedShape: PropTypes.func.isRequired,
+    addShapeNode: PropTypes.func.isRequired,
+    updateShapeNode: PropTypes.func.isRequired,
+    shiftCanvas: PropTypes.func.isRequired,
+    cursor: PropTypes.oneOf(Object.values(CURSOR))
+};
 
 export default Canvas;

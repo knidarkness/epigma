@@ -4,5 +4,5 @@ import editor from './editor';
 
 export default combineReducers({
     editor,
-    application,
+    application
 });

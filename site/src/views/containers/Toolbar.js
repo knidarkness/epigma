@@ -16,7 +16,7 @@ const mapDispatchToProps = ({
     zoomCanvas: canvasOperations.zoomCanvas,
     undo: ActionCreators.undo,
     redo: ActionCreators.redo,
-    changeMode: modeOperations.changeMode,
+    changeMode: modeOperations.changeMode
 });
 
 const ToolbarContainer = connect(

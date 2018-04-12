@@ -13,10 +13,14 @@ export const icon = (state = CURSOR.VIEW, action) => {
 };
 
 
-export const position = (state = [0, 0], action) => {
+export const position = (state = [
+    0, 0
+], action) => {
     switch (action.type) {
     case types.POSITION_UPDATE:
-        return [action.x, action.y];
+        return [
+            action.x, action.y
+        ];
     default:
         return state;
     }

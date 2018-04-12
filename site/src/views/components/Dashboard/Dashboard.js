@@ -1,6 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import PropTypes from 'prop-types';
 import dateformat from 'dateformat';
+
 import Header from 'views/components/Header/Header';
 import './Dashboard.scss';
 
@@ -8,7 +10,9 @@ import './Dashboard.scss';
 class Dashboard extends React.Component {
     async createDocument(){
         const docName = prompt('Enter document name');
-        if (!docName || docName.length === 0) return;
+        if (!docName || docName.length === 0) {
+            return;
+        }
         this.props.createDocument(docName);
     }
 
@@ -75,5 +79,13 @@ class Dashboard extends React.Component {
         );
     }
 }
+
+Dashboard.propTypes = {
+    createDocument: PropTypes.func.isRequired,
+    deleteDocument: PropTypes.func.isRequired,
+    updateDocument: PropTypes.func.isRequired,
+    fetchDocuments: PropTypes.func.isRequired,
+    documents: PropTypes.array
+};
 
 export default Dashboard;
