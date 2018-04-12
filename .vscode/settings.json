@@ -1,6 +1,0 @@
-{
-    "mocha.files.glob": "**/test/unit/**/*.test.js",
-    "mocha.env": {
-        "NODE_PATH": "src"
-    }
-}
