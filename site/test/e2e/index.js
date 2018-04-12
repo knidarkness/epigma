@@ -2,8 +2,6 @@ import Nightmare from 'nightmare';
 
 describe('test duckduckgo search results', () => {
     it('should find the nightmare github link first', function(done) {
-        this.timeout('20s');
-
         const nightmare = Nightmare();
         nightmare
             .goto('http://prod.dassurance.io')
@@ -17,7 +15,7 @@ describe('test duckduckgo search results', () => {
             .wait('#canvas')
             .screenshot('./test/e2e/screenshots/test1.jpg')
             .then(() => {
-                done()
-            })
-    })
+                done();
+            });
+    });
 });
