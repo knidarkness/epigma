@@ -1,7 +1,7 @@
-import reducer from "./reducers";
+import reducer from './reducers';
 
-import * as modeOperations from "./operations";
-import * as modeSelectors from "./selectors";
+import * as modeOperations from './operations';
+import * as modeSelectors from './selectors';
 
 export {
     modeOperations,

@@ -1,4 +1,4 @@
-import * as types from "./types";
+import * as types from './types';
 
 export const createDocumentSuccess = (id, name, editedAt) => ({
     type: types.DOCUMENT_CREATE_SUCCESS,

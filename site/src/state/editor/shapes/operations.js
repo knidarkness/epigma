@@ -1,5 +1,5 @@
 import {createShape, deleteShape, addShapeNode, insertShapeNode, deleteShapeNode, updateShapeNode, fetchShapesSuccess, fetchShapesFailure} from './actions';
-import {DOCUMENT_LIST_URI} from 'const'
+import {DOCUMENT_LIST_URI} from 'const';
 
 const fetchShapes = (id) => {
     return (dispatch) => {

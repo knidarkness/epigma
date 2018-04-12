@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './Stats.scss'
+import './Stats.scss';
 
 const Stats = ({shapes, nodes, zoom}) => (
     <div className="stats">

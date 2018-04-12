@@ -43,7 +43,7 @@ const deleteDocument = (id) => {
         })
             .then(() => dispatch(deleteDocumentSuccess(id)))
             .catch((err) => dispatch(deleteDocumentFailure(err)));
-    }
+    };
 };
 
 const updateDocument = (id, name) => {
@@ -62,7 +62,7 @@ const updateDocument = (id, name) => {
             .then((response) => response.json())
             .then((doc) => dispatch(updateDocumentSuccess(doc.data.id, doc.data.name, doc.data.editedAt)))
             .catch((err) => dispatch(updateDocumentFailure(err)));
-    }
+    };
 };
 
 export{

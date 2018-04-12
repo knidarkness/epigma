@@ -1,7 +1,7 @@
 import React from 'react';
-import * as most from 'most'
-import {EDITOR_MODE} from "const";
-import {createSVG} from "utils/svg";
+import * as most from 'most';
+import {EDITOR_MODE} from 'const';
+import {createSVG} from 'utils/svg';
 import './Canvas.scss';
 import API from 'api';
 
@@ -16,10 +16,10 @@ class Canvas extends React.Component {
 
 
     isShape(e){
-        return e.target.dataset && 'shapeIndex' in e.target.dataset
+        return e.target.dataset && 'shapeIndex' in e.target.dataset;
     }
     isNode(e){
-        return e.target.dataset && 'nodeIndex' in e.target.dataset
+        return e.target.dataset && 'nodeIndex' in e.target.dataset;
     }
 
     componentWillUnmount(){
@@ -36,9 +36,9 @@ class Canvas extends React.Component {
 
         const canvasWillUnmount = most.fromEvent('canvasWillUnmountEvent', document);
 
-        const click = most.fromEvent("click", canvas)
+        const click = most.fromEvent('click', canvas)
             .until(canvasWillUnmount);
-        const mousemove = most.fromEvent("mousemove", canvas)
+        const mousemove = most.fromEvent('mousemove', canvas)
             .until(canvasWillUnmount);
         const mousedown = most.fromEvent('mousedown', canvas)
             .until(canvasWillUnmount);
@@ -57,12 +57,12 @@ class Canvas extends React.Component {
 
         wheel // zoom
             .observe(e => { 
-            const newZoom = Math.max(this.props.zoom + ((e.deltaY > 0) ? 0.01 : -0.01), 0.5);
-            this.props.zoomCanvas([e.x, e.y], newZoom);
-        });
+                const newZoom = Math.max(this.props.zoom + ((e.deltaY > 0) ? 0.01 : -0.01), 0.5);
+                this.props.zoomCanvas([e.x, e.y], newZoom);
+            });
 
         keydownEnter // save selected shape
-            .filter(e => this.props.mode === EDITOR_MODE.DRAW)
+            .filter(() => this.props.mode === EDITOR_MODE.DRAW)
             .observe(() => {
                 if (this.props.selectedShape != -1){
                     const newShape = this.props.shapes.filter(shape => shape.id === this.props.selectedShape)[0];
@@ -76,7 +76,7 @@ class Canvas extends React.Component {
         
         
         keydownEnter // save selected shape
-            .filter(e => this.props.mode === EDITOR_MODE.EDIT)
+            .filter(() => this.props.mode === EDITOR_MODE.EDIT)
             .observe(() => {
                 const newShape = this.props.shapes.filter(shape => shape.id === this.props.selectedShape)[0];
                 if (newShape.nodes.length > 1){
@@ -88,30 +88,30 @@ class Canvas extends React.Component {
             });
 
         keydownDelete // delete selected shape
-            .filter(e => this.props.mode === EDITOR_MODE.EDIT)   
-            .observe(e => {
-                API.deleteShape(this.props.documentId, this.props.selectedShape)
-                this.props.deleteShape(this.props.selectedShape)
+            .filter(() => this.props.mode === EDITOR_MODE.EDIT)
+            .observe(() => {
+                API.deleteShape(this.props.documentId, this.props.selectedShape);
+                this.props.deleteShape(this.props.selectedShape);
                 this.props.changeMode(EDITOR_MODE.SELECT);
             });
 
         mousemove // save cursor position
-            .filter(e => this.props.mode === EDITOR_MODE.DRAW)   
+            .filter(() => this.props.mode === EDITOR_MODE.DRAW)
             .observe(cursor => this.props.updateCursorPosition(cursor.x, cursor.y));
 
         click // draw line
-            .filter(e => this.props.mode === EDITOR_MODE.DRAW)
+            .filter(() => this.props.mode === EDITOR_MODE.DRAW)
             .map(e => this.getNormalizedPoint([e.x, e.y]))
             .observe(node => {
                 if (this.props.selectedShape === -1) {
-                    this.props.createShape()
-                    this.props.setSelectedShape(this.props.shapes[this.props.shapes.length - 1].id)
+                    this.props.createShape();
+                    this.props.setSelectedShape(this.props.shapes[this.props.shapes.length - 1].id);
                 }
-                this.props.addShapeNode(this.props.selectedShape, node)
+                this.props.addShapeNode(this.props.selectedShape, node);
             });
 
         click // enter edit mode
-            .filter(e => this.props.mode == EDITOR_MODE.SELECT)
+            .filter(() => this.props.mode === EDITOR_MODE.SELECT)
             .filter(e => this.isShape(e))
             .map(e => e.target.dataset.shapeIndex)
             .observe(shapeId => {
@@ -121,7 +121,7 @@ class Canvas extends React.Component {
 
         let editNodeIndex = -1;
         mousedown // edit node of the line
-            .filter(e => this.props.mode === EDITOR_MODE.EDIT)
+            .filter(() => this.props.mode === EDITOR_MODE.EDIT)
             .filter(e => this.isNode(e))
             .chain(md => {
                 editNodeIndex = Number(md.target.dataset.nodeIndex);
@@ -132,13 +132,13 @@ class Canvas extends React.Component {
             .observe(node => this.props.updateShapeNode(this.props.selectedShape, editNodeIndex, node));
 
         mousedown // drag&drop canvas
-            .filter(e => this.props.mode === EDITOR_MODE.VIEW)
-            .chain(md => {
+            .filter(() => this.props.mode === EDITOR_MODE.VIEW)
+            .chain(() => {
                 return mousemove
                     .until(mouseup);
             })
             .observe(e => {
-               this.props.shiftCanvas(e.movementX, e.movementY);
+                this.props.shiftCanvas(e.movementX, e.movementY);
             });
     }
 
@@ -147,7 +147,7 @@ class Canvas extends React.Component {
         const shapes = this.props.shapes
             .map(shape => ({
                 ...shape,
-                nodes: this.props.mode === EDITOR_MODE.DRAW && shape.id == this.props.selectedShape ? [...shape.nodes, this.getNormalizedPoint(cursor.position)] : shape.nodes
+                nodes: this.props.mode === EDITOR_MODE.DRAW && shape.id === this.props.selectedShape ? [...shape.nodes, this.getNormalizedPoint(cursor.position)] : shape.nodes
             }))
             .map(shape => ({
                 ...shape,
@@ -157,10 +157,10 @@ class Canvas extends React.Component {
         return (
             <div>
                 <svg id="canvas" className="canvas" width="100%" height="100%" style={{cursor: cursor.icon}}>
-                {createSVG(this.props.selectedShape, shapes)}
+                    {createSVG(this.props.selectedShape, shapes)}
                 </svg>
             </div>
-        )
+        );
     }
 }
 
