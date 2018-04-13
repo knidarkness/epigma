@@ -1,0 +1,91 @@
+import React from 'react';
+import {Link} from 'react-router-dom';
+import PropTypes from 'prop-types';
+import dateformat from 'dateformat';
+
+import Header from 'views/components/Header/Header';
+import './Dashboard.scss';
+
+
+class Dashboard extends React.Component {
+    async createDocument(){
+        const docName = prompt('Enter document name');
+        if (!docName || docName.length === 0) {
+            return;
+        }
+        this.props.createDocument(docName);
+    }
+
+    async deleteDocument(documentId){
+        const confirmed = confirm('Are you sure, you want to delete this document?');
+        if (confirmed){
+            this.props.deleteDocument(documentId);
+        }
+    }
+
+    async editDocument(documentId){
+        const newName = prompt('Enter new document name', 'Current name');
+        if (newName && newName.length > 0){
+            this.props.updateDocument(documentId, newName);
+        }
+    }
+
+    async componentDidMount() {
+        this.props.fetchDocuments();
+    }
+
+
+    render() {
+        return (
+            <div>
+                <Header/>
+                <main className="dashboard">
+                    <header className='dashboard-header'>
+                        <h2 className="dashboard-header__title">Your documents</h2>
+                        <input className="dashboard-header__add" type="button"
+                            value="+" onClick={this.createDocument.bind(this)}/>
+                    </header>
+                    <div className='document-list-header'>
+                        <span className='document-list-header__name'>Name</span>
+                        <span className='document-list-header__last-edited'>Last modified</span>
+                        <span></span>
+                    </div>
+                    <ul className="document-list">
+                        {
+                            this.props.documents.map(d => (
+                                <li key={d.id} className="document-list__item">
+                                    <Link to={`/edit?id=${d.id}`}>
+                                        <span>{d.name}</span>
+                                        <span>{dateformat(d.editedAt, 'dddd, mmmm dS, yyyy,  HH:MM:ss ')}</span>
+                                        <div>
+                                            <button className="button button_edit" onClick={(e) => {
+                                                e.stopPropagation();
+                                                e.preventDefault();
+                                                this.editDocument(d.id);
+                                            }}> </button>
+                                            <button className="button button_delete" onClick={(e) => {
+                                                e.stopPropagation();
+                                                e.preventDefault();
+                                                this.deleteDocument(d.id);
+                                            }}> </button>
+                                        </div>
+                                    </Link>
+                                </li>
+                            ))
+                        }
+                    </ul>
+                </main>
+            </div>
+        );
+    }
+}
+
+Dashboard.propTypes = {
+    createDocument: PropTypes.func.isRequired,
+    deleteDocument: PropTypes.func.isRequired,
+    updateDocument: PropTypes.func.isRequired,
+    fetchDocuments: PropTypes.func.isRequired,
+    documents: PropTypes.array
+};
+
+export default Dashboard;

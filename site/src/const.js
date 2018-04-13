@@ -1,18 +1,20 @@
-import {getCurrentHost} from "./utils";
+import {getCurrentHost} from 'utils/utils';
 
 const host = getCurrentHost(3000);
+export const API_URI = `${host }/api`;
+export const DOCUMENT_LIST_URI = `${API_URI }/document`;
 
-export const DOCUMENT_LIST_URI = host + '/api/document';
 export const EDITOR_MODE = {
-    DRAW: 'DRAW_MODE',
-    VIEW: 'VIEW_MODE',
-    DELETE: 'DELETE_MODE'
+    SELECT: 'SELECT',
+    DRAW: 'DRAW',
+    VIEW: 'VIEW',
+    EDIT: 'EDIT'
 };
 
 export const CURSOR = {
+    SELECT: 'auto',
     DRAW: 'crosshair',
     EDIT: 'crosshair',
-    DELETE: 'crosshair',
-    VIEW: 'grab',
-    DEFAULT: 'auto',       
+    VIEW: 'move',
+    DEFAULT: 'auto'       
 };

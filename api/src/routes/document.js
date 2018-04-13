@@ -1,77 +1,65 @@
 const express = require('express');
 const router = express.Router();
 
-const models = require('./../models');
-
-router.use((req, res, next) => {
-    console.log(req.url);
-    next();
-});
+const IllustrationService = require('./../service/illustrationService');
+const illustrationService = new IllustrationService();
 
 router.get('/', async (req, res) => {
-    const illustrations = await models.Illustration.find({});
-    const namedIllustrations = illustrations
-        .map((illustration, id) => ({
-            shapes: illustration.shapes,
-            name: illustration.name,
-            id: illustration._id,
-            editedAt: illustration.editedAt
-        }));
-    res.json(
-        {
-            documents: namedIllustrations
-        }
-    );
+    const namedIllustrations = await illustrationService.getIllustrations();
+    res.json({
+        documents: namedIllustrations
+    });
 });
 
 router.post('/', async (req, res) => {
-    const newIllustration = new models.Illustration({
-        name: req.body.name,
-        shapes: [],
-        editedAt: Date.now()
-    });
-    const savedIllustration = await newIllustration.save();
-    console.log(savedIllustration);
+    const newIllustration = await illustrationService.createIllustration(req.body.name);
     res.json({
-        data: savedIllustration
+        data: newIllustration
     });
-});
-
-router.patch('/:documentId', async (req, res) => {
-    const illustration = await models.Illustration.findOne({_id: req.params.documentId});
-    illustration.name = req.body.name;
-    illustration.editedAt = Date.now();
-    illustration.save((err) => {
-        if (err){
-            console.log(err);
-            res.status(500).send();
-        } else {
-            res.json(illustration);
-        }
-    })
 });
 
 router.delete('/:documentId/', async (req, res) => {
-    models.Illustration.findByIdAndRemove(req.params.documentId, (err, illustration) => {
-        console.log(`Illustration ${illustration} was deleted`);
-        res.status(200).send();
-    });
+    await illustrationService.deleteIllustration(req.params.documentId);
+    res.status(200).send();
+});
 
+router.patch('/:documentId', async (req, res) => {
+    const illustration = await illustrationService.renameIllustration(req.params.documentId, req.body.name);
+    res.json(illustration);
 });
 
 router.get('/:documentId/shapes', async (req, res) => {
-    const illustrations = await models.Illustration.find({_id: req.params.documentId});
-    res.json(illustrations[0]);
-});
-
-
-router.put('/:documentId/shapes', async (req, res) => {
-    const shapes = req.body.shapes.map(p => p.nodes);
-    const illustrations = await models.Illustration.find({_id: req.params.documentId});
-    illustrations[0].shapes = shapes;
-    illustrations[0].editedAt = Date.now();
-    illustrations[0].save((err, upd) => {
-        res.status(200).send();
+    const illustration = await illustrationService.getShapes(req.params.documentId);
+    res.json({
+        shapes: illustration.shapes
+            .map(shape => shape)
     });
 });
+
+router.put('/:documentId/shapes', async (req, res) => {
+    const saved = await illustrationService.setShapes(req.params.documentId, req.body.shapes);
+    if (saved){
+        res.status(204).send();
+    } else {
+        res.status(500).send();
+    }
+});
+
+router.post('/:documentId/shapes', async (req, res) => {
+    await illustrationService.addShape(req.params.documentId, req.body.shapeData);
+    res.status(201).send()
+
+});
+
+router.put('/:documentId/shapes/:shapeId', async (req, res) => {
+    console.log(req.body.shapeData);
+    await illustrationService.updateShape(req.params.documentId, req.params.shapeId, req.body.shapeData);
+    res.status(200).send();
+});
+
+router.delete('/:documentId/shapes/:shapeId', async (req, res) => {
+    await illustrationService.removeShape(req.params.documentId, req.params.shapeId);
+    res.status(200).send();
+});
+
 module.exports = router;
