@@ -51,7 +51,6 @@
         "comma-dangle": ["error", "never"],
         "comma-spacing": ["error", {"before": false, "after": true}],
         "func-call-spacing": ["error", "never"],
-        "id-blacklist": ["error", "ivankivMudak"],
         "implicit-arrow-linebreak": ["error", "beside"],
         "keyword-spacing": ["error", {"before": true, "after": true}],
         "max-len": ["warn", 150],

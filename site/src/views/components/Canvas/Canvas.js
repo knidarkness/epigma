@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import { EDITOR_MODE, CURSOR } from 'const';
 import { createSVG } from 'utils/svg';
+
 import Matrix from 'utils/matrix';
 
 import './Canvas.scss';
@@ -87,6 +88,7 @@ class Canvas extends React.Component {
             .filter(() => this.props.mode === EDITOR_MODE.DRAW)
             .observe(() => {
                 if (this.props.selectedShape !== '') {
+
                     const newShape = this.props.shapes.filter(shape => shape.id === this.props.selectedShape)[0];
                     if (newShape.nodes.length > 1) {
                         API.createShape(this.props.documentId, newShape);
@@ -121,6 +123,7 @@ class Canvas extends React.Component {
             .filter(() => this.props.mode === EDITOR_MODE.DRAW)
             .observe(cursor => this.updateCursorPosition(cursor.x, cursor.y));
 
+
         click // draw line
             .filter(() => this.props.mode === EDITOR_MODE.DRAW)
             .map(e => this.getNormalizedPoint([
@@ -128,6 +131,7 @@ class Canvas extends React.Component {
             ]))
             .observe(node => {
                 if (this.props.selectedShape === '') {
+
                     this.props.createShape();
                     this.props.setSelectedShape(this.props.shapes[this.props.shapes.length - 1].id);
                 }
@@ -178,6 +182,7 @@ class Canvas extends React.Component {
                     [
                         ...shape.nodes, this.getNormalizedPoint(this.state.cursorPosition)
                     ] : shape.nodes
+
             }))
             .map(shape => ({
                 ...shape,
@@ -187,6 +192,7 @@ class Canvas extends React.Component {
         return (
             <div>
                 <svg id="canvas" className="canvas" width="100%" height="100%" style={{ cursor }}>
+
                     {createSVG(this.props.selectedShape, shapes)}
                 </svg>
             </div>
