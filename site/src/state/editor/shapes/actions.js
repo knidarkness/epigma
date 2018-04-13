@@ -15,7 +15,8 @@ export const createShape = (id, nodes = [
     type: types.CREATE,
     id: id || uuid4(),
     nodes,
-    color
+    color,
+    strokeWidth: 2
 });
 
 export const deleteShape = (id) => ({

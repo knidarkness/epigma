@@ -18,28 +18,10 @@ describe('Shapes actions tests', () => {
         fetchMock
             .getOnce(`${DOCUMENT_LIST_URI }/1/shapes/`, { 
                 status: 200,
-                body: {shapes: [
-                    {'id':'1', 'nodes':[
-                        [
-                            1, 1
-                        ], [
-                            2, 3
-                        ]
-                    ], 'color':'black'}
-                ]}
+                body: {shapes: [{'id':'1', 'nodes':[[1, 1], [2, 3]], 'color':'black'}]}
             });
   
-        const expectedActions = [
-            shapesActions.fetchShapesSuccess([
-                {'id':'1', 'nodes':[
-                    [
-                        1, 1
-                    ], [
-                        2, 3
-                    ]
-                ], 'color':'black'}
-            ])
-        ];
+        const expectedActions = [shapesActions.fetchShapesSuccess([{'id':'1', 'nodes':[[1, 1], [2, 3]], 'color':'black'}])];
         const store = mockStore({});
         const action = shapesOperations.fetchShapes('1');
         const actualActions = store.getActions();
@@ -62,7 +44,8 @@ describe('Shapes reducer tests', () => {
                     200, 50
                 ]
             ],
-            color: 'black'
+            color: 'black',
+            strokeWidth: 2
         };
         const actual = reducer([
         ], shapesOperations.createShape(...Object.values(shape)));
@@ -77,13 +60,10 @@ describe('Shapes reducer tests', () => {
                 id: 1,
                 color: 'black',
                 nodes: [
-                    [
-                        50, 50
-                    ],
-                    [
-                        200, 50
-                    ]
-                ]
+                    [50, 50],
+                    [200, 50]
+                ],
+                strokeWidth: 2
             }
         ];
         const actual = reducer(state, shapesOperations.deleteShape(1));
@@ -97,13 +77,10 @@ describe('Shapes reducer tests', () => {
                 id: 1,
                 color: 'black',
                 nodes: [
-                    [
-                        50, 50
-                    ],
-                    [
-                        200, 50
-                    ]
-                ]
+                    [50, 50],
+                    [200, 50]
+                ],
+                strokeWidth: 2
             }
         ];
         const fetchedShapes = [
@@ -111,25 +88,20 @@ describe('Shapes reducer tests', () => {
                 id: 1,
                 color: 'black',
                 nodes: [
-                    [
-                        100, 50
-                    ],
-                    [
-                        200, 50
-                    ]
-                ]
+                    [100, 50],
+                    [200, 50]
+                ],
+                strokeWidth: 2
+
             },
             {
                 id: 2,
                 color: 'black',
                 nodes: [
-                    [
-                        100, 50
-                    ],
-                    [
-                        100, 50
-                    ]
-                ]
+                    [100, 50],
+                    [100, 50]
+                ],
+                strokeWidth: 2
             }
         ];
         const actual = reducer(state, shapesActions.fetchShapesSuccess(fetchedShapes));
@@ -142,24 +114,17 @@ describe('Shapes reducer tests', () => {
                 id: 1,
                 color: 'black',
                 nodes: [
-                    [
-                        50, 50
-                    ],
-                    [
-                        200, 50
-                    ]
-                ]
+                    [50, 50],
+                    [200, 50]
+                ],
+                strokeWidth: 2
             }
         ];
         const shape = {
             id: 2, 
-            nodes: [
-                [
-                    200, 200
-                ]
-            ],
-            color: 'black'
-
+            nodes: [[200, 200]],
+            color: 'black',
+            strokeWidth: 2
         };
         const actual = reducer(state, shapesOperations.createShape(...Object.values(shape)));
         const expected = [
@@ -167,22 +132,17 @@ describe('Shapes reducer tests', () => {
                 id: 1,
                 color: 'black',
                 nodes:[
-                    [
-                        50, 50
-                    ],
-                    [
-                        200, 50
-                    ]
-                ]
+                    [50, 50],
+                    [200, 50]
+                ],
+                strokeWidth: 2
+
             },
             {
                 id: 2,
                 color: 'black',
-                nodes:[
-                    [
-                        200, 200
-                    ]
-                ]
+                nodes:[[200, 200]],
+                strokeWidth: 2
             }
         ];
         assert.deepEqual(actual, expected);
@@ -193,25 +153,20 @@ describe('Shapes reducer tests', () => {
                 id: 1,
                 color: 'black',
                 nodes: [
-                    [
-                        50, 50
-                    ],
-                    [
-                        200, 50
-                    ]
-                ]
+                    [50, 50],
+                    [200, 50]
+                ],
+                strokeWidth: 2
             },
             {
                 id: 2,
                 color: 'black',
                 nodes: [
-                    [
-                        10, 10
-                    ],
-                    [
-                        200, 50
-                    ]
-                ]
+                    [10, 10],
+                    [200, 50]
+                ],
+                strokeWidth: 2
+
             }
   
         ];
@@ -223,28 +178,20 @@ describe('Shapes reducer tests', () => {
                 id: 1,
                 color: 'black',
                 nodes: [
-                    [
-                        50, 50
-                    ],
-                    [
-                        200, 50
-                    ]
-                ]
+                    [50, 50],
+                    [200, 50]
+                ],
+                strokeWidth: 2
             },
             {
                 id: 2,
                 color: 'black',
                 nodes: [
-                    [
-                        10, 10
-                    ],
-                    [
-                        200, 50
-                    ],
-                    [
-                        200, 200
-                    ]
-                ]
+                    [10, 10],
+                    [200, 50],
+                    [200, 200]
+                ],
+                strokeWidth: 2
             }
   
         ];
@@ -279,9 +226,7 @@ describe('Shapes reducer tests', () => {
             }
   
         ];
-        const actual = reducer(state, shapesOperations.updateShapeNode(2, 1, [
-            200, 200
-        ]));
+        const actual = reducer(state, shapesOperations.updateShapeNode(2, 1, [200, 200]));
         const expected = [
             {
                 id: 1,
@@ -356,11 +301,7 @@ describe('Shapes reducer tests', () => {
             {
                 id: 2,
                 color: 'black',
-                nodes: [
-                    [
-                        10, 10
-                    ]
-                ]
+                nodes: [[10, 10]]
             }
   
         ];

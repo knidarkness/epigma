@@ -39,9 +39,7 @@ describe('Canvas zoom/shift tests', () => {
             zoom: 1,
             viewMatrix: new Matrix(1, 0, 0, 1, 15, 15)
         };
-        const point = [
-            300, 300
-        ];
+        const point = [300, 300];
         const action = canvasOperations.zoomCanvas(point, 1.1);
         const actual = reducer(state, action);
         const expected = {

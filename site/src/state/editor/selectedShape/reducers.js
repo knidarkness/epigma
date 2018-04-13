@@ -8,6 +8,7 @@ const selectedShape = (state = '', action) => {
     
     case types.CLEAR:
         return '';
+
             
     default:
         return state;
