@@ -5,8 +5,3 @@ export const updateCursorIcon = (icon) => ({
     icon
 });
 
-export const updateCursorPosition = (x, y) => ({
-    type: types.POSITION_UPDATE,
-    x,
-    y
-});

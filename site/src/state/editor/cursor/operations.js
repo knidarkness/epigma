@@ -1,6 +1,5 @@
-import {updateCursorIcon, updateCursorPosition} from './actions';
+import {updateCursorIcon} from './actions';
 
 export {
-    updateCursorIcon,
-    updateCursorPosition
+    updateCursorIcon
 };
