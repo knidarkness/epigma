@@ -62,9 +62,7 @@ class Canvas extends React.Component {
         wheel // zoom
             .observe(e => { 
                 const newZoom = Math.max(this.props.zoom + ((e.deltaY > 0) ? 0.01 : -0.01), 0.5);
-                this.props.zoomCanvas([
-                    e.x, e.y
-                ], newZoom);
+                this.props.zoomCanvas([e.x, e.y], newZoom);
             });
 
         keydownEnter // save selected shape
@@ -107,9 +105,7 @@ class Canvas extends React.Component {
 
         click // draw line
             .filter(() => this.props.mode === EDITOR_MODE.DRAW)
-            .map(e => this.getNormalizedPoint([
-                e.x, e.y
-            ]))
+            .map(e => this.getNormalizedPoint([e.x, e.y]))
             .observe(node => {
                 if (this.props.selectedShape === -1) {
                     this.props.createShape();
@@ -136,9 +132,7 @@ class Canvas extends React.Component {
                 return mousemove
                     .until(mouseup);
             })
-            .map(e => this.getNormalizedPoint([
-                e.x, e.y
-            ]))
+            .map(e => this.getNormalizedPoint([e.x, e.y]))
             .observe(node => this.props.updateShapeNode(this.props.selectedShape, editNodeIndex, node));
 
         mousedown // drag&drop canvas
@@ -157,13 +151,14 @@ class Canvas extends React.Component {
         const shapes = this.props.shapes
             .map(shape => ({
                 ...shape,
-                nodes: this.props.mode === EDITOR_MODE.DRAW && shape.id === this.props.selectedShape ? [
-                    ...shape.nodes, this.getNormalizedPoint(cursor.position)
-                ] : shape.nodes
+                nodes: this.props.mode === EDITOR_MODE.DRAW && shape.id === this.props.selectedShape ? 
+                    [...shape.nodes, this.getNormalizedPoint(cursor.position)] : 
+                    shape.nodes
             }))
             .map(shape => ({
                 ...shape,
-                nodes: shape.nodes.map(point => this.getOffsetedPoint(point))
+                nodes: shape.nodes.map(point => this.getOffsetedPoint(point)),
+                strokeWidth: shape.strokeWidth * this.props.zoom
             }));
 
         return (

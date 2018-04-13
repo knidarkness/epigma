@@ -5,11 +5,12 @@ const renderShape = (shape) => {
     if (shape.nodes.length === 0) {
         return;
     }
+    console.log(shape.strokeWidth);
     const shapeNodesPath = shape.nodes
         .reduce((prev, current) => `${prev }${current[0]},${current[1]} `, '');
 
     return <polyline data-shape-index={shape.id} className="shape" key={v4()} points={shapeNodesPath}
-        style={{fill: 'none', stroke: shape.color, strokeWidth: '3'}}/>;
+        style={{fill: 'none', stroke: shape.color, strokeWidth: shape.strokeWidth}}/>;
 };
 
 const renderAllShapes = (shapes) => shapes.map((shape, id) => renderShape(shape, id));

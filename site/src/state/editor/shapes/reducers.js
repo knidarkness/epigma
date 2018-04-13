@@ -7,15 +7,14 @@ function shape(state, action) {
         return {
             id: action.id,
             nodes: action.nodes,
-            color: action.color
+            color: action.color,
+            strokeWidth: action.strokeWidth
         };
 
     case types.ADD_NODE:
         return {
             ...state,
-            nodes: [
-                ...state.nodes, action.node
-            ]
+            nodes: [...state.nodes, action.node]
         };
 
     case types.INSERT_NODE:
@@ -44,8 +43,7 @@ function shape(state, action) {
     }
 }
 
-export const shapes = (state = [
-], action) => {
+export const shapes = (state = [], action) => {
     switch (action.type) {
     case types.FETCH_SUCCESS:
         return action.shapes;
