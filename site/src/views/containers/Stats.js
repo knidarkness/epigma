@@ -1,8 +1,7 @@
-import React from 'react';
 import { connect } from 'react-redux';
 
-import { canvasSelectors } from "state/editor/canvas";
-import { shapesSelectors } from "state/editor/shapes";
+import { canvasSelectors } from 'state/editor/canvas';
+import { shapesSelectors } from 'state/editor/shapes';
 
 import Stats from 'views/components/Stats/Stats';
 

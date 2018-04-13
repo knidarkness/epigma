@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux'
+import { combineReducers } from 'redux';
 
 import shapes from './shapes';
 import mode from './mode';

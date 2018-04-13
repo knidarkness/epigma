@@ -1,17 +1,18 @@
 import assert from 'assert';
-import {EDITOR_MODE} from "const";
+import {EDITOR_MODE} from 'const';
 import reducer from 'state/editor/mode';
 import * as modeActions from 'state/editor/mode/actions';
-import { updateCursorIcon } from "state/editor/cursor/actions";
 import { CURSOR } from 'const';
 import {modeOperations} from 'state/editor/mode';
-import {selectedShapeOperations} from "state/editor/selectedShape"
+import {selectedShapeOperations} from 'state/editor/selectedShape';
 import {cursorOperations} from 'state/editor/cursor';
 
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
-const middlewares = [thunk];
+const middlewares = [
+    thunk
+];
 const mockStore = configureMockStore(middlewares);
 
 describe('Editor mode actions tests', () => {
@@ -19,12 +20,12 @@ describe('Editor mode actions tests', () => {
         const expectedActions = [
             modeActions.enableMode(EDITOR_MODE.SELECT),
             cursorOperations.updateCursorIcon(CURSOR.SELECT),
-            selectedShapeOperations.clearSelectedShape(),
-          ];
+            selectedShapeOperations.clearSelectedShape()
+        ];
         const action = modeOperations.changeMode(EDITOR_MODE.SELECT);
-        const store = mockStore({})
-        store.dispatch(action)
-        const actualActions = store.getActions()
+        const store = mockStore({});
+        store.dispatch(action);
+        const actualActions = store.getActions();
         assert.deepEqual(actualActions, expectedActions);
     });
 
@@ -32,12 +33,12 @@ describe('Editor mode actions tests', () => {
         const expectedActions = [
             modeActions.enableMode(EDITOR_MODE.VIEW),
             cursorOperations.updateCursorIcon(CURSOR.VIEW),
-            selectedShapeOperations.clearSelectedShape(),
+            selectedShapeOperations.clearSelectedShape()
         ];
         const action = modeOperations.changeMode(EDITOR_MODE.VIEW);
-        const store = mockStore({})
-        store.dispatch(action)
-        const actualActions = store.getActions()
+        const store = mockStore({});
+        store.dispatch(action);
+        const actualActions = store.getActions();
         assert.deepEqual(actualActions, expectedActions);
     
     });
@@ -46,12 +47,12 @@ describe('Editor mode actions tests', () => {
         const expectedActions = [
             modeActions.enableMode(EDITOR_MODE.DRAW),
             cursorOperations.updateCursorIcon(CURSOR.DRAW),
-            selectedShapeOperations.clearSelectedShape(),
-          ];
+            selectedShapeOperations.clearSelectedShape()
+        ];
         const action = modeOperations.changeMode(EDITOR_MODE.DRAW);
-        const store = mockStore({})
-        store.dispatch(action)
-        const actualActions = store.getActions()
+        const store = mockStore({});
+        store.dispatch(action);
+        const actualActions = store.getActions();
         assert.deepEqual(actualActions, expectedActions);
     });
     
@@ -59,12 +60,12 @@ describe('Editor mode actions tests', () => {
         const expectedActions = [
             modeActions.enableMode(EDITOR_MODE.EDIT),
             cursorOperations.updateCursorIcon(CURSOR.EDIT),
-            selectedShapeOperations.clearSelectedShape(),
-          ];
+            selectedShapeOperations.clearSelectedShape()
+        ];
         const action = modeOperations.changeMode(EDITOR_MODE.EDIT);
-        const store = mockStore({})
-        store.dispatch(action)
-        const actualActions = store.getActions()
+        const store = mockStore({});
+        store.dispatch(action);
+        const actualActions = store.getActions();
         assert.deepEqual(actualActions, expectedActions);
     });
 

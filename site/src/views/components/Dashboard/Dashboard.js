@@ -1,19 +1,18 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import PropTypes from 'prop-types';
 import dateformat from 'dateformat';
-import Header from 'views/components/Header/Header';
-import './Dashboard.scss'
 
-import {DOCUMENT_LIST_URI} from "const";
+import Header from 'views/components/Header/Header';
+import './Dashboard.scss';
+
 
 class Dashboard extends React.Component {
-    constructor(props){
-        super(props);
-    }
-
     async createDocument(){
         const docName = prompt('Enter document name');
-        if (!docName || docName.length === 0) return;
+        if (!docName || docName.length === 0) {
+            return;
+        }
         this.props.createDocument(docName);
     }
 
@@ -44,7 +43,7 @@ class Dashboard extends React.Component {
                     <header className='dashboard-header'>
                         <h2 className="dashboard-header__title">Your documents</h2>
                         <input className="dashboard-header__add" type="button"
-                               value="+" onClick={this.createDocument.bind(this)}/>
+                            value="+" onClick={this.createDocument.bind(this)}/>
                     </header>
                     <div className='document-list-header'>
                         <span className='document-list-header__name'>Name</span>
@@ -63,12 +62,12 @@ class Dashboard extends React.Component {
                                                 e.stopPropagation();
                                                 e.preventDefault();
                                                 this.editDocument(d.id);
-                                            }}></button>
+                                            }}> </button>
                                             <button className="button button_delete" onClick={(e) => {
                                                 e.stopPropagation();
                                                 e.preventDefault();
                                                 this.deleteDocument(d.id);
-                                            }}></button>
+                                            }}> </button>
                                         </div>
                                     </Link>
                                 </li>
@@ -77,8 +76,16 @@ class Dashboard extends React.Component {
                     </ul>
                 </main>
             </div>
-        )
+        );
     }
 }
+
+Dashboard.propTypes = {
+    createDocument: PropTypes.func.isRequired,
+    deleteDocument: PropTypes.func.isRequired,
+    updateDocument: PropTypes.func.isRequired,
+    fetchDocuments: PropTypes.func.isRequired,
+    documents: PropTypes.array
+};
 
 export default Dashboard;
