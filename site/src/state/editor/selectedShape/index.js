@@ -1,7 +1,7 @@
-import reducer from "./reducers";
+import reducer from './reducers';
 
-import * as selectedShapeOperations from "./operations";
-import * as selectedShapeSelectors from "./selectors";
+import * as selectedShapeOperations from './operations';
+import * as selectedShapeSelectors from './selectors';
 export {
     selectedShapeOperations,
     selectedShapeSelectors

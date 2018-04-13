@@ -1,7 +1,6 @@
-import React from 'react';
 import { connect } from 'react-redux';
 
-import {documentsOperations, documentsSelectors} from "state/application/documents";
+import {documentsOperations, documentsSelectors} from 'state/application/documents';
 import DashboardComponent from 'views/components/Dashboard/Dashboard';
 
 const mapStateToProps = (state) => ({

@@ -1,4 +1,8 @@
-import {createDocumentSuccess, createDocumentFailure, deleteDocumentSuccess, deleteDocumentFailure, updateDocumentSuccess, updateDocumentFailure, fetchDocumentsSuccess, fetchDocumentsFailure} from './actions';
+import {
+    createDocumentSuccess, createDocumentFailure, deleteDocumentSuccess, deleteDocumentFailure, updateDocumentSuccess,
+    updateDocumentFailure, fetchDocumentsSuccess, fetchDocumentsFailure
+} from './actions';
+
 import {DOCUMENT_LIST_URI} from 'const';
 
 const fetchDocuments = () => {
@@ -18,14 +22,14 @@ const createDocument = (name) => {
             mode: 'cors',
             redirect: 'follow',
             body: JSON.stringify({
-                name: name
+                name
             }),
             headers: {
                 'Content-Type': 'application/json'
             }
         })
             .then((response) => response.json())
-            .then((doc) => dispatch(createDocumentSuccess(doc.data._id, doc.data.name,doc.data.editedAt)))
+            .then((doc) => dispatch(createDocumentSuccess(doc.data._id, doc.data.name, doc.data.editedAt)))
             .catch((err) => dispatch(createDocumentFailure(err)));
     };
 };
@@ -33,7 +37,7 @@ const createDocument = (name) => {
 
 const deleteDocument = (id) => {
     return (dispatch) => {
-        return fetch(DOCUMENT_LIST_URI + '/' + id, {
+        return fetch(`${DOCUMENT_LIST_URI }/${ id}`, {
             method: 'DELETE',
             mode: 'cors',
             redirect: 'follow',
@@ -43,17 +47,17 @@ const deleteDocument = (id) => {
         })
             .then(() => dispatch(deleteDocumentSuccess(id)))
             .catch((err) => dispatch(deleteDocumentFailure(err)));
-    }
+    };
 };
 
 const updateDocument = (id, name) => {
     return (dispatch) => {
-        return fetch(DOCUMENT_LIST_URI + '/' + id, {
+        return fetch(`${DOCUMENT_LIST_URI }/${ id}`, {
             method: 'PATCH',
             mode: 'cors',
             redirect: 'follow',
             body: JSON.stringify({
-                name: name
+                name
             }),
             headers: {
                 'Content-Type': 'application/json'
@@ -62,10 +66,10 @@ const updateDocument = (id, name) => {
             .then((response) => response.json())
             .then((doc) => dispatch(updateDocumentSuccess(doc.data.id, doc.data.name, doc.data.editedAt)))
             .catch((err) => dispatch(updateDocumentFailure(err)));
-    }
+    };
 };
 
-export{
+export {
     fetchDocuments,
     createDocument,
     deleteDocument,
