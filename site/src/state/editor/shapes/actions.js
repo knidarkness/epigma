@@ -10,8 +10,7 @@ export const fetchShapesFailure = () => ({
     type: types.FETCH_FAILURE
 });
 
-export const createShape = (id, nodes = [
-], color = 'black') => ({
+export const createShape = (id, nodes = [], color = 'black') => ({
     type: types.CREATE,
     id: id || uuid4(),
     nodes,

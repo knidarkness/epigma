@@ -14,9 +14,7 @@ class Canvas extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            cursorPosition: [
-                0, 0
-            ]
+            cursorPosition: [0, 0]
         };
     }
 
@@ -38,9 +36,7 @@ class Canvas extends React.Component {
 
     updateCursorPosition(x, y) {
         this.setState({
-            cursorPosition: [
-                x, y
-            ]
+            cursorPosition: [x, y]
         });
     }
     componentWillUnmount() {
@@ -118,13 +114,13 @@ class Canvas extends React.Component {
 
         mousemove // save cursor position
             .filter(() => this.props.mode === EDITOR_MODE.DRAW)
-            .observe(cursor => this.props.updateCursorPosition(cursor.x, cursor.y));
+            .observe(cursor => this.updateCursorPosition(cursor.x, cursor.y));
 
         click // draw line
             .filter(() => this.props.mode === EDITOR_MODE.DRAW)
             .map(e => this.getNormalizedPoint([e.x, e.y]))
             .observe(node => {
-                if (this.props.selectedShape === -1) {
+                if (this.props.selectedShape === '') {
                     this.props.createShape();
                     this.props.setSelectedShape(this.props.shapes[this.props.shapes.length - 1].id);
                 }
@@ -149,9 +145,7 @@ class Canvas extends React.Component {
                 return mousemove
                     .until(mouseup);
             })
-            .map(e => this.getNormalizedPoint([
-                e.x, e.y
-            ]))
+            .map(e => this.getNormalizedPoint([e.x, e.y]))
             .observe(node => this.props.updateShapeNode(this.props.selectedShape, editNodeIndex, node));
 
         mousedown // drag&drop canvas
@@ -167,11 +161,12 @@ class Canvas extends React.Component {
 
     render() {
         const cursor = this.props.cursor;
+        console.log(this.state.cursorPosition);
         const shapes = this.props.shapes
             .map(shape => ({
                 ...shape,
                 nodes: this.props.mode === EDITOR_MODE.DRAW && shape.id === this.props.selectedShape ? 
-                    [...shape.nodes, this.getNormalizedPoint(cursor.position)] : 
+                    [...shape.nodes, this.getNormalizedPoint(this.state.cursorPosition)] : 
                     shape.nodes
 
             }))
