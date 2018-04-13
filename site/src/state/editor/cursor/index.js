@@ -1,7 +1,7 @@
-import reducer from "./reducers";
+import reducer from './reducers';
 
-import * as cursorOperations from "./operations";
-import * as cursorSelectors from "./selectors";
+import * as cursorOperations from './operations';
+import * as cursorSelectors from './selectors';
 
 export {
     cursorOperations,

@@ -1,7 +1,7 @@
-import reducer from "./reducers";
+import reducer from './reducers';
 
-import * as documentsOperations from "./operations";
-import * as documentsSelectors from "./selectors";
+import * as documentsOperations from './operations';
+import * as documentsSelectors from './selectors';
 
 export {
     documentsOperations,

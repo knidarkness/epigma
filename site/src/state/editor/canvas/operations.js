@@ -1,4 +1,4 @@
-import { zoomCanvas, shiftCanvas } from "./actions";
+import { zoomCanvas, shiftCanvas } from './actions';
 
 export {
     zoomCanvas,

@@ -1,6 +1,5 @@
-import uuid4 from "uuid/v4";
-import {DOCUMENT_LIST_URI} from "const";
-import * as types from "./types";
+import uuid4 from 'uuid/v4';
+import * as types from './types';
 
 export const fetchShapesSuccess = (shapes) => ({
     type: types.FETCH_SUCCESS,
@@ -11,7 +10,8 @@ export const fetchShapesFailure = () => ({
     type: types.FETCH_FAILURE
 });
 
-export const createShape = (id, nodes = [], color = 'black') => ({
+export const createShape = (id, nodes = [
+], color = 'black') => ({
     type: types.CREATE,
     id: id || uuid4(),
     nodes,

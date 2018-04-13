@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 import ReactDOM from 'react-dom';
 
-import {createStore,applyMiddleware} from 'redux';
+import {createStore, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 
 import { Provider } from 'react-redux';
@@ -14,7 +14,7 @@ import './app.scss';
 
 const store = createStore(
     reducer,
-    applyMiddleware(thunk),
+    applyMiddleware(thunk)
 );
 ReactDOM.render(
     <Provider store={store}>
