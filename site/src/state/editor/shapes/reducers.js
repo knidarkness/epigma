@@ -43,7 +43,8 @@ function shape(state, action) {
     }
 }
 
-export const shapes = (state = [], action) => {
+export const shapes = (state = [
+], action) => {
     switch (action.type) {
     case types.FETCH_SUCCESS:
         return action.shapes;

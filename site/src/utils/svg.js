@@ -5,7 +5,6 @@ const renderShape = (shape) => {
     if (shape.nodes.length === 0) {
         return;
     }
-    console.log(shape.strokeWidth);
     const shapeNodesPath = shape.nodes
         .reduce((prev, current) => `${prev }${current[0]},${current[1]} `, '');
 

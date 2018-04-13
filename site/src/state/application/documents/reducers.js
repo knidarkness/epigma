@@ -19,7 +19,8 @@ const illustration = (state, action) => {
     }
 };
 
-const documents = (state=[], action) => {
+const documents = (state=[
+], action) => {
     switch (action.type) {
     case types.DOCUMENTS_FETCH_SUCCESS:
         return action.documents.sort((a, b) => b.editedAt - a.editedAt);

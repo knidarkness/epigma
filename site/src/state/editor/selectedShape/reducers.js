@@ -1,13 +1,14 @@
 import * as types from './types';
 
-const selectedShape = (state = -1, action) => {
+const selectedShape = (state = '', action) => {
     switch (action.type) {
 
     case types.SET:
         return action.id;
     
     case types.CLEAR:
-        return -1;
+        return '';
+
             
     default:
         return state;

@@ -6,7 +6,7 @@ describe('Selected shape tests', () => {
     it('Set selected shape', () => {
         const expected = 'c0c48410-af5b-46ae-9c3e-aac8cc4c45b1';
         const action = selectedShapeOperations.setSelectedShape(expected);
-        const state = -1;
+        const state = '';
         const actual = reducer(state, action);
         assert.deepEqual(expected, actual);
     });
@@ -14,7 +14,7 @@ describe('Selected shape tests', () => {
         const state = 'c0c48410-af5b-46ae-9c3e-aac8cc4c45b1';
         const action = selectedShapeOperations.clearSelectedShape();
         const actual = reducer(state, action);
-        const expected = -1;
+        const expected = '';
         assert.deepEqual(expected, actual);
     });
 });
