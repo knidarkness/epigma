@@ -161,7 +161,6 @@ class Canvas extends React.Component {
 
     render() {
         const cursor = this.props.cursor;
-        console.log(this.state.cursorPosition);
         const shapes = this.props.shapes
             .map(shape => ({
                 ...shape,
