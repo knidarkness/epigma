@@ -47,7 +47,7 @@ router.put('/:documentId/shapes', async (req, res) => {
 
 router.post('/:documentId/shapes', async (req, res) => {
     await illustrationService.addShape(req.params.documentId, req.body.shapeData);
-    res.status(201).send()
+    res.status(201).send();
 
 });
 
