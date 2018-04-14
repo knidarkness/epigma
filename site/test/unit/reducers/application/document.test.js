@@ -20,7 +20,7 @@ describe('Documents actions tests', () => {
         fetchMock
             .postOnce(DOCUMENT_LIST_URI, { 
                 status: 200,
-                body: {data: { _id: '1', name: 'document 1', editedAt: '1523109000'}}
+                body: { id: '1', name: 'document 1', editedAt: '1523109000'}
             });
   
         const expectedActions = [documentsActions.createDocumentSuccess('1', 'document 1', '1523109000')];
@@ -37,7 +37,7 @@ describe('Documents actions tests', () => {
         fetchMock
             .getOnce(DOCUMENT_LIST_URI, { 
                 status: 200,
-                body: {documents: [{id: '1', name: 'document 1', editedAt: '1523109000'}]}
+                body: [{id: '1', name: 'document 1', editedAt: '1523109000'}]
             });
   
         const expectedActions = [documentsActions.fetchDocumentsSuccess([{id: '1', name: 'document 1', editedAt: '1523109000'}])];
@@ -72,7 +72,7 @@ describe('Documents actions tests', () => {
         fetchMock
             .patchOnce(`begin:${ DOCUMENT_LIST_URI}`, { 
                 status: 200,
-                body: {data: {id: '1', name: 'new name', editedAt: '1523109000'}}
+                body: {id: '1', name: 'new name', editedAt: '1523109000'}
             });
   
         const expectedActions = [documentsActions.updateDocumentSuccess('1', 'new name', '1523109000')];
