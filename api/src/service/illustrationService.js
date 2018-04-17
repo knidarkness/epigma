@@ -5,8 +5,8 @@ class illustrationService {
         const allIllustrations = await models.Illustration.find({});
         const illustrations = allIllustrations
             .map((illustration) => ({
-                name: illustration.name,
                 id: illustration._id,
+                name: illustration.name,
                 editedAt: illustration.editedAt
             }));
         return illustrations;
@@ -18,8 +18,12 @@ class illustrationService {
             shapes: [],
             editedAt: Date.now()
         });
-        const saved = await newIllustration.save();
-        return saved;
+        const illustration = await newIllustration.save();
+        return {
+            id: illustration._id,
+            name: illustration.name,
+            editedAt: illustration.editedAt
+        };
     }
 
     async deleteIllustration(id) {
@@ -27,12 +31,16 @@ class illustrationService {
         return 0;
     }
 
-    async renameIllustration(id, newName){
+    async updateIllustration(id, newName){
         const illustration = await models.Illustration.findOne({_id: id});
         illustration.name = newName;
         illustration.editedAt = Date.now();
         await illustration.save();
-        return illustration;
+        return {
+            id: illustration._id,
+            name: illustration.name,
+            editedAt: illustration.editedAt
+        };
     }
 
     async getShapes(docId){
