@@ -60,6 +60,7 @@
         "no-var": ["error"],
         "object-shorthand": ["error"],
         "prefer-spread": ["warn"],
-        "prefer-template": ["warn"]
+        "prefer-template": ["warn"],
+        "id-match": ["error", "^[a-zA-Z0-9_]*$"]
     }
 }

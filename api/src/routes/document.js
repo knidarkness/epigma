@@ -26,11 +26,12 @@ router.patch('/:documentId', async (req, res) => {
 
 router.get('/:documentId/shapes', async (req, res) => {
     const illustration = await illustrationService.getShapes(req.params.documentId);
+    console.log(illustration.shape);
     res.json(illustration.shapes);
 });
 
 router.put('/:documentId/shapes', async (req, res) => {
-    const saved = await illustrationService.setShapes(req.params.documentId, req.body.shapes);
+    const saved = await illustrationService.setShapes(req.params.documentId, req.body);
     if (saved) {
         res.status(204).send();
     } else {
@@ -39,14 +40,14 @@ router.put('/:documentId/shapes', async (req, res) => {
 });
 
 router.post('/:documentId/shapes', async (req, res) => {
-    await illustrationService.addShape(req.params.documentId, req.body.shapeData);
+    await illustrationService.addShape(req.params.documentId, req.body);
     res.status(201).send();
 
 });
 
 router.put('/:documentId/shapes/:shapeId', async (req, res) => {
     console.log(req.body.shapeData);
-    await illustrationService.updateShape(req.params.documentId, req.params.shapeId, req.body.shapeData);
+    await illustrationService.updateShape(req.params.documentId, req.params.shapeId, req.body);
     res.status(200).send();
 });
 
