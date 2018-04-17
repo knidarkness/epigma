@@ -1,8 +1,9 @@
-export const CREATE = 'shapes/CREATE';
-export const DELETE = 'shapes/DELETE';
-export const ADD_NODE = 'shapes/ADD_NODE';
-export const INSERT_NODE = 'shapes/INSERT_NODE';
-export const UPDATE_NODE = 'shapes/UPDATE_NODE';
-export const DELETE_NODE = 'shapes/DELETE_NODE';
+export const CREATE_SUCCESS = 'shapes/CREATE_SUCCESS';
+export const CREATE_FAILURE = 'shapes/CREATE_FAILURE';
+export const UPDATE_SUCCESS = 'shapes/UPDATE_SUCCESS';
+export const UPDATE_FAILURE = 'shapes/UPDATE_FAILURE';
+export const DELETE_SUCCESS = 'shapes/DELETE_SUCCESS';
+export const DELETE_FAILURE = 'shapes/DELETE_FAILURE';
 export const FETCH_SUCCESS = 'shapes/FETCH_SUCCESS';
 export const FETCH_FAILURE = 'shapes/FETCH_FAILURE';
+export const SELECT_SHAPE = 'shapes/SELECT_SHAPE';
