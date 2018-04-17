@@ -39,6 +39,8 @@ $border-radius: 4px;
     height: 100%;
     width: 50%;
     border: none;
+    color: #ffffff;
+    font-size: 20px;
 
     outline: none;
 
@@ -46,8 +48,11 @@ $border-radius: 4px;
       outline: none;
     }
 
+    transition: all 100ms ease-in-out;
+
     &:hover{
       background: linear-gradient(#212528 80%, #fff);
+      cursor: pointer;
     }
 
     &_submit{
