@@ -1,35 +1,23 @@
 import React, {Component} from 'react';
-import {fromEvent} from 'most';
 import PropTypes from 'prop-types';
 
 class ConfirmModalWindow extends Component {
-    componentDidMount() {
-        fromEvent('click', document.querySelector('.modal'))
-            .observe(e => {
-                e.stopPropagation();
-            });
-
-        fromEvent('click', document.querySelector('#confirm'))
-            .observe(e => {
-                e.stopPropagation();
-                this.props.onConfirm();
-                this.props.hideModal();
-            });
-
-        fromEvent('click', document.querySelector('#no'))
-            .observe(e => {
-                e.stopPropagation();
-                this.props.hideModal();
-            });
-    }
-
     render() {
         return (
-            <div className='modal'>
+            <div className='modal' onClick={(e) => {
+                e.stopPropagation();
+            }}>
                 <h1 className='modal__title'>Are you sure?</h1>
                 <div className='modal__btns'>
-                    <input id='confirm' className='modal__button modal__button_submit' type="button" value='Yes'/>
-                    <input id='no' className='modal__button  modal__button_cancel' type="button" value='Cancel'/>
+                    <input id='confirm' className='modal__button modal__button_submit' type="button" value='Yes' onClick={(e) => {
+                        e.stopPropagation();
+                        this.props.onConfirm();
+                        this.props.hideModal();
+                    }}/>
+                    <input id='no' className='modal__button  modal__button_cancel' type="button" value='Cancel' onClick={(e) => {
+                        e.stopPropagation();
+                        this.props.hideModal();
+                    }}/>
                 </div>
             </div>
         );

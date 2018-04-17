@@ -1,3 +1,5 @@
+$border-radius: 4px;
+
 .modal{
   display: block;
   position: absolute;
@@ -9,9 +11,9 @@
   margin: auto;
 
   width: 400px;
-  border-radius: 20px;
+  border-radius: $border-radius;
 
-  background: blue;
+  background: #181b1d;
 
   &__title{
     text-align: center;
@@ -23,7 +25,7 @@
     box-sizing: border-box;
     outline: none;
 
-    &:focus, &:active, &:hover{
+    &:focus, &:active, &:hover, &:visited{
       outline: none;
     }
   }
@@ -44,14 +46,18 @@
       outline: none;
     }
 
+    &:hover{
+      background: linear-gradient(#212528 80%, #fff);
+    }
+
     &_submit{
-      border-bottom-left-radius: 20px;
-      background: green;
+      border-bottom-left-radius: $border-radius;
+      background: #212528;
     }
 
     &_cancel{
-      border-bottom-right-radius: 20px;
-      background: red;
+      border-bottom-right-radius: $border-radius;
+      background: #212528;
     }
   }
 }

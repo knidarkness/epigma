@@ -2,21 +2,17 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import './ModalWindow.scss';
-import {fromEvent} from 'most';
 
 class ModalWindow extends Component{
-    componentDidMount() {
-        fromEvent('click', document.querySelector('.modal-container'))
-            .observe(() => {
-                if (this.props.visible) {
-                    this.props.hideModal();
-                }
-            });
-    }
-
     render() {
         return (
-            <div id='modal-container' className='modal-container' style={{display: this.props.visible ? 'block' : 'none'}}>
+            <div className='modal-container' style={{display: this.props.visible ? 'block' : 'none', pointerEvents: this.props.visible ? 'all' : 'none'}}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    if (this.props.visible) {
+                        this.props.hideModal();
+                    }
+                } }>
                 {React.createElement(this.props.content, {
                     ...this.props.contentProps,
                     hideModal: this.props.hideModal

@@ -1,44 +1,42 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {fromEvent} from 'most';
 
 import './PromptDocumentModal.scss';
 
 class PromptDocumentModal extends Component {
-    componentDidMount() {
-        fromEvent('click', document.querySelector('.modal'))
-            .observe(e => {
-                e.stopPropagation();
-            });
-
-        fromEvent('click', document.querySelector('#send'))
-            .observe(e => {
-                e.stopPropagation();
-                this.confirmed();
-            });
-
-        fromEvent('click', document.querySelector('#cancel'))
-            .observe(e => {
-                e.stopPropagation();
-                this.props.hideModal();
-            });
+    constructor(props){
+        super(props);
+        this.state = {
+            inputVal: ''
+        };
     }
 
     confirmed() {
-        const docName = document.querySelector('#newDocName').value;
-        this.props.onOk(docName);
-        document.querySelector('#newDocName').value = '';
+        this.props.onOk(this.state.inputVal);
+        this.setState({
+            inputVal: ''
+        });
         this.props.hideModal();
     }
 
     render() {
+
         return (
-            <div className='modal'>
+            <div className='modal' onClick={(e) => {
+                e.stopPropagation();
+            }}>
                 <h1 className='modal__title'>{this.props.message}</h1>
-                <input id='newDocName' className='modal__input' type="text" placeholder={this.props.placeholder}/>
+                <input onChange={(e) => {
+                    this.setState({
+                        inputVal: e.target.value
+                    });
+                }} value={this.state.inputVal} className='modal__input' type="text" placeholder={this.props.placeholder}/>
                 <div className='modal__btns'>
-                    <input id='send' className='modal__button modal__button_submit' type="button" value='OK'/>
-                    <input id='cancel' className='modal__button  modal__button_cancel' type="button" value='Cancel'/>
+                    <input className='modal__button modal__button_submit' type="button" value='OK' onClick={() => {
+                        console.log('123');
+                        this.confirmed();
+                    }}/>
+                    <input className='modal__button  modal__button_cancel' type="button" value='Cancel' onClick={this.props.hideModal}/>
                 </div>
             </div>
         );
