@@ -35,7 +35,7 @@ describe('Selected shape tests', () => {
     });
 
     it('Add node to shape', () => {
-        const state ={
+        const state = {
             id: 1,
             color: 'black',
             nodes: [
@@ -87,7 +87,8 @@ describe('Selected shape tests', () => {
             color: 'black',
             nodes: [
                 [10, 10],
-                [200, 50]
+                [200, 50],
+                [300, 50]
             ]
         };
 
@@ -95,7 +96,10 @@ describe('Selected shape tests', () => {
         const expected = {
             id: 1,
             color: 'black',
-            nodes: [[10, 10]]
+            nodes: [
+                [10, 10],
+                [300, 50]
+            ]
         };
 
         assert.deepEqual(actual, expected);
