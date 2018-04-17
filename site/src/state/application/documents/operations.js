@@ -9,7 +9,7 @@ const fetchDocuments = () => {
     return (dispatch) => {
         return fetch(DOCUMENT_LIST_URI)
             .then((response) => response.json())
-            .then((data) => dispatch(fetchDocumentsSuccess(data.documents)))
+            .then((data) => dispatch(fetchDocumentsSuccess(data)))
             .catch((err) => dispatch(fetchDocumentsFailure(err)));
 
     };
@@ -29,7 +29,7 @@ const createDocument = (name) => {
             }
         })
             .then((response) => response.json())
-            .then((doc) => dispatch(createDocumentSuccess(doc.data._id, doc.data.name, doc.data.editedAt)))
+            .then((doc) => dispatch(createDocumentSuccess(doc.id, doc.name, doc.editedAt)))
             .catch((err) => dispatch(createDocumentFailure(err)));
     };
 };
@@ -64,7 +64,7 @@ const updateDocument = (id, name) => {
             }
         })
             .then((response) => response.json())
-            .then((doc) => dispatch(updateDocumentSuccess(doc.data.id, doc.data.name, doc.data.editedAt)))
+            .then((doc) => dispatch(updateDocumentSuccess(doc.id, doc.name, doc.editedAt)))
             .catch((err) => dispatch(updateDocumentFailure(err)));
     };
 };
