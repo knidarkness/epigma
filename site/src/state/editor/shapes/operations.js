@@ -8,7 +8,7 @@ const fetchShapes = (id) => {
     return (dispatch) => {
         return fetch(`${DOCUMENT_LIST_URI }/${ id }/shapes/`)
             .then((response) => response.json())
-            .then((data) => dispatch(fetchShapesSuccess(data.shapes)))
+            .then((data) => dispatch(fetchShapesSuccess(data)))
             .catch(() => dispatch(fetchShapesFailure()));
     };
 };

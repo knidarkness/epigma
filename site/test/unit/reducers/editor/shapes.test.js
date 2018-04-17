@@ -16,7 +16,7 @@ describe('Shapes actions tests', () => {
         fetchMock
             .getOnce(`${DOCUMENT_LIST_URI }/1/shapes/`, { 
                 status: 200,
-                body: {shapes: [{'id':'1', 'nodes':[[1, 1], [2, 3]], 'color':'black'}]}
+                body: [{'id':'1', 'nodes':[[1, 1], [2, 3]], 'color':'black'}]
             });
   
         const expectedActions = [shapesActions.fetchShapesSuccess([{'id':'1', 'nodes':[[1, 1], [2, 3]], 'color':'black'}])];
