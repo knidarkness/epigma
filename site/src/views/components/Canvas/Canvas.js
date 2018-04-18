@@ -136,16 +136,16 @@ class Canvas extends React.Component {
         doubleclick // add node
             .filter(() => this.props.mode === EDITOR_MODE.EDIT)
             .filter(e => this.isShape(e))
-            .observe(e => {
-                const cursor = [e.x, e.y];
+            .map(e => this.getNormalizedPoint([e.x, e.y]))
+            .observe(newNode => {
                 const nodes = this.props.selectedShape.nodes;
                 const left = nodes
                     .map((node, index) => index)
                     .filter((index) => index < nodes.length - 1) // as we work with pairs and don't want to get IndexOutOfArrayBounds
-                    .reduce((a, b) => distToSegment(cursor, nodes[a], nodes[a + 1]) < distToSegment(cursor, nodes[b], nodes[b + 1])
+                    .reduce((a, b) => distToSegment(newNode, nodes[a], nodes[a + 1]) < distToSegment(newNode, nodes[b], nodes[b + 1])
                         ? a
                         : b, 0);
-                this.props.insertSelectedShapeNode(left + 1, cursor);
+                this.props.insertSelectedShapeNode(left + 1, newNode);
             });
 
         let editNodeIndex = -1;

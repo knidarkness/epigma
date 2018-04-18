@@ -20,10 +20,15 @@ class PromptDocumentModal extends Component {
     }
 
     render() {
-
         return (
             <div className='modal' onClick={(e) => {
                 e.stopPropagation();
+            }}
+
+            onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                    this.confirmed();
+                }
             }}>
                 <h1 className='modal__title'>{this.props.message}</h1>
                 <input onChange={(e) => {
