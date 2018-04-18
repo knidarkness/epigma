@@ -6,7 +6,8 @@ import { EDITOR_MODE, CURSOR } from 'const';
 import { createSVG } from 'utils/svg';
 
 import Matrix from 'utils/matrix';
-
+import {distToSegment} from 'utils/utils';
+import * as _ from 'lodash';
 import './Canvas.scss';
 
 class Canvas extends React.Component {
@@ -53,6 +54,8 @@ class Canvas extends React.Component {
         const canvasWillUnmount = most.fromEvent('canvasWillUnmountEvent', document);
 
         const click = most.fromEvent('click', canvas)
+            .until(canvasWillUnmount);
+        const doubleclick = most.fromEvent('dblclick', canvas)
             .until(canvasWillUnmount);
         const mousemove = most.fromEvent('mousemove', canvas)
             .until(canvasWillUnmount);
@@ -121,6 +124,28 @@ class Canvas extends React.Component {
                 this.props.selectShape(shapeId);
             });
 
+        doubleclick // delete node
+            .filter(() => this.props.mode === EDITOR_MODE.EDIT)
+            .filter(e => this.isNode(e))
+            .observe((e) => {
+                this.props.deleteSelectedShapeNode(Number(e.target.dataset.nodeIndex));
+            });
+
+        doubleclick // add node
+            .filter(() => this.props.mode === EDITOR_MODE.EDIT)
+            .filter(e => this.isShape(e))
+            .observe(e => {
+                const cursor = [e.x, e.y];
+                const nodes = this.props.selectedShape.nodes;
+                const left = nodes
+                    .map((node, index) => index)
+                    .filter((index) => index < nodes.length - 1) // as we work with pairs and don't want to get IndexOutOfArrayBounds
+                    .reduce((a, b) => distToSegment(cursor, nodes[a], nodes[a + 1]) < distToSegment(cursor, nodes[b], nodes[b + 1]) 
+                        ? a 
+                        : b, 0);
+                this.props.insertSelectedShapeNode(left + 1, cursor);
+            });
+
         let editNodeIndex = -1;
         mousedown // edit node of the line
             .filter(() => this.props.mode === EDITOR_MODE.EDIT)
@@ -143,6 +168,7 @@ class Canvas extends React.Component {
                 this.props.shiftCanvas(e.movementX, e.movementY);
             });
     }
+
     transformShape(shape) {
         return {
             ...shape,
@@ -160,9 +186,7 @@ class Canvas extends React.Component {
             nodes: this.props.mode === EDITOR_MODE.DRAW
                 ? [...this.props.selectedShape.nodes, this.getNormalizedPoint(this.state.cursorPosition)]
                 : this.props.selectedShape.nodes
-
         });
-
 
         return (
             <div>
