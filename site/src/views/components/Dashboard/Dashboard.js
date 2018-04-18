@@ -141,9 +141,9 @@ class Dashboard extends React.Component {
                                                 this.editDocument(d.id);
                                             }}> </button>
                                             <button className="button button_delete" onClick={(e) => {
-                                                e.stopPropagation();
                                                 e.preventDefault();
                                                 this.deleteDocument(d.id);
+                                                e.stopPropagation();
                                             }}> </button>
                                         </div>
                                     </Link>

@@ -6,6 +6,14 @@ class ConfirmModalWindow extends Component {
         return (
             <div className='modal' onClick={(e) => {
                 e.stopPropagation();
+            }}
+            onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                    this.props.onConfirm();
+                    this.props.hideModal();
+                } else if (e.key === 'Escape') {
+                    this.props.hideModal();
+                }
             }}>
                 <h1 className='modal__title'>Are you sure?</h1>
                 <div className='modal__btns'>
