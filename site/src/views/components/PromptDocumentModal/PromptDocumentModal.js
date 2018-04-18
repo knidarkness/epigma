@@ -33,7 +33,6 @@ class PromptDocumentModal extends Component {
                 }} value={this.state.inputVal} className='modal__input' type="text" placeholder={this.props.placeholder}/>
                 <div className='modal__btns'>
                     <input className='modal__button modal__button_submit' type="button" value='OK' onClick={() => {
-                        console.log('123');
                         this.confirmed();
                     }}/>
                     <input className='modal__button  modal__button_cancel' type="button" value='Cancel' onClick={this.props.hideModal}/>
