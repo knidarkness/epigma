@@ -89,7 +89,6 @@ class Dashboard extends React.Component {
                             message: 'Enter document name',
                             placeholder: 'Document name',
                             onOk: (docName) => {
-                                alert('2');
                                 this.props.createDocument(docName);
                             }
                         }}
@@ -104,7 +103,6 @@ class Dashboard extends React.Component {
                             message: 'Enter new document name',
                             placeholder: 'New name',
                             onOk: (newName) => {
-                                alert('1');
                                 if (newName && newName.length > 0) {
                                     this.props.updateDocument(this.state.selectedDoc, newName);
                                 }
