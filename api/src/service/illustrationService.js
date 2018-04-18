@@ -33,6 +33,9 @@ class illustrationService {
 
     async updateIllustration(id, newName){
         const illustration = await models.Illustration.findOne({_id: id});
+        if (!illustration) {
+            return null;
+        }
         illustration.name = newName;
         illustration.editedAt = Date.now();
         await illustration.save();
@@ -50,36 +53,48 @@ class illustrationService {
 
     async setShapes(docId, shapes){
         const illustration = await models.Illustration.findOne({_id: docId});
+        if (!illustration) {
+            return null;
+        }
         illustration.shapes = shapes;
         illustration.editedAt = Date.now();
         await illustration.save();
-        return true;
+        return illustration;
     }
 
     async addShape(docId, shape){
         const illustration = await models.Illustration.findOne({_id: docId});
+        if (!illustration) {
+            return null;
+        }
         illustration.shapes = [...illustration.shapes, shape];
         illustration.editedAt = Date.now();
         await illustration.save();
-        return shape;
+        return illustration;
     }
 
     async removeShape(docId, shapeId){
         const illustration = await models.Illustration.findOne({_id: docId});
+        if (!illustration) {
+            return null;
+        }
         illustration.shapes = illustration.shapes
             .filter(shape => shape.id !== shapeId);
         illustration.editedAt = Date.now();
         await illustration.save();
-        return true;
+        return illustration;
     }
 
     async updateShape(docId, shapeId, newShapeData){
         const illustration = await models.Illustration.findOne({_id: docId});
+        if (!illustration) {
+            return null;
+        }
         illustration.shapes = illustration.shapes
             .map(shape => shape.id === shapeId ? newShapeData : shape);
         illustration.editedAt = Date.now();
         await illustration.save();
-        return true;
+        return illustration;
     }
 }
 
