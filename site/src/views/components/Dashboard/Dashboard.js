@@ -129,7 +129,6 @@ class Dashboard extends React.Component {
                     />
 
 
-
                     <ul className="document-list">
                         {
                             this.props.documents.map(d => (

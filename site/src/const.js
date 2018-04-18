@@ -1,8 +1,8 @@
 import {getCurrentHost} from 'utils/utils';
 
 const host = getCurrentHost(3000);
-export const API_URI = `${host }/api`;
-export const DOCUMENT_LIST_URI = `${API_URI }/document`;
+export const API_URI = `${host}/api`;
+export const DOCUMENT_LIST_URI = `${API_URI}/document`;
 
 export const EDITOR_MODE = {
     SELECT: 'SELECT',
@@ -16,5 +16,5 @@ export const CURSOR = {
     DRAW: 'crosshair',
     EDIT: 'crosshair',
     VIEW: 'move',
-    DEFAULT: 'auto'       
+    DEFAULT: 'auto'
 };

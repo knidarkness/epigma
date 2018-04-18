@@ -14,11 +14,11 @@ const mockStore = configureMockStore(middlewares);
 describe('Shapes actions tests', () => {
     it('Creates SHAPE_FETCH_SUCCESS when shapes have been successfully fetched', () => {
         fetchMock
-            .getOnce(`${DOCUMENT_LIST_URI }/1/shapes/`, { 
+            .getOnce(`${DOCUMENT_LIST_URI}/1/shapes/`, {
                 status: 200,
                 body: [{'id':'1', 'nodes':[[1, 1], [2, 3]], 'color':'black'}]
             });
-  
+
         const expectedActions = [shapesActions.fetchShapesSuccess([{'id':'1', 'nodes':[[1, 1], [2, 3]], 'color':'black'}])];
         const store = mockStore({});
         const action = shapesOperations.fetchShapes('1');
@@ -111,7 +111,7 @@ describe('Shapes reducer tests', () => {
             }
         ];
         const shape = {
-            id: 2, 
+            id: 2,
             nodes: [[200, 200]],
             color: 'black',
             strokeWidth: 2
@@ -137,5 +137,5 @@ describe('Shapes reducer tests', () => {
         ];
         assert.deepEqual(actual, expected);
     });
-   
+
 });

@@ -7,7 +7,7 @@ import { createSVG } from 'utils/svg';
 
 import Matrix from 'utils/matrix';
 import {distToSegment} from 'utils/utils';
-import * as _ from 'lodash';
+
 import './Canvas.scss';
 
 class Canvas extends React.Component {
@@ -30,6 +30,7 @@ class Canvas extends React.Component {
     isShape(e) {
         return e.target.dataset && 'shapeIndex' in e.target.dataset;
     }
+
     isNode(e) {
         return e.target.dataset && 'nodeIndex' in e.target.dataset;
     }
@@ -39,6 +40,7 @@ class Canvas extends React.Component {
             cursorPosition: [x, y]
         });
     }
+
     componentWillUnmount() {
         const canvasWillUnmountEvent = new Event('canvasWillUnmountEvent');
         document.dispatchEvent(canvasWillUnmountEvent);
@@ -140,8 +142,8 @@ class Canvas extends React.Component {
                 const left = nodes
                     .map((node, index) => index)
                     .filter((index) => index < nodes.length - 1) // as we work with pairs and don't want to get IndexOutOfArrayBounds
-                    .reduce((a, b) => distToSegment(cursor, nodes[a], nodes[a + 1]) < distToSegment(cursor, nodes[b], nodes[b + 1]) 
-                        ? a 
+                    .reduce((a, b) => distToSegment(cursor, nodes[a], nodes[a + 1]) < distToSegment(cursor, nodes[b], nodes[b + 1])
+                        ? a
                         : b, 0);
                 this.props.insertSelectedShapeNode(left + 1, cursor);
             });

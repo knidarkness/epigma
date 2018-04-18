@@ -22,7 +22,15 @@
     "rules": {
         "indent": [
             "error",
-            4
+            4,
+            {
+                "SwitchCase": 1,
+                "MemberExpression": 1,
+                "FunctionExpression": {"parameters": "first"},
+                "CallExpression": {"arguments": "first"},
+                "ArrayExpression": 1,
+                "ObjectExpression": 1
+            } 
         ],
         "linebreak-style": [
             "error",
@@ -38,29 +46,95 @@
         ],
         "no-console": "off",
         "default-case": "error",
-        "eqeqeq":"error",
-        "curly":"error",
-        "no-invalid-this":"error",
+        "eqeqeq": "error",
+        "curly": "error",
+        "no-invalid-this": "error",
         "no-multi-spaces": "error",
         "no-self-compare": "error",
         "no-sequences": "error",
         "no-unused-expressions": "error",
-        "array-bracket-spacing": ["error", "never"],
-        "array-bracket-newline": ["error", { "multiline": true, "minItems": 3 }],
-        "multiline-ternary": ["error", "always-multiline"],
-        "brace-style": ["error", "1tbs"],
-        "comma-dangle": ["error", "never"],
-        "comma-spacing": ["error", {"before": false, "after": true}],
-        "func-call-spacing": ["error", "never"],
-        "implicit-arrow-linebreak": ["error", "beside"],
-        "keyword-spacing": ["error", {"before": true, "after": true}],
-        "max-len": ["warn", 150],
-        "max-lines": ["warn", 300],
-        "arrow-spacing": ["error", {"before": true, "after": true}],
-        "no-var": ["error"],
-        "object-shorthand": ["error"],
-        "prefer-spread": ["warn"],
-        "prefer-template": ["warn"],
-        "id-match": ["error", "^[a-zA-Z0-9_]*$"]
+        "array-bracket-spacing": [
+            "error",
+            "never"
+        ],
+        "array-bracket-newline": [
+            "error",
+            {
+                "multiline": true,
+                "minItems": 3
+            }
+        ],
+        "multiline-ternary": [
+            "error",
+            "always-multiline"
+        ],
+        "brace-style": [
+            "error",
+            "1tbs"
+        ],
+        "comma-dangle": [
+            "error",
+            "never"
+        ],
+        "comma-style": ["error", "last"],
+        "comma-spacing": [
+            "error",
+            {
+                "before": false,
+                "after": true
+            }
+        ],
+        "computed-property-spacing": ["error", "never"],
+        "func-call-spacing": [
+            "error",
+            "never"
+        ],
+        "no-unneeded-ternary": ["error", { "defaultAssignment": false }],
+        "space-infix-ops": "error",
+        "space-unary-ops": ["error",{"words": true, "nonwords": false}],
+        "space-in-parens": ["error", "never"],
+        "switch-colon-spacing": ["error", {"after": true, "before": false}],
+        "implicit-arrow-linebreak": [
+            "error",
+            "beside"
+        ],
+        "keyword-spacing": [
+            "error",
+            {
+                "before": true,
+                "after": true
+            }
+        ],
+        "max-len": [
+            "warn",
+            150
+        ],
+        "max-lines": [
+            "warn",
+            300
+        ],
+        "template-curly-spacing": ["error", "never"],
+        "arrow-spacing": [
+            "error",
+            {
+                "before": true,
+                "after": true
+            }
+        ],
+        "no-var": [
+            "error"
+        ],
+        "object-shorthand": [
+            "error"
+        ],
+        "prefer-spread": [
+            "warn"
+        ],
+        "prefer-template": [
+            "warn"
+        ],
+        "lines-between-class-members": ["error", "always"],
+        "no-multiple-empty-lines": "error",
+        "no-trailing-spaces": "error"
     }
 }
