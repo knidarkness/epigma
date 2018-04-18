@@ -1,46 +1,46 @@
 import * as types from './types';
 
 export const createDocumentSuccess = (id, name, editedAt) => ({
-    type: types.DOCUMENT_CREATE_SUCCESS,
+    type: types.CREATE_SUCCESS,
     id,
     name,
     editedAt
 });
 
-export const createDocumentFailure = (error_msg) => ({
-    type: types.DOCUMENT_CREATE_FAILURE,
-    error_msg
+export const createDocumentFailure = (err) => ({
+    type: types.CREATE_FAILURE,
+    err
 });
 
 
 export const deleteDocumentSuccess = (id) => ({
-    type: types.DOCUMENT_DELETE_SUCCESS,
+    type: types.DELETE_SUCCESS,
     id
 });
 
-export const deleteDocumentFailure = (error_msg) => ({
-    type: types.DOCUMENT_DELETE_FAILURE,
-    error_msg
+export const deleteDocumentFailure = (err) => ({
+    type: types.DELETE_FAILURE,
+    err
 });
 
 export const updateDocumentSuccess = (id, name, editedAt) => ({
-    type: types.DOCUMENT_UPDATE_SUCCESS,
+    type: types.UPDATE_SUCCESS,
     id,
     name,
     editedAt
 });
 
-export const updateDocumentFailure = (error_msg) => ({
-    type: types.DOCUMENT_UPDATE_FAILURE,
-    error_msg
+export const updateDocumentFailure = (err) => ({
+    type: types.UPDATE_FAILURE,
+    err
 });
 
 export const fetchDocumentsSuccess = (documents) => ({
-    type: types.DOCUMENTS_FETCH_SUCCESS,
+    type: types.FETCH_SUCCESS,
     documents
 });
 
-export const fetchDocumentsFailure = (error_msg) => ({
-    type: types.DOCUMENTS_FETCH_FAILURE,
-    error_msg
+export const fetchDocumentsFailure = (err) => ({
+    type: types.FETCH_FAILURE,
+    err
 });

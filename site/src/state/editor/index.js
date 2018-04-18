@@ -15,5 +15,4 @@ const editor = combineReducers({
 });
 
 
-
 export default editor;

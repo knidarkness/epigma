@@ -33,7 +33,7 @@ describe('Canvas zoom/shift tests', () => {
         };
         assert.deepEqual(actual, expected);
     });
-    
+
     it('Zoom into a point', () => {
         const state = {
             zoom: 1,
@@ -48,6 +48,6 @@ describe('Canvas zoom/shift tests', () => {
         };
         assert.deepEqual(actual, expected);
     });
-   
+
 });
 

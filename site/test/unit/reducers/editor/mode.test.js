@@ -38,9 +38,9 @@ describe('Editor mode actions tests', () => {
         store.dispatch(action);
         const actualActions = store.getActions();
         assert.deepEqual(actualActions, expectedActions);
-    
+
     });
-    
+
     it('Change mode to Draw, change cursor to DRAW and call clearSelectedShape', () => {
         const expectedActions = [
             modeActions.enableMode(EDITOR_MODE.DRAW),
@@ -53,7 +53,7 @@ describe('Editor mode actions tests', () => {
         const actualActions = store.getActions();
         assert.deepEqual(actualActions, expectedActions);
     });
-    
+
     it('Change mode to Edit, change cursor to EDIT and call clearSelectedShape', () => {
         const expectedActions = [
             modeActions.enableMode(EDITOR_MODE.EDIT),
