@@ -18,11 +18,11 @@ describe('Documents actions tests', () => {
     });
     it('Creates DOCUMENT_CREATE_SUCCESS when document has been successfully created', () => {
         fetchMock
-            .postOnce(DOCUMENT_LIST_URI, { 
+            .postOnce(DOCUMENT_LIST_URI, {
                 status: 200,
                 body: { id: '1', name: 'document 1', editedAt: '1523109000'}
             });
-  
+
         const expectedActions = [documentsActions.createDocumentSuccess('1', 'document 1', '1523109000')];
         const store = mockStore({});
         const action = documentsOperations.createDocument('document 1');
@@ -32,14 +32,14 @@ describe('Documents actions tests', () => {
             assert.deepEqual(actualActions, expectedActions);
         });
     });
- 
+
     it('Creates DOCUMENT_FETCH_SUCCESS when documents have been successfully fetched', () => {
         fetchMock
-            .getOnce(DOCUMENT_LIST_URI, { 
+            .getOnce(DOCUMENT_LIST_URI, {
                 status: 200,
                 body: [{id: '1', name: 'document 1', editedAt: '1523109000'}]
             });
-  
+
         const expectedActions = [documentsActions.fetchDocumentsSuccess([{id: '1', name: 'document 1', editedAt: '1523109000'}])];
         const store = mockStore({});
         const action = documentsOperations.fetchDocuments();
@@ -53,10 +53,10 @@ describe('Documents actions tests', () => {
 
     it('Creates DOCUMENT_DELETE_SUCCESS when document has been successfully deleted', () => {
         fetchMock
-            .deleteOnce(`begin:${ DOCUMENT_LIST_URI}`, { 
+            .deleteOnce(`begin:${DOCUMENT_LIST_URI}`, {
                 status: 200
             });
-  
+
         const expectedActions = [documentsActions.deleteDocumentSuccess('1')];
         const store = mockStore({});
         const action = documentsOperations.deleteDocument('1');
@@ -70,11 +70,11 @@ describe('Documents actions tests', () => {
 
     it('Creates DOCUMENT_UPDATE_SUCCESS when document has been successfully updated', () => {
         fetchMock
-            .patchOnce(`begin:${ DOCUMENT_LIST_URI}`, { 
+            .patchOnce(`begin:${DOCUMENT_LIST_URI}`, {
                 status: 200,
                 body: {id: '1', name: 'new name', editedAt: '1523109000'}
             });
-  
+
         const expectedActions = [documentsActions.updateDocumentSuccess('1', 'new name', '1523109000')];
         const store = mockStore({});
         const action = documentsOperations.updateDocument('1', 'new name');
@@ -126,7 +126,6 @@ describe('Documents reducers tests', () => {
         const expected = [{ id: '2', name: 'new name', editedAt: '1523109002'}, { id: '1', name: 'document 1', editedAt: '1523109000' }];
         assert.deepEqual(actual, expected);
     });
-
 
 
 });

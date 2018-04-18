@@ -1,6 +1,6 @@
 
 class Matrix {
-    /* _ _ _ _ _ 
+    /* _ _ _ _ _
     * | a  c  e |
     * | b  d  f |
     * |_0_ 0 _1_|
@@ -11,10 +11,10 @@ class Matrix {
         this.c = c;
         this.d = d;
         this.e = e;
-        this.f = f; 
+        this.f = f;
         this.determinant = this.a * this.d - this.b * this.c;
     }
-    
+
     multiply(m) {
         return new Matrix(
             this.a * m.a + this.c * m.b,
@@ -44,15 +44,16 @@ class Matrix {
     translate(e, f) {
         return Matrix.translation(e, f).multiply(this);
     }
-    
+
     transformPoint(point) {
         return [
             this.a * point[0] + this.c * point[1] + this.e,
             this.b * point[0] + this.d * point[1] + this.f
         ];
     }
+
     scaleToPoint(point, s) {
-        const normalizedPoint = this.inverse().transformPoint(point);    
+        const normalizedPoint = this.inverse().transformPoint(point);
         return Matrix.translation(-normalizedPoint[0], -normalizedPoint[1])
             .scale(s, s)
             .translate(point[0], point[1]);
@@ -61,11 +62,11 @@ class Matrix {
     static identity() {
         return new Matrix(1, 0, 0, 1, 0, 0);
     }
-    
+
     static scale(sx, sy) {
         return new Matrix(sx, 0, 0, sy, 0, 0);
     }
-    
+
     static translation(tx, ty) {
         return new Matrix(1, 0, 0, 1, tx, ty);
     }
