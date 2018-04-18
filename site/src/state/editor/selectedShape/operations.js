@@ -1,6 +1,10 @@
-import {setSelectedShape, clearSelectedShape} from './actions';
+import { setSelectedShape, clearSelectedShape, addSelectedShapeNode, updateSelectedShapeNode, deleteSelectedShapeNode, insertSelectedShapeNode } from './actions';
 
 export {
     setSelectedShape,
-    clearSelectedShape
+    clearSelectedShape,
+    addSelectedShapeNode,
+    updateSelectedShapeNode,
+    deleteSelectedShapeNode,
+    insertSelectedShapeNode
 };

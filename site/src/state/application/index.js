@@ -8,5 +8,4 @@ const application = combineReducers({
 });
 
 
-
 export default application;

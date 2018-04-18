@@ -6,9 +6,9 @@ import './Stats.scss';
 
 const Stats = ({shapes, nodes, zoom}) => (
     <div className="stats">
-        <p className="stats__scale">s: {Math.round(zoom * 100)}%</p>
-        <p className="stats__lines">shapes: {shapes}</p>
-        <p className="stats__nodes">nodes: {nodes}</p>
+        <p className="stats__scale">z: {Math.round(zoom * 100)}%</p>
+        <p className="stats__lines">s: {shapes}</p>
+        <p className="stats__nodes">n: {nodes}</p>
     </div>
 );
 
