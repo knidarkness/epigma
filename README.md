@@ -26,21 +26,15 @@ For debug consider using [Redux DevTool Extension](http://extension.remotedev.io
 
 ## TODO
 
-
+- multiple select
 - fix undoables -- undo/redo states of each doc seprtly
+- add shape move
+- drawing via paths
+- bezier curves on editing
 
-- <s><b>C/D for nodes in edit mode of a shape</s></b>
-- <s><b>atomic entities (either all document (name, data, shapes), either only id and receive all properties via separate API calls)</s></b>
-- <s><b>each file up to 100 LOC</s></b>
-- <s><b>split async actions into separate files, so that /actions/index.js define only atomic action creators (research/probably use: redux-observable)</b></s>
-- <s><b>research and use selectors for data access</b></s>
-- <s><b>dev-dep & dep</b></s>
-- <s><b>add moment.js for date/time formatting</b></s>
-- <s><b>redux dev-tools</b></s>
-- <s><b>refactor reducer decomposition</s></b>
-- <s><b>finally deal with babel and mocha</b></s>
+- revert redux to canonical structure
+- create node by click & move
 
-## Would be nice to have
 
 - add type to the shapes
 - color palette for the shapes (stroke/fill colors)

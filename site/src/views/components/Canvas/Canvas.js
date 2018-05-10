@@ -10,6 +10,7 @@ import {distToSegment} from 'utils/utils';
 
 import './Canvas.scss';
 
+/** This is a main component for svg editing */
 class Canvas extends React.Component {
     constructor(props) {
         super(props);
@@ -201,27 +202,49 @@ class Canvas extends React.Component {
 }
 
 Canvas.propTypes = {
+    /** A matrix for zoom & canvas shift transformation */
     viewMatrix: PropTypes.instanceOf(Matrix),
-    fetchShapes: PropTypes.func.isRequired,
+    /** Id of currently opened document */
     documentId: PropTypes.string.isRequired,
+    /** A Boolean variable to check if currently editing a shape */
     changeMode: PropTypes.func.isRequired,
+    /** A number to indicate current zoom */
     zoom: PropTypes.number.isRequired,
-    zoomCanvas: PropTypes.func.isRequired,
+    /** A variable for current canvas mode */
     mode: PropTypes.oneOf(Object.values(EDITOR_MODE)),
+    /** Id of a selected shape on the canvas */
     selectedShape: PropTypes.object.isRequired,
+    /** List of all the shapes on the canvas */
     shapes: PropTypes.array.isRequired,
+    /** Value of a currently selected cursor */
+    cursor: PropTypes.oneOf(Object.values(CURSOR)),
+
+    /** Method to fetch shapes from the back-end */
+    fetchShapes: PropTypes.func.isRequired,
+    /** Method to remove shape by shapeId */
     deleteShape: PropTypes.func.isRequired,
+    /** Method to select a shape by shapeId */
     selectShape: PropTypes.func.isRequired,
+    /** Method to create a new shape */
     createShape: PropTypes.func.isRequired,
+    /** Method to set a new list of nodes of a shape */
     updateShape: PropTypes.func.isRequired,
+    /** Method to set selected shape id */
     setSelectedShape: PropTypes.func.isRequired,
+    /** Method to add a new node to the end of the node list of the selected shape */
     addSelectedShapeNode: PropTypes.func.isRequired,
+    /** Method to unselect currently selected shape */
     clearSelectedShape: PropTypes.func.isRequired,
+    /** Method to pdate selected shape node (coordinates) by nodeId */
     updateSelectedShapeNode: PropTypes.func.isRequired,
+    /** Method to delete a node from selected shape by nodeId */
     deleteSelectedShapeNode: PropTypes.func.isRequired,
+    /** Method to a node to a selected shape by new node id and coordinates */
     insertSelectedShapeNode: PropTypes.func.isRequired,
+    /** Method to shift a canvas by given x and y offset */
     shiftCanvas: PropTypes.func.isRequired,
-    cursor: PropTypes.oneOf(Object.values(CURSOR))
+    /** Method to apply a new zoom action to a canvas */
+    zoomCanvas: PropTypes.func.isRequired
 };
 
 export default Canvas;
