@@ -4,7 +4,7 @@
 
 ## Launching 
 
-Then set its URI in the ```const.js``` as following: ```http://host:80/api/path```.
+Then set its URI in the ```const.js``` as following: ```http://host/api/path```.
 
 To run this project run following commands in the root directory of the project:
 
