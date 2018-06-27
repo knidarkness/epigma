@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon ./src/bin/www",
     "start": "npm run dev",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "./node_modules/.bin/eslint ./src ./test --fix"
   },
   "author": "",
   "license": "ISC",
@@ -20,6 +20,8 @@
   },
   "devDependencies": {
     "dotenv": "^5.0.1",
+    "eslint": "^4.19.1",
+    "eslint-plugin-react": "^7.7.0",
     "nodemon": "^1.17.2"
   }
 }

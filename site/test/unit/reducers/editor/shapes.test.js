@@ -14,11 +14,11 @@ const mockStore = configureMockStore(middlewares);
 describe('Shapes actions tests', () => {
     it('Creates SHAPE_FETCH_SUCCESS when shapes have been successfully fetched', () => {
         fetchMock
-            .getOnce(`${DOCUMENT_LIST_URI }/1/shapes/`, { 
+            .getOnce(`${DOCUMENT_LIST_URI}/1/shapes/`, {
                 status: 200,
-                body: {shapes: [{'id':'1', 'nodes':[[1, 1], [2, 3]], 'color':'black'}]}
+                body: [{'id':'1', 'nodes':[[1, 1], [2, 3]], 'color':'black'}]
             });
-  
+
         const expectedActions = [shapesActions.fetchShapesSuccess([{'id':'1', 'nodes':[[1, 1], [2, 3]], 'color':'black'}])];
         const store = mockStore({});
         const action = shapesOperations.fetchShapes('1');
@@ -41,7 +41,7 @@ describe('Shapes reducer tests', () => {
             color: 'black',
             strokeWidth: 2
         };
-        const actual = reducer([], shapesOperations.createShape(...Object.values(shape)));
+        const actual = reducer([], shapesActions.createShapeSuccess(shape));
         const expected = [shape];
         assert.deepEqual(actual, expected);
     });
@@ -57,7 +57,7 @@ describe('Shapes reducer tests', () => {
                 strokeWidth: 2
             }
         ];
-        const actual = reducer(state, shapesOperations.deleteShape(1));
+        const actual = reducer(state, shapesActions.deleteShapeSuccess(1));
         const expected = [];
         assert.deepEqual(actual, expected);
     });
@@ -111,12 +111,12 @@ describe('Shapes reducer tests', () => {
             }
         ];
         const shape = {
-            id: 2, 
+            id: 2,
             nodes: [[200, 200]],
             color: 'black',
             strokeWidth: 2
         };
-        const actual = reducer(state, shapesOperations.createShape(...Object.values(shape)));
+        const actual = reducer(state, shapesActions.createShapeSuccess(shape));
         const expected = [
             {
                 id: 1,
@@ -137,179 +137,5 @@ describe('Shapes reducer tests', () => {
         ];
         assert.deepEqual(actual, expected);
     });
-    it('Add node to shape', () => {
-        const state = [
-            {
-                id: 1,
-                color: 'black',
-                nodes: [
-                    [50, 50],
-                    [200, 50]
-                ],
-                strokeWidth: 2
-            },
-            {
-                id: 2,
-                color: 'black',
-                nodes: [
-                    [10, 10],
-                    [200, 50]
-                ],
-                strokeWidth: 2
 
-            }
-  
-        ];
-        const actual = reducer(state, shapesOperations.addShapeNode(2, [200, 200]));
-        const expected = [
-            {
-                id: 1,
-                color: 'black',
-                nodes: [
-                    [50, 50],
-                    [200, 50]
-                ],
-                strokeWidth: 2
-            },
-            {
-                id: 2,
-                color: 'black',
-                nodes: [
-                    [10, 10],
-                    [200, 50],
-                    [200, 200]
-                ],
-                strokeWidth: 2
-            }
-  
-        ];
-        assert.deepEqual(actual, expected);
-    });
-
-    it('Update node in a shape', () => {
-        const state = [
-            {
-                id: 1,
-                color: 'black',
-                nodes: [
-                    [50, 50],
-                    [200, 50]
-                ]
-            },
-            {
-                id: 2,
-                color: 'black',
-                nodes: [
-                    [10, 10],
-                    [200, 50]
-                ]
-            }
-  
-        ];
-        const actual = reducer(state, shapesOperations.updateShapeNode(2, 1, [200, 200]));
-        const expected = [
-            {
-                id: 1,
-                color: 'black',
-                nodes: [
-                    [50, 50],
-                    [200, 50]
-                ]
-            },
-            {
-                id: 2,
-                color: 'black',
-                nodes: [
-                    [10, 10],
-                    [200, 200]
-                ]
-            }
-  
-        ];
-        assert.deepEqual(actual, expected);
-    });
-    it('Delete node from the shape', () => {
-        const state = [
-            {
-                id: 1,
-                color: 'black',
-                nodes: [
-                    [50, 50],
-                    [200, 50]
-                ]
-            },
-            {
-                id: 2,
-                color: 'black',
-                nodes: [
-                    [10, 10],
-                    [200, 50]
-                ]
-            }
-  
-        ];
-        const actual = reducer(state, shapesOperations.deleteShapeNode(2, 1));
-        const expected = [
-            {
-                id: 1,
-                color: 'black',
-                nodes: [
-                    [50, 50],
-                    [200, 50]
-                ]
-            },
-            {
-                id: 2,
-                color: 'black',
-                nodes: [[10, 10]]
-            }
-  
-        ];
-        assert.deepEqual(actual, expected);
-    });
-
-    it('Insert node into the shape', () => {
-        const state = [
-            {
-                id: 1,
-                color: 'black',
-                nodes: [
-                    [50, 50],
-                    [200, 50]
-                ]
-            },
-            {
-                id: 2,
-                color: 'black',
-                nodes: [
-                    [10, 10],
-                    [200, 50]
-                ]
-            }
-  
-        ];
-
-        const actual = reducer(state, shapesOperations.insertShapeNode(2, 1, [300, 300]));
-        const expected = [
-            {
-                id: 1,
-                color: 'black',
-                nodes: [
-                    [50, 50],
-                    [200, 50]
-                ]
-            },
-            {
-                id: 2,
-                color: 'black',
-                nodes: [
-                    [10, 10],
-                    [300, 300],
-                    [200, 50]
-                ]
-            }
-  
-        ];
-        assert.deepEqual(actual, expected);
-    });
 });

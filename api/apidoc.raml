@@ -1,0 +1,41 @@
+#%RAML 1.0
+---
+title: Epigma API
+baseUri: http://prod.dassurance.io/api/
+version: v1
+description: Epigma API RESTful documentation.
+
+/document:
+    description: This route is for CRUD operations on the documents
+    get:
+        description: Get a list of all existing documents
+    post:
+        description: Create a new document with given name
+        queryParameters:
+            name:
+    /{documentId}:
+        get:
+            description: Get all document data
+        delete:
+            description: Remove document at given id
+        patch:
+            description: Update document meta-data (name)
+        /shapes:
+            get:
+                description: Get a list of all document shapes
+            put:
+                description: Overwrite a shape by given id
+                queryParameters:
+                    nodes:
+                        description: A list of nodes of the shape in format [[x1, y1], [x2, y2]]
+                    color:
+                        description: HEX value of a border color for the shape
+            post:
+                description: Create a new shape
+                queryParameters:
+                    nodes:
+                        description: A list of nodes of the shape in format [[x1, y1], [x2, y2]]
+                    color:
+                        description: HEX value of a border color for the shape
+            delete:
+                description: Remove shape by id

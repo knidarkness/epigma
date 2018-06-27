@@ -10,7 +10,7 @@ fs
         return (filename.indexOf('.') !== 0) && (filename !== basename) && (filename.slice(-3) === '.js');
     })
     .forEach(filename => {
-        const model = require('./' + filename);
+        const model = require(`./${ filename}`);
         models[model.modelName] = model;
     });
 
